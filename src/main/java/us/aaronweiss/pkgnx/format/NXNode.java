@@ -24,6 +24,7 @@
 package us.aaronweiss.pkgnx.format;
 
 import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.format.nodes.NXNullNode;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +69,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * Populates the children {@code Map} for this node.
 	 */
 	public void populateChildren() {
-		if (!children.isEmpty())
+		if (childCount == 0 || !children.isEmpty())
 			return;
 		NXNode[] nodes = file.getNodes();
 		for (int i = (int) childIndex; i < childIndex + childCount; i++) {
@@ -131,8 +132,17 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 *
 	 * @return number of child nodes
 	 */
-	public long getChildCount() {
+	public int getChildCount() {
 		return childCount;
+	}
+
+	/**
+	 * Gets the index of the first child of this node.
+	 *
+	 * @return first child node index
+	 */
+	public long getFirstChildIndex() {
+		return childIndex;
 	}
 
 	@Override
@@ -147,7 +157,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 		else if (!(obj instanceof NXNode))
 			return false;
 		else
-			return ((NXNode) obj).get().equals(this.get());
+			return ((NXNullNode) obj).getName().equals(getName()) &&
+					((NXNullNode) obj).getChildCount() == getChildCount() &&
+					((NXNullNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((((NXNullNode) obj).get() == null && get() == null) || ((NXNullNode) obj).get().equals(get()));
 	}
 
 	@Override

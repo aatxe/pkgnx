@@ -105,8 +105,8 @@ public class NXFile {
 		if (parsed)
 			return;
 		header = new NXHeader(this, slea);
-		logger.info("Count : " + getHeader().getStringCount());
-		logger.info("Offset: " + getHeader().getStringOffset());
+		logger.debug("String Count : " + getHeader().getStringCount());
+		logger.debug("String Offset: " + getHeader().getStringOffset());
 		NXStringNode.populateStringTable(header, slea);
 		NXBitmapNode.populateBitmapsTable(header, slea);
 		NXAudioNode.populateAudioBufTable(header, slea);
@@ -118,6 +118,7 @@ public class NXFile {
 	 * Populates the node table by parsing all nodes.
 	 */
 	private void populateNodesTable() {
+		slea.seek(header.getNodeOffset());
 		nodes = new NXNode[(int) header.getNodeCount()];
 		for (int i = 0; i < nodes.length; i++) {
 			nodes[i] = NodeParser.parseNode(header, slea);

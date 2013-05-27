@@ -23,6 +23,8 @@
  */
 package us.aaronweiss.pkgnx.format.nodes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
@@ -36,6 +38,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * @since 5/27/13
  */
 public class NXStringNode extends NXNode {
+	public static final Logger logger = LoggerFactory.getLogger(NXStringNode.class);
 	private static String[] strings;
 	private final long stringIndex;
 
