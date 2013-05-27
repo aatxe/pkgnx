@@ -142,9 +142,9 @@ public abstract class NXNode implements Iterable<NXNode> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof NXNode))
+		if (obj == null)
 			return false;
-		else if (!obj.getClass().equals(this.getClass()))
+		else if (!(obj instanceof NXNode))
 			return false;
 		else
 			return ((NXNode) obj).get().equals(this.get());

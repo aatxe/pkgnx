@@ -23,6 +23,8 @@
  */
 package us.aaronweiss.pkgnx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.format.nodes.NXAudioNode;
@@ -44,6 +46,7 @@ import java.nio.file.Paths;
  * @since 5/26/13
  */
 public class NXFile {
+	public static final Logger logger = LoggerFactory.getLogger(NXFile.class);
 	private final SeekableLittleEndianAccessor slea;
 	private boolean parsed = false;
 
@@ -102,6 +105,8 @@ public class NXFile {
 		if (parsed)
 			return;
 		header = new NXHeader(this, slea);
+		logger.info("Count : " + getHeader().getStringCount());
+		logger.info("Offset: " + getHeader().getStringOffset());
 		NXStringNode.populateStringTable(header, slea);
 		NXBitmapNode.populateBitmapsTable(header, slea);
 		NXAudioNode.populateAudioBufTable(header, slea);

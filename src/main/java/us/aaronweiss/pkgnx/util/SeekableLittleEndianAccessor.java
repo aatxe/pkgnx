@@ -227,7 +227,8 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public String getUTFString(int length) {
 		try {
-			return utfDecoder.decode(ByteBuffer.wrap(getBytes(length)).order(ByteOrder.LITTLE_ENDIAN)).toString();
+			byte[] data = getBytes(length);
+			return utfDecoder.decode(ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)).toString();
 		} catch (CharacterCodingException e) {
 			logger.error("Failed to load UTF String in buffer.", e);
 		}
