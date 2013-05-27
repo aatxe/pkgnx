@@ -112,6 +112,7 @@ public class NXFile {
 		NXAudioNode.populateAudioBufTable(header, slea);
 		populateNodesTable();
 		populateNodeChildren();
+		parsed = true;
 	}
 
 	/**
@@ -159,5 +160,31 @@ public class NXFile {
 	 */
 	public NXNode getRoot() {
 		return nodes[0];
+	}
+
+	/**
+	 * Resolves the desired {@code path} to an {@code NXNode}.
+	 *
+	 * @param path the path to the node
+	 * @return the desired node
+	 */
+	public NXNode resolve(String path) {
+		return resolve(path.split("/"));
+	}
+
+	/**
+	 * Resolves the desired {@code path} to an {@code NXNode}.
+	 *
+	 * @param path the path to the node
+	 * @return the desired node
+	 */
+	public NXNode resolve(String[] path) {
+		NXNode cursor = getRoot();
+		for (int i = 0; i < path.length; i++) {
+			if (cursor == null)
+				return null;
+			cursor = cursor.getChild(path[i]);
+		}
+		return cursor;
 	}
 }

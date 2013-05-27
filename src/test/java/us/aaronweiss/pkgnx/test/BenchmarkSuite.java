@@ -46,6 +46,11 @@ public class BenchmarkSuite {
 	public static final int SS_TRIALS = 100;
 	public static final Stopwatch timer = new Stopwatch();
 
+	/**
+	 * Runs the full benchmark suite.
+	 *
+	 * @param args ignored
+	 */
 	public static void main(String[] args) {
 		logger.info("[pkgnx] intiating full benchmark suite.");
 		long Ld = Ld();
@@ -120,7 +125,8 @@ public class BenchmarkSuite {
 			}
 			timer.stop();
 			long time = timer.elapsed(TimeUnit.MICROSECONDS);
-			logger.info("[SS] trial " + i + " - " + time + "");total += time;
+			logger.info("[SS] trial " + i + " - " + time + "");
+			total += time;
 			if (time < best)
 				best = time;
 			timer.reset();
