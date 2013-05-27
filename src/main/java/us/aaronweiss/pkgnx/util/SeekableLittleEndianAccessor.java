@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXException;
 
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
@@ -226,7 +227,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public String getUTFString(int length) {
 		try {
-			return utfDecoder.decode(buf.readBytes(length).nioBuffer().order(ByteOrder.LITTLE_ENDIAN)).toString();
+			return utfDecoder.decode(ByteBuffer.wrap(getBytes(length)).order(ByteOrder.LITTLE_ENDIAN)).toString();
 		} catch (CharacterCodingException e) {
 			logger.error("Failed to load UTF String in buffer.", e);
 		}
