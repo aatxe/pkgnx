@@ -114,7 +114,7 @@ public class SeekableLittleEndianAccessor {
 	 *
 	 * @see io.netty.buffer.ByteBuf#readUnsignedByte()
 	 */
-	public int getUnsignedByte() {
+	public short getUnsignedByte() {
 		return buf.readUnsignedByte();
 	}
 
@@ -226,7 +226,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public String getUTFString(int length) {
 		try {
-			return utfDecoder.decode(buf.readBytes(length).order(ByteOrder.LITTLE_ENDIAN).nioBuffer()).toString();
+			return utfDecoder.decode(buf.readBytes(length).nioBuffer().order(ByteOrder.LITTLE_ENDIAN)).toString();
 		} catch (CharacterCodingException e) {
 			logger.error("Failed to load UTF String in buffer.", e);
 		}

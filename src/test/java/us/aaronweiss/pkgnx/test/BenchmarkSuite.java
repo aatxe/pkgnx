@@ -65,7 +65,7 @@ public class BenchmarkSuite {
 		for (int i = 0; i < LOAD_TRIALS; i++) {
 			long tStart = System.currentTimeMillis();
 			try {
-				NXFile file = new NXFile(FILE_PATH);
+				NXFile file = new NXFile(FILE_PATH, true);
 			} catch (IOException e) {
 				logger.error("[Ld] trial failed with an exception.", e);
 				return -1;
@@ -93,7 +93,7 @@ public class BenchmarkSuite {
 		logger.info("[SS] initiating SS benchmark.");
 		long start;
 		try {
-			NXFile file = new NXFile(FILE_PATH);
+			NXFile file = new NXFile(FILE_PATH, true);
 			start = System.currentTimeMillis();
 			NXNode trialNode = file.getRoot().getChild("Map").getChild("Map").getChild("Map1").getChild("105060000.img")
 					.getChild("1").getChild("tile");
@@ -119,9 +119,11 @@ public class BenchmarkSuite {
 	 */
 	public static long PR() {
 		logger.info("[PR] initiating PR benchmark.");
-		long start = System.currentTimeMillis();
+		long start;
 		try {
 			NXFile file = new NXFile(FILE_PATH);
+			start = System.currentTimeMillis();
+			file.parse();
 			recurse(file.getRoot());
 		} catch (Exception e) {
 			logger.error("[PR] trial failed with an exception.", e);
@@ -154,7 +156,7 @@ public class BenchmarkSuite {
 		logger.info("[Re] initiating Re benchmark.");
 		long start;
 		try {
-			NXFile file = new NXFile(FILE_PATH);
+			NXFile file = new NXFile(FILE_PATH, true);
 			start = System.currentTimeMillis();
 			recurse(file.getRoot());
 		} catch (Exception e) {
