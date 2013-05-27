@@ -65,7 +65,7 @@ public class BenchmarkSuite {
 		for (int i = 0; i < LOAD_TRIALS; i++) {
 			long tStart = System.currentTimeMillis();
 			try {
-				NXFile file = new NXFile(FILE_PATH, true);
+				NXFile file = new NXFile(FILE_PATH);
 			} catch (IOException e) {
 				logger.error("[Ld] trial failed with an exception.", e);
 				return -1;
