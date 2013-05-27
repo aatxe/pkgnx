@@ -23,12 +23,14 @@
  */
 package us.aaronweiss.pkgnx.test;
 
+import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.format.NXNode;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A complete benchmarking suite for pkgnx, compliant with the official benchmarks.
@@ -41,6 +43,8 @@ public class BenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(BenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	public static final int LOAD_TRIALS = 3;
+	public static final int SS_TRIALS = 100;
+	public static final Stopwatch timer = new Stopwatch();
 
 	public static void main(String[] args) {
 		logger.info("[pkgnx] intiating full benchmark suite.");
@@ -48,7 +52,7 @@ public class BenchmarkSuite {
 		long SS = SS();
 		long PR = PR();
 		long Re = Re();
-		logger.info("[pkgnx] " + Ld + "ms " + SS + "ms " + PR + "ms " + Re + "ms");
+		logger.info("[pkgnx] " + Ld + " " + SS + " " + PR + " " + Re);
 	}
 
 	/**
@@ -63,21 +67,22 @@ public class BenchmarkSuite {
 		long total = 0;
 		long best = Long.MAX_VALUE;
 		for (int i = 0; i < LOAD_TRIALS; i++) {
-			long tStart = System.currentTimeMillis();
+			timer.start();
 			try {
 				NXFile file = new NXFile(FILE_PATH);
 			} catch (IOException e) {
 				logger.error("[Ld] trial failed with an exception.", e);
 				return -1;
 			}
-			long tEnd = System.currentTimeMillis();
-			long time = (tEnd - tStart);
-			logger.info("[Ld] trial " + i + " " + time + "ms");
+			timer.stop();
+			long time = timer.elapsed(TimeUnit.MICROSECONDS);
+			logger.info("[Ld] trial " + i + " - " + time + "");
 			total += time;
 			if (time < best)
 				best = time;
+			timer.reset();
 		}
-		logger.info("[Ld] " + total + "ms " + best + "ms");
+		logger.info("[Ld] " + total + " " + best);
 		return best;
 	}
 
@@ -87,27 +92,41 @@ public class BenchmarkSuite {
 	 * SS: String search; time taken to iterate through the 1534 children of Data.wz/Map/Map/Map1/105060000.img/1/tile,
 	 * access each child by name, and compare the indexed child to the iterated child.
 	 *
-	 * @return the time it took for the benchmark
+	 * @return best time out of all trials
 	 */
 	public static long SS() {
 		logger.info("[SS] initiating SS benchmark.");
-		long start;
+		long total = 0;
+		long best = Long.MAX_VALUE;
+		NXFile file;
 		try {
-			NXFile file = new NXFile(FILE_PATH, true);
-			start = System.currentTimeMillis();
-			NXNode trialNode = file.getRoot().getChild("Map").getChild("Map").getChild("Map1").getChild("105060000.img")
-					.getChild("1").getChild("tile");
-			for (NXNode child : trialNode) {
-				if (!child.equals(trialNode.getChild(child.getName())))
-					throw new RuntimeException("pkgnx is failing to work completely.");
-			}
+			file = new NXFile(FILE_PATH, true);
 		} catch (Exception e) {
 			logger.error("[SS] trial failed with an exception.", e);
 			return -1;
 		}
-		long end = System.currentTimeMillis();
-		logger.info("[SS] " + (end - start) + "ms");
-		return end - start;
+		for (int i = 0; i < SS_TRIALS; i++) {
+			try {
+				timer.start();
+				NXNode trialNode = file.getRoot().getChild("Map").getChild("Map").getChild("Map1").getChild("105060000.img")
+						.getChild("1").getChild("tile");
+				for (NXNode child : trialNode) {
+					if (!child.equals(trialNode.getChild(child.getName())))
+						throw new RuntimeException("pkgnx is failing to work completely.");
+				}
+			} catch (Exception e) {
+				logger.error("[SS] trial failed with an exception.", e);
+				return -1;
+			}
+			timer.stop();
+			long time = timer.elapsed(TimeUnit.MICROSECONDS);
+			logger.info("[SS] trial " + i + " - " + time + "");total += time;
+			if (time < best)
+				best = time;
+			timer.reset();
+		}
+		logger.info("[SS] " + total + " " + best);
+		return best;
 	}
 
 	/**
@@ -119,19 +138,20 @@ public class BenchmarkSuite {
 	 */
 	public static long PR() {
 		logger.info("[PR] initiating PR benchmark.");
-		long start;
 		try {
 			NXFile file = new NXFile(FILE_PATH);
-			start = System.currentTimeMillis();
+			timer.start();
 			file.parse();
 			recurse(file.getRoot());
 		} catch (Exception e) {
 			logger.error("[PR] trial failed with an exception.", e);
 			return -1;
 		}
-		long end = System.currentTimeMillis();
-		logger.info("[PR] " + (end - start) + "ms");
-		return end - start;
+		timer.stop();
+		long time = timer.elapsed(TimeUnit.MICROSECONDS);
+		logger.info("[PR] " + time);
+		timer.reset();
+		return time;
 	}
 
 	/**
@@ -154,17 +174,18 @@ public class BenchmarkSuite {
 	 */
 	public static long Re() {
 		logger.info("[Re] initiating Re benchmark.");
-		long start;
 		try {
 			NXFile file = new NXFile(FILE_PATH, true);
-			start = System.currentTimeMillis();
+			timer.start();
 			recurse(file.getRoot());
 		} catch (Exception e) {
 			logger.error("[Re] trial failed with an exception.", e);
 			return -1;
 		}
-		long end = System.currentTimeMillis();
-		logger.info("[Re] " + (end - start) + "ms");
-		return end - start;
+		timer.stop();
+		long time = timer.elapsed(TimeUnit.MICROSECONDS);
+		logger.info("[Re] " + time);
+		timer.reset();
+		return time;
 	}
 }
