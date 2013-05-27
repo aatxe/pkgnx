@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>pkgnx by aaronweiss74</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/aaronweiss74/pkgnx">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>pkgnx</h1>
+            <h2>Blazing fast binary data format for video games – PKG4 for Java</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/aaronweiss74/pkgnx/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/aaronweiss74/pkgnx/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>pkgnx</h1>
+
+<p>pkgnx is a simple Java library for the NX file format. The format was designed by <a href="http://github.com/retep998">Peter Atashian</a> and <a href="https://github.com/angelsl">angelsl</a> and has a public specification available <a href="http://nxformat.github.io/">here</a>. The format intended on replacing the proprietary WZ data format designed by Wizet for the popular game, <a href="http://www.maplestory.com">MapleStory</a>.</p>
+
+<h2>Using pkgnx</h2>
+
+<p>Using pkgnx is really quite simple! The first step, of course, is to include the library as a dependency either by adding it to your classpath or adding it as a maven dependency. Once that's done, you can start coding away. The code itself is quite simple.</p>
+
+<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">);</span>
+    <span class="n">file</span><span class="o">.</span><span class="na">parse</span><span class="o">();</span>
+    <span class="c1">// Do stuff, like...</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">getRoot</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</pre></div>
+
+<p>You can also parse the file immediately through the constructor like so:</p>
+
+<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</pre></div>
+
+<h2>Contributing</h2>
+
+<p>To contribute a patch to pkgnx, simply fork it and run. When you've finished all of your commits, go ahead and send a pull request. All changes are required to match the official format specification and changes that do not fix bugs or add additional functionality will be rejected. This means no style changes!</p>
+
+<h2>Acknowledgements</h2>
+
+<ul>
+<li>
+<a href="http://github.com/retep998">Peter Atashian</a> and <a href="https://github.com/angelsl">angelsl</a> for designing the PKG specification.</li>
+<li>
+<a href="https://github.com/Zepheus">Cedric Van Goethem</a> for creating <a href="https://github.com/Zepheus/javanx">javanx</a>, the PKG3 Java NX library.</li>
+<li>
+<a href="https://github.com/angelsl">angelsl</a> for creating <a href="https://github.com/angelsl/ms-libjinx">libjinx</a>, the first Java NX library.</li>
+</ul><h2>Licensing</h2>
+
+<p>pkgnx is licensed under the MIT License. The full license text can be found in LICENSE.md for your convenience.</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/aaronweiss74">aaronweiss74</a> can be found on <a href="https://github.com/aaronweiss74/pkgnx">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
