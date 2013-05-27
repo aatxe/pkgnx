@@ -98,6 +98,20 @@ public class SeekableLittleEndianAccessor {
 	}
 
 	/**
+	 * Marks the current index to be returned to later.
+	 */
+	public void mark() {
+		buf.markReaderIndex();
+	}
+
+	/**
+	 * Seeks back to the last marked index.
+	 */
+	public void reset() {
+		buf.resetReaderIndex();
+	}
+
+	/**
 	 * Reads the next byte from the buffer.
 	 *
 	 * @return the next byte

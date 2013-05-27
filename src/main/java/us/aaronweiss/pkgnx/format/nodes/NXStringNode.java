@@ -87,7 +87,12 @@ public class NXStringNode extends NXNode {
 	public static void populateStringTable(NXHeader header, SeekableLittleEndianAccessor slea) {
 		slea.seek(header.getStringOffset());
 		strings = new String[(int) header.getStringCount()];
-		for (int i = 0; i < strings.length; i++)
+		for (int i = 0; i < strings.length; i++) {
+			long offset = slea.getLong();
+			slea.mark();
+			slea.seek(offset);
 			strings[i] = slea.getUTFString();
+			slea.reset();
+		}
 	}
 }
