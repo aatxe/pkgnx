@@ -9,6 +9,8 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
     file.parse();
     // Do stuff, like...
     System.out.println(file.getRoot().getName());
+    // Or...
+    System.out.println(file.resolve("Mob/8800000.img"));
 ```
     
 You can also parse the file immediately through the constructor like so: `NXFile file = new NXFile("path/to/file", true);`
