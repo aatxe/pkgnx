@@ -45,9 +45,9 @@ public class Decompressor {
 	 * @param length the decompressed length of the data (or the length to decompress)
 	 * @return the data to decompress
 	 */
-	public static ByteBuf decompress(byte[] input, int length) {
+	public static byte[] decompress(byte[] input, int length) {
 		byte[] ret = new byte[length];
 		decompressor.decompress(input, 0, ret, 0, length);
-		return Unpooled.wrappedBuffer(ret);
+		return ret;
 	}
 }

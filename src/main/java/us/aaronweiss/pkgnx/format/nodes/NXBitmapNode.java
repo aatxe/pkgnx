@@ -24,6 +24,7 @@
 package us.aaronweiss.pkgnx.format.nodes;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
@@ -88,7 +89,6 @@ public class NXBitmapNode extends NXNode {
 	private static class Bitmap {
 		private final SeekableLittleEndianAccessor slea;
 		private final long bitmapOffset;
-		private ByteBuf image;
 
 		/**
 		 * Creates a lazy-loaded {@code BufferedImage}.
@@ -108,10 +108,8 @@ public class NXBitmapNode extends NXNode {
 		 * @return the loaded image
 		 */
 		public BufferedImage getImage(int width, int height) {
-			if (image == null) {
-				slea.seek(bitmapOffset);
-				image = Decompressor.decompress(slea.getBytes((int) slea.getUnsignedInt()), width * height * 4);
-			}
+			slea.seek(bitmapOffset);
+			ByteBuf image = Unpooled.wrappedBuffer(Decompressor.decompress(slea.getBytes((int) slea.getUnsignedInt()), width * height * 4));
 			BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			for (int h = 0; h < height; h++) {
 				for (int w = 0; w < width; w++) {
