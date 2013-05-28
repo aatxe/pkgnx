@@ -49,6 +49,14 @@ import java.util.List;
 public class AnimationTest extends JPanel implements ActionListener {
 	public static final Logger logger = LoggerFactory.getLogger(AnimationTest.class);
 	public static final String FILE_PATH = "src/test/resources/Data.nx";
+
+	/**
+	 * Path to desired animation.
+	 *
+	 * Suggestions:
+	 * Zakum: "Mob/8800000.img/attack1"
+	 * Snail: "Mob/0100100.img/move"
+	 */
 	public static final String ANIMATION_PATH = "Mob/8800000.img/attack1";
 
 	private NXFile file;
