@@ -66,6 +66,15 @@ public class SeekableLittleEndianAccessor {
 	}
 
 	/**
+	 * Gets the internal {@code ByteBuf} used by this accessor.
+	 *
+	 * @return the internal buffer
+	 */
+	public ByteBuf getBuf() {
+		return buf;
+	}
+
+	/**
 	 * Skips the desired {@code length} in the buffer.
 	 *
 	 * @param length the number of bytes to skip
@@ -220,6 +229,20 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public byte[] getBytes(int length) {
 		byte[] ret = new byte[length];
+		buf.readBytes(ret);
+		return ret;
+	}
+
+	/**
+	 * Reads the next {@code length} bytes from the buffer.
+	 *
+	 * @param length the length to read
+	 * @return a buffer of read bytes
+	 *
+	 * @see io.netty.buffer.ByteBuf#readBytes(io.netty.buffer.ByteBuf)
+	 */
+	public ByteBuf getBuf(int length) {
+		ByteBuf ret = Unpooled.buffer(length);
 		buf.readBytes(ret);
 		return ret;
 	}
