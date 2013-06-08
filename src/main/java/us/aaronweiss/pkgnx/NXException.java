@@ -27,7 +27,7 @@ package us.aaronweiss.pkgnx;
  * A {@code RuntimeException} indicating that an error has occurred within pkgnx.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/22/13
  */
 public class NXException extends RuntimeException {

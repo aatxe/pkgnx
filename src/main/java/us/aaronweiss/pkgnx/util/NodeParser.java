@@ -36,7 +36,7 @@ import java.util.List;
  * A basic utility to parse data into an {@code NXNode}.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/27/13
  */
 public class NodeParser {

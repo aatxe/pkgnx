@@ -31,7 +31,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * The file header for all NX files.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/26/13
  */
 public class NXHeader {

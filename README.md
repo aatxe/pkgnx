@@ -15,6 +15,9 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
     
 You can also parse the file immediately through the constructor like so: `NXFile file = new NXFile("path/to/file", true);`
 
+## Versioning ##
+pkgnx follows the [Semantic Versioning guidelines](http://semver.org/). This means that the versions follow the structure Major.Minor.Patch where increments in patch number mean that no API changes took place, increments in minor number mean that all changes are backwards compatible, and increments in major number mean that changes are backwards-incompatible. This should make it easy to know when it's safe for you as a user to update this library!
+
 ## Contributing ##
 To contribute a patch to pkgnx, simply fork it and run. When you've finished all of your commits, go ahead and send a pull request. All changes are required to match the official format specification and changes that do not fix bugs or add additional functionality will be rejected. This means no style changes!
 

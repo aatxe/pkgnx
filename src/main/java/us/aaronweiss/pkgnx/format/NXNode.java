@@ -34,7 +34,7 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {

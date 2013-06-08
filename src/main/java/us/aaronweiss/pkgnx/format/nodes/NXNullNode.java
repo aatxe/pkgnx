@@ -31,7 +31,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An empty {@code NXNode} commonly used to represent folders.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/27/13
  */
 public class NXNullNode extends NXNode {

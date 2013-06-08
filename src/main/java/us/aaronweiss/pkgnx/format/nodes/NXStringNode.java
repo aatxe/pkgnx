@@ -34,7 +34,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing a {@code String}.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.1
  * @since 5/27/13
  */
 public class NXStringNode extends NXNode {
@@ -59,7 +59,7 @@ public class NXStringNode extends NXNode {
 
 	@Override
 	public Object get() {
-		return lookupString(stringIndex);
+		return getString();
 	}
 
 	/**

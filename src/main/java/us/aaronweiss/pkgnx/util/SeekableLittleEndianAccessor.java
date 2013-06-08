@@ -39,7 +39,7 @@ import java.nio.charset.CharsetDecoder;
  * An indexed accessor for reading Little Endian-formatted data.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.1.0
  * @since 5/26/13
  */
 public class SeekableLittleEndianAccessor {
@@ -48,12 +48,21 @@ public class SeekableLittleEndianAccessor {
 	private final ByteBuf buf;
 
 	/**
-	 * Creates an immutable {@code SeekableLittleEndianAccessor} wrapping an array of bytes.
+	 * Creates an immutable {@code SeekableLittleEndianAccessor} from an array of bytes.
 	 *
-	 * @param bytes the array to wrap
+	 * @param bytes the array to use
 	 */
 	public SeekableLittleEndianAccessor(byte[] bytes) {
 		this(Unpooled.wrappedBuffer(bytes));
+	}
+
+	/**
+	 * Creates an immutable {@code SeekableLittleEndianAccessor} from a NIO {@code ByteBuffer}.
+	 *
+	 * @param buf the buffer to use
+	 */
+	public SeekableLittleEndianAccessor(ByteBuffer buf) {
+		this(Unpooled.wrappedBuffer(buf));
 	}
 
 	/**

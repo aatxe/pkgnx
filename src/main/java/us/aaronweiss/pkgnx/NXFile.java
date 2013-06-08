@@ -34,17 +34,16 @@ import us.aaronweiss.pkgnx.util.NodeParser;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * An object for reading PKG4 NX files.
+ * An object for reading PKG4 NX files, defaults to being memory-mapped.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.1.0
  * @since 5/26/13
  */
 public class NXFile {
@@ -72,31 +71,62 @@ public class NXFile {
 	 * @throws IOException if something goes wrong in reading the file
 	 */
 	public NXFile(Path path) throws IOException {
-		this(path, false);
+		this(path, LibraryMode.MEMORY_MAPPED);
 	}
 
 	/**
 	 * Creates a new {@code NXFile} from the specified {@code path} with the option to parse later.
 	 *
-	 * @param path             the absolute or relative path to the file
-	 * @param parseImmediately whether or not to parse all nodes immediately
+	 * @param path              the absolute or relative path to the file
+	 * @param parsedImmediately whether or not to parse all nodes immediately
 	 * @throws IOException if something goes wrong in reading the file
+	 * @deprecated As of 1.1.0, users should use {@link #NXFile(String, LibraryMode)} instead.
 	 */
-	public NXFile(String path, boolean parseImmediately) throws IOException {
-		this(Paths.get(path), parseImmediately);
+	@Deprecated
+	public NXFile(String path, boolean parsedImmediately) throws IOException {
+		this(Paths.get(path), parsedImmediately);
 	}
 
 	/**
 	 * Creates a new {@code NXFile} from the specified {@code path} with the option to parse later.
 	 *
-	 * @param path             the absolute or relative path to the file
-	 * @param parseImmediately whether or not to parse the file immediately
+	 * @param path              the absolute or relative path to the file
+	 * @param parsedImmediately whether or not to parse the file immediately
+	 * @throws IOException if something goes wrong in reading the file
+	 * @deprecated As of 1.1.0, users should use {@link #NXFile(java.nio.file.Path, LibraryMode)} instead.
+	 */
+	@Deprecated
+	public NXFile(Path path, boolean parsedImmediately) throws IOException {
+		this(path, (parsedImmediately) ? LibraryMode.MAPPED_AND_PARSED : LibraryMode.MEMORY_MAPPED);
+	}
+
+	/**
+	 * Creates a new {@code NXFile} from the specified {@code path} in the desired {@code mode}.
+	 *
+	 * @param path the absolute or relative path to the file
+	 * @param mode the {@code LibraryMode} for handling this file
 	 * @throws IOException if something goes wrong in reading the file
 	 */
-	public NXFile(Path path, boolean parseImmediately) throws IOException {
-		slea = new SeekableLittleEndianAccessor(Files.readAllBytes(path));
+	public NXFile(String path, LibraryMode mode) throws IOException {
+		this(Paths.get(path), mode);
+	}
 
-		if (parseImmediately)
+	/**
+	 * Creates a new {@code NXFile} from the specified {@code path} in the desired {@code mode}.
+	 *
+	 * @param path the absolute or relative path to the file
+	 * @param mode the {@code LibraryMode} for handling this file
+	 * @throws IOException if something goes wrong in reading the file
+	 */
+	public NXFile(Path path, LibraryMode mode) throws IOException {
+		if (mode.isMemoryMapped()) {
+			FileChannel channel = FileChannel.open(path);
+			slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
+		} else {
+			slea = new SeekableLittleEndianAccessor(Files.readAllBytes(path));
+		}
+
+		if (mode.isParsedImmediately())
 			parse();
 	}
 
@@ -107,8 +137,6 @@ public class NXFile {
 		if (parsed)
 			return;
 		header = new NXHeader(this, slea);
-		logger.debug("String Count : " + getHeader().getStringCount());
-		logger.debug("String Offset: " + getHeader().getStringOffset());
 		NXStringNode.populateStringTable(header, slea);
 		NXBitmapNode.populateBitmapsTable(header, slea);
 		NXAudioNode.populateAudioBufTable(header, slea);
@@ -144,6 +172,15 @@ public class NXFile {
 	 */
 	public NXHeader getHeader() {
 		return header;
+	}
+
+	/**
+	 * Gets whether or not this file has been parsed.
+	 *
+	 * @return whether or not this file has been parsed
+	 */
+	public boolean isParsed() {
+		return parsed;
 	}
 
 	/**
@@ -188,5 +225,64 @@ public class NXFile {
 			cursor = cursor.getChild(path[i]);
 		}
 		return cursor;
+	}
+
+	/**
+	 * An enumeration of possible modes for using pkgnx.
+	 *
+	 * @author Aaron Weiss
+	 * @version 1.0.0
+	 * @since 6/8/13
+	 */
+	public static enum LibraryMode {
+		/**
+		 * Fully loads file into memory and parses data on command.
+		 */
+		FULL_LOAD_ON_DEMAND(false, false),
+
+		/**
+		 * Parses data on command using a memory-mapped file.
+		 */
+		MEMORY_MAPPED(false, true),
+
+		/**
+		 * Fully loads file into memory and parses data immediately.
+		 */
+		PARSED_IMMEDIATELY(true, false),
+
+		/**
+		 * Parses data immediately using a memory-mapped file.
+		 */
+		MAPPED_AND_PARSED(true, true);
+		private final boolean parsedImmediately, memoryMapped;
+
+		/**
+		 * Creates a new {@code LibraryMode} for pkgnx.
+		 *
+		 * @param parsedImmediately whether or not to parse on file construction
+		 * @param memoryMapped      whether or not to use memory-mapped files
+		 */
+		private LibraryMode(boolean parsedImmediately, boolean memoryMapped) {
+			this.parsedImmediately = parsedImmediately;
+			this.memoryMapped = memoryMapped;
+		}
+
+		/**
+		 * Gets whether or not this mode causes files to parse immediately.
+		 *
+		 * @return whether or not to parse on file construction
+		 */
+		public boolean isParsedImmediately() {
+			return parsedImmediately;
+		}
+
+		/**
+		 * Gets whether or not this mode uses memory mapped files.
+		 *
+		 * @return whether or not to use memory-mapped files
+		 */
+		public boolean isMemoryMapped() {
+			return memoryMapped;
+		}
 	}
 }

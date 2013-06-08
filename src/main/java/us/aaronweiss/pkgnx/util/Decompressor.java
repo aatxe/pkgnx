@@ -32,7 +32,7 @@ import net.jpountz.lz4.LZ4Factory;
  * A simple wrapper for handling LZ4 decompression of byte arrays.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/27/13
  */
 public class Decompressor {

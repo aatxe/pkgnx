@@ -31,7 +31,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing a {@code Double}.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/27/13
  */
 public class NXDoubleNode extends NXNode {

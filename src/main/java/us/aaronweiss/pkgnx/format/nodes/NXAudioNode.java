@@ -34,7 +34,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.1.0
  * @since 5/27/13
  */
 public class NXAudioNode extends NXNode {
@@ -58,7 +58,16 @@ public class NXAudioNode extends NXNode {
 
 	@Override
 	public Object get() {
-		return audioBufs[(int) mp3Index];
+		return getAudioBuf();
+	}
+
+	/**
+	 * Gets the value of this node as a {@code ByteBuf}.
+	 *
+	 * @return the node value
+	 */
+	public ByteBuf getAudioBuf() {
+		return audioBufs[(int) mp3Index].getAudioBuf(length);
 	}
 
 	/**

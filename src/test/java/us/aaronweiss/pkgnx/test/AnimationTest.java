@@ -43,7 +43,7 @@ import java.util.List;
  * Based on Cedric's NXAnimation.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.1.0
  * @since 5/27/13
  */
 public class AnimationTest extends JPanel implements ActionListener {
@@ -122,7 +122,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			NXFile file = new NXFile(FILE_PATH, true);
+			NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
 			JFrame frame = new JFrame("NX Animation Test: " + ANIMATION_PATH);
 			JPanel panel = new JPanel();
 			panel.add(new AnimationTest(file, ANIMATION_PATH));

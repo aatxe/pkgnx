@@ -33,7 +33,7 @@ import java.awt.*;
  * An {@code NXNode} representing a 2D vector as a {@code Point}.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.0.0
  * @since 5/27/13
  */
 public class NXPointNode extends NXNode {

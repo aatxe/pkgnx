@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * A complete benchmarking suite for pkgnx, compliant with the official benchmarks.
  *
  * @author Aaron Weiss
- * @version 1.0
+ * @version 1.1.0
  * @since 5/27/13
  */
 public class BenchmarkSuite {
@@ -52,7 +52,7 @@ public class BenchmarkSuite {
 	 * @param args ignored
 	 */
 	public static void main(String[] args) {
-		logger.info("[pkgnx] intiating full benchmark suite.");
+		logger.info("[pkgnx] initiating full benchmark suite.");
 		long Ld = Ld();
 		long SS = SS();
 		long PR = PR();
@@ -105,7 +105,7 @@ public class BenchmarkSuite {
 		long best = Long.MAX_VALUE;
 		NXFile file;
 		try {
-			file = new NXFile(FILE_PATH, true);
+			file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
 		} catch (Exception e) {
 			logger.error("[SS] trial failed with an exception.", e);
 			return -1;
@@ -181,7 +181,7 @@ public class BenchmarkSuite {
 	public static long Re() {
 		logger.info("[Re] initiating Re benchmark.");
 		try {
-			NXFile file = new NXFile(FILE_PATH, true);
+			NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
 			timer.start();
 			recurse(file.getRoot());
 		} catch (Exception e) {
