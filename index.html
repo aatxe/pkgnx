@@ -46,11 +46,13 @@
 
 
       <section id="main_content">
-        <h1>pkgnx</h1>
+        <h1>
+<a name="pkgnx" class="anchor" href="#pkgnx"><span class="octicon octicon-link"></span></a>pkgnx</h1>
 
 <p>pkgnx is a simple Java library for the NX file format. The format was designed by <a href="http://github.com/retep998">Peter Atashian</a> and <a href="https://github.com/angelsl">angelsl</a> and has a public specification available <a href="http://nxformat.github.io/">here</a>. The format intended on replacing the proprietary WZ data format designed by Wizet for the popular game, <a href="http://www.maplestory.com">MapleStory</a>.</p>
 
-<h2>Using pkgnx</h2>
+<h2>
+<a name="using-pkgnx" class="anchor" href="#using-pkgnx"><span class="octicon octicon-link"></span></a>Using pkgnx</h2>
 
 <p>Using pkgnx is really quite simple! The first step, of course, is to include the library as a dependency either by adding it to your classpath or adding it as a maven dependency. Once that's done, you can start coding away. The code itself is quite simple.</p>
 
@@ -62,16 +64,23 @@
     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">"Mob/8800000.img"</span><span class="o">));</span>
 </pre></div>
 
-<p>You can also parse the file immediately through the constructor like so:</p>
+<p>You can also parse the file immediately through the constructor like so: </p>
 
-<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">,</span> <span class="n">NXFile</span><span class="o">.</span><span class="na">LibraryMode</span><span class="o">.</span><span class="na">MAPPED_AND_PARSED</span><span class="o">);</span>
 </pre></div>
 
-<h2>Contributing</h2>
+<h2>
+<a name="versioning" class="anchor" href="#versioning"><span class="octicon octicon-link"></span></a>Versioning</h2>
+
+<p>pkgnx follows the <a href="http://semver.org/">Semantic Versioning guidelines</a>. This means that the versions follow the structure Major.Minor.Patch where increments in patch number mean that no API changes took place, increments in minor number mean that all changes are backwards compatible, and increments in major number mean that changes are backwards-incompatible. This should make it easy to know when it's safe for you as a user to update this library!</p>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <p>To contribute a patch to pkgnx, simply fork it and run. When you've finished all of your commits, go ahead and send a pull request. All changes are required to match the official format specification and changes that do not fix bugs or add additional functionality will be rejected. This means no style changes!</p>
 
-<h2>Acknowledgements</h2>
+<h2>
+<a name="acknowledgements" class="anchor" href="#acknowledgements"><span class="octicon octicon-link"></span></a>Acknowledgements</h2>
 
 <ul>
 <li>
@@ -80,7 +89,8 @@
 <a href="https://github.com/Zepheus">Cedric Van Goethem</a> for creating <a href="https://github.com/Zepheus/javanx">javanx</a>, the PKG3 Java NX library.</li>
 <li>
 <a href="https://github.com/angelsl">angelsl</a> for creating <a href="https://github.com/angelsl/ms-libjinx">libjinx</a>, the first Java NX library.</li>
-</ul><h2>Licensing</h2>
+</ul><h2>
+<a name="licensing" class="anchor" href="#licensing"><span class="octicon octicon-link"></span></a>Licensing</h2>
 
 <p>pkgnx is licensed under the MIT License. The full license text can be found in LICENSE.md for your convenience.</p>
       </section>
