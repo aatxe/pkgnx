@@ -24,7 +24,6 @@
 package us.aaronweiss.pkgnx.format;
 
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.nodes.NXNullNode;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +33,7 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 1.0.1
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
@@ -157,10 +156,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 		else if (!(obj instanceof NXNode))
 			return false;
 		else
-			return ((NXNullNode) obj).getName().equals(getName()) &&
-					((NXNullNode) obj).getChildCount() == getChildCount() &&
-					((NXNullNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
-					((((NXNullNode) obj).get() == null && get() == null) || ((NXNullNode) obj).get().equals(get()));
+			return ((NXNode) obj).getName().equals(getName()) &&
+					((NXNode) obj).getChildCount() == getChildCount() &&
+					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((((NXNode) obj).get() == null && get() == null) || ((NXNode) obj).get().equals(get()));
 	}
 
 	@Override
