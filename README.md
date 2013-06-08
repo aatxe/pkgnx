@@ -13,7 +13,7 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
     System.out.println(file.resolve("Mob/8800000.img"));
 ```
     
-You can also parse the file immediately through the constructor like so: `NXFile file = new NXFile("path/to/file", true);`
+You can also parse the file immediately through the constructor like so: `NXFile file = new NXFile("path/to/file", NXFile.LibraryMode.MAPPED_AND_PARSED);`
 
 ## Versioning ##
 pkgnx follows the [Semantic Versioning guidelines](http://semver.org/). This means that the versions follow the structure Major.Minor.Patch where increments in patch number mean that no API changes took place, increments in minor number mean that all changes are backwards compatible, and increments in major number mean that changes are backwards-incompatible. This should make it easy to know when it's safe for you as a user to update this library!
