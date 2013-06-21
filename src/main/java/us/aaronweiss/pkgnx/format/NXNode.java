@@ -25,6 +25,7 @@ package us.aaronweiss.pkgnx.format;
 
 import us.aaronweiss.pkgnx.NXFile;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,7 +44,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	protected final NXFile file;
 	protected final long childIndex;
 	protected final int childCount;
-	private final Map<String, NXNode> children;
+	private final NXNode[] children;
 
 	/**
 	 * Sets up the basic information for the {@code NXNode}.
@@ -59,7 +60,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 		this.childIndex = childIndex;
 		this.childCount = childCount;
 		if (childCount > 0)
-			children = new HashMap<String, NXNode>();
+			children = new NXNode[childCount];
 		else
 			children = null;
 	}
@@ -68,11 +69,12 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * Populates the children {@code Map} for this node.
 	 */
 	public void populateChildren() {
-		if (childCount == 0 || !children.isEmpty())
+		if (childCount == 0 || children[0] != null)
 			return;
 		NXNode[] nodes = file.getNodes();
+		int k = 0;
 		for (int i = (int) childIndex; i < childIndex + childCount; i++) {
-			children.put(nodes[i].getName(), nodes[i]);
+			children[k++] = nodes[i];
 		}
 	}
 
@@ -93,7 +95,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	public NXNode getChild(String name) {
 		if (childCount == 0)
 			return null;
-		return children.get(name);
+		return searchChild(name);
 	}
 
 	/**
@@ -105,7 +107,42 @@ public abstract class NXNode implements Iterable<NXNode> {
 	public boolean hasChild(String name) {
 		if (childCount == 0)
 			return false;
-		return children.get(name) != null;
+		return searchChild(name) != null;
+	}
+
+	protected NXNode searchChild(String name) {
+		if (childCount == 0 || children[0] == null)
+			return null;
+		int min = 0, max = childCount - 1;
+		NXNode minVal = children[min], maxVal = children[max];
+		int previousSteps = 0;
+
+		while (true) {
+			if (name.compareTo(minVal.getName()) <= 0) return (name.equals(minVal.getName())) ? minVal : null;
+			if (name.compareTo(maxVal.getName()) >= 0) return (name.equals(maxVal.getName())) ? maxVal : null;
+
+			int pivot;
+			if (previousSteps > 2) {
+				pivot = (min + max) >> 1;
+			} else {
+				pivot = min + name.compareTo(minVal.getName()) / (maxVal.getName().compareTo(minVal.getName())) * (max - min);
+				previousSteps++;
+			}
+
+			NXNode pivotVal = children[pivot];
+
+			if (name.compareTo(pivotVal.getName()) > 0) {
+				min = pivot + 1;
+				max--;
+			} else if (name.equals(pivotVal.getName())) {
+				return pivotVal;
+			} else {
+				min++;
+				max = pivot - 1;
+			}
+			minVal = children[min];
+			maxVal = children[max];
+		}
 	}
 
 	/**
@@ -164,7 +201,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 
 	@Override
 	public Iterator<NXNode> iterator() {
-		return (childCount == 0) ? EMPTY_NODE_ITERATOR : children.values().iterator();
+		return (childCount == 0) ? EMPTY_NODE_ITERATOR : Arrays.asList(children).iterator();
 	}
 
 	/**
