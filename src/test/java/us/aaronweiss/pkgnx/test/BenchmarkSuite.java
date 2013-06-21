@@ -51,7 +51,9 @@ public class BenchmarkSuite {
 	 *
 	 * @param args ignored
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		logger.info("[pkgnx] press enter to begin benchmarking.");
+		System.in.read();
 		logger.info("[pkgnx] initiating full benchmark suite.");
 		long Ld = Ld();
 		long SS = SS();
