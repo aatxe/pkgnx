@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 public class AdvancedStringSearchTest {
 	public static final Logger logger = LoggerFactory.getLogger(AdvancedStringSearchTest.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final boolean MATHEMATICA_OUTPUT = false;
+	public static final boolean MATHEMATICA_OUTPUT = true;
 	public static final int SS_TRIALS = 16;
 	public static final Stopwatch timer = new Stopwatch();
 
@@ -65,7 +65,7 @@ public class AdvancedStringSearchTest {
 		}
 		recurse(file.getRoot());
 		if (MATHEMATICA_OUTPUT)
-			System.out.print("{");
+			System.out.print("set = {");
 		for (int i = 0; i < results.length; i++) {
 			if (results[i].totalRuns > 0) {
 				if (MATHEMATICA_OUTPUT) {
@@ -78,8 +78,8 @@ public class AdvancedStringSearchTest {
 		if (MATHEMATICA_OUTPUT) {
 			System.out.println("}");
 			System.out.println("ListPlot[%]");
-			System.out.println("Fit[%, {1, x}, x]");
-			System.out.println("Fit[%, {x, 0, 1535}]");
+			System.out.println("Fit[set, {1, x}, x]");
+			System.out.println("Plot[%, {x, 0, 1535}]");
 		}
 	}
 
