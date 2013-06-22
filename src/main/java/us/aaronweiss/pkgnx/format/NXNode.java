@@ -34,17 +34,19 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.1
+ * @version 1.0.3
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
 	private static final EmptyNodeIterator EMPTY_NODE_ITERATOR = new EmptyNodeIterator();
+	private static final int MIN_COUNT_FOR_MAPS = 430;
 
 	protected final String name;
 	protected final NXFile file;
 	protected final long childIndex;
 	protected final int childCount;
-	private final NXNode[] children;
+	private NXNode[] children;
+	private Map<String, NXNode> childMap;
 
 	/**
 	 * Sets up the basic information for the {@code NXNode}.
@@ -59,22 +61,32 @@ public abstract class NXNode implements Iterable<NXNode> {
 		this.file = file;
 		this.childIndex = childIndex;
 		this.childCount = childCount;
-		if (childCount > 0)
-			children = new NXNode[childCount];
-		else
+		if (childCount >= MIN_COUNT_FOR_MAPS) {
+			childMap = new HashMap<String, NXNode>();
 			children = null;
+		} else if (childCount > 0) {
+			children = new NXNode[childCount];
+		} else {
+			children = null;
+		}
 	}
 
 	/**
 	 * Populates the children {@code Map} for this node.
 	 */
 	public void populateChildren() {
-		if (childCount == 0 || children[0] != null)
+		if (childCount == 0)
 			return;
 		NXNode[] nodes = file.getNodes();
-		int k = 0;
-		for (int i = (int) childIndex; i < childIndex + childCount; i++) {
-			children[k++] = nodes[i];
+		if (childMap != null && childMap.isEmpty()) {
+			for (int i = (int) childIndex; i < childIndex + childCount; i++) {
+				childMap.put(nodes[i].getName(), nodes[i]);
+			}
+		} else if (children[0] == null) {
+			int k = 0;
+			for (int i = (int) childIndex; i < childIndex + childCount; i++) {
+				children[k++] = nodes[i];
+			}
 		}
 	}
 
@@ -110,25 +122,26 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return searchChild(name) != null;
 	}
 
+	/**
+	 * Searches for a specific child node by {@code name}.
+	 * Internally, this deals with how the children are stored.
+	 *
+	 * @param name the name of the child to find
+	 * @return the found child or null, if it doesn't exist
+	 */
 	protected NXNode searchChild(String name) {
-		if (childCount == 0 || children[0] == null)
+		if (childCount == 0 || (children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
 			return null;
+		if (childMap != null) {
+			return childMap.get(name);
+		}
 		int min = 0, max = childCount - 1;
 		NXNode minVal = children[min], maxVal = children[max];
-		int previousSteps = 0;
-
 		while (true) {
 			if (name.compareTo(minVal.getName()) <= 0) return (name.equals(minVal.getName())) ? minVal : null;
 			if (name.compareTo(maxVal.getName()) >= 0) return (name.equals(maxVal.getName())) ? maxVal : null;
 
-			int pivot;
-			if (previousSteps > 2) {
-				pivot = (min + max) >> 1;
-			} else {
-				pivot = min + name.compareTo(minVal.getName()) / (maxVal.getName().compareTo(minVal.getName())) * (max - min);
-				previousSteps++;
-			}
-
+			int pivot = (min + max) >> 1;
 			NXNode pivotVal = children[pivot];
 
 			if (name.compareTo(pivotVal.getName()) > 0) {
@@ -201,7 +214,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 
 	@Override
 	public Iterator<NXNode> iterator() {
-		return (childCount == 0) ? EMPTY_NODE_ITERATOR : Arrays.asList(children).iterator();
+		return (childCount == 0) ? EMPTY_NODE_ITERATOR : (childMap != null) ? childMap.values().iterator() : Arrays.asList(children).iterator();
 	}
 
 	/**
