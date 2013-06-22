@@ -37,7 +37,7 @@ import java.awt.image.BufferedImage;
  * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 1.1.0
+ * @version 1.1.1
  * @since 5/27/13
  */
 public class NXBitmapNode extends NXNode {
@@ -132,4 +132,20 @@ public class NXBitmapNode extends NXNode {
 			return ret;
 		}
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		else if (!(obj instanceof NXBitmapNode))
+			return false;
+		else
+			return ((NXNode) obj).getName().equals(getName()) &&
+					((NXNode) obj).getChildCount() == getChildCount() &&
+					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((NXBitmapNode) obj).bitmapIndex == bitmapIndex &&
+					((NXBitmapNode) obj).height == height &&
+					((NXBitmapNode) obj).width == width;
+	}
+
 }
