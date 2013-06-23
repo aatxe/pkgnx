@@ -42,8 +42,10 @@ import java.util.concurrent.TimeUnit;
 public class BenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(BenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final int LOAD_TRIALS = 3;
+	public static final int LD_TRIALS = 16;
 	public static final int SS_TRIALS = 100;
+	public static final int PR_TRIALS = 16;
+	public static final int RE_TRIALS = 32;
 	public static final Stopwatch timer = new Stopwatch();
 
 	/**
@@ -70,13 +72,13 @@ public class BenchmarkSuite {
 	 * @return best time out of all trials
 	 */
 	public static long Ld() {
-		logger.info("[Ld] initiating Ld benchmark for " + LOAD_TRIALS + " trials.");
+		logger.info("[Ld] initiating Ld benchmark for " + LD_TRIALS + " trials.");
 		long total = 0;
 		long best = Long.MAX_VALUE;
-		for (int i = 0; i < LOAD_TRIALS; i++) {
+		for (int i = 0; i < LD_TRIALS; i++) {
 			timer.start();
 			try {
-				NXFile file = new NXFile(FILE_PATH);
+				NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
 			} catch (IOException e) {
 				logger.error("[Ld] trial failed with an exception.", e);
 				return -1;
@@ -89,7 +91,7 @@ public class BenchmarkSuite {
 				best = time;
 			timer.reset();
 		}
-		logger.info("[Ld] " + total + " " + best);
+		logger.info("[Ld] " + total + " " + (total / LD_TRIALS) + " " + best);
 		return best;
 	}
 
@@ -133,7 +135,7 @@ public class BenchmarkSuite {
 				best = time;
 			timer.reset();
 		}
-		logger.info("[SS] " + total + " " + best);
+		logger.info("[SS] " + total + " " + (total / SS_TRIALS) + " " + best);
 		return best;
 	}
 
@@ -145,21 +147,29 @@ public class BenchmarkSuite {
 	 * @return the time it took for the benchmark
 	 */
 	public static long PR() {
-		logger.info("[PR] initiating PR benchmark.");
-		try {
-			NXFile file = new NXFile(FILE_PATH);
-			timer.start();
-			file.parse();
-			recurse(file.getRoot());
-		} catch (Exception e) {
-			logger.error("[PR] trial failed with an exception.", e);
-			return -1;
+		logger.info("[PR] initiating PR benchmark for " + PR_TRIALS + " trials.");
+		long total = 0;
+		long best = Long.MAX_VALUE;
+		for (int i = 0; i < PR_TRIALS; i++) {
+			try {
+				NXFile file = new NXFile(FILE_PATH);
+				timer.start();
+				file.parse();
+				recurse(file.getRoot());
+			} catch (Exception e) {
+				logger.error("[PR] trial failed with an exception.", e);
+				return -1;
+			}
+			timer.stop();
+			long time = timer.elapsed(TimeUnit.MICROSECONDS);
+			total += time;
+			if (time < best)
+				best = time;
+			logger.info("[PR] " + time);
+			timer.reset();
 		}
-		timer.stop();
-		long time = timer.elapsed(TimeUnit.MICROSECONDS);
-		logger.info("[PR] " + time);
-		timer.reset();
-		return time;
+		logger.info("[PR] " + total + " " + (total / PR_TRIALS) +  " " + best);
+		return best;
 	}
 
 	/**
@@ -181,19 +191,27 @@ public class BenchmarkSuite {
 	 * @return the time it took for the benchmark
 	 */
 	public static long Re() {
-		logger.info("[Re] initiating Re benchmark.");
-		try {
-			NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
-			timer.start();
-			recurse(file.getRoot());
-		} catch (Exception e) {
-			logger.error("[Re] trial failed with an exception.", e);
-			return -1;
+		logger.info("[Re] initiating Re benchmark for " + RE_TRIALS + " trials.");
+		long total = 0;
+		long best = Long.MAX_VALUE;
+		for (int i = 0; i < RE_TRIALS; i++) {
+			try {
+				NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+				timer.start();
+				recurse(file.getRoot());
+			} catch (Exception e) {
+				logger.error("[Re] trial failed with an exception.", e);
+				return -1;
+			}
+			timer.stop();
+			long time = timer.elapsed(TimeUnit.MICROSECONDS);
+			total += time;
+			if (time < best)
+				best = time;
+			logger.info("[Re] " + time);
+			timer.reset();
 		}
-		timer.stop();
-		long time = timer.elapsed(TimeUnit.MICROSECONDS);
-		logger.info("[Re] " + time);
-		timer.reset();
-		return time;
+		logger.info("[Re] " + total + " " + (total / RE_TRIALS) +  " " + best);
+		return best;
 	}
 }
