@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * An advanced benchmark for pkgnx that enables viewers to see
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 1.0.2
  * @since 6/21/13
  */
 public class AdvancedStringSearchTest {
@@ -79,7 +79,7 @@ public class AdvancedStringSearchTest {
 			System.out.println("}");
 			System.out.println("ListPlot[%]");
 			System.out.println("Fit[set, {1, x}, x]");
-			System.out.println("Plot[%, {x, 0, 1535}]");
+			System.out.println("Show[ListPlot[set], Plot[%, {x, 0, 1535}]]");
 		}
 	}
 
