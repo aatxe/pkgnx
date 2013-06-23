@@ -43,7 +43,7 @@ import java.nio.file.Paths;
  * An object for reading PKG4 NX files, defaults to being memory-mapped.
  *
  * @author Aaron Weiss
- * @version 1.1.0
+ * @version 1.1.1
  * @since 5/26/13
  */
 public class NXFile {

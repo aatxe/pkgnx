@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * A complete benchmarking suite for pkgnx, compliant with the official benchmarks.
  *
  * @author Aaron Weiss
- * @version 1.1.0
+ * @version 1.1.3
  * @since 5/27/13
  */
 public class BenchmarkSuite {
