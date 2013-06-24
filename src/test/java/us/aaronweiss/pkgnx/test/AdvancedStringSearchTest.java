@@ -33,10 +33,11 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An advanced benchmark for pkgnx that enables viewers to see
+ * An advanced benchmark for pkgnx that enables viewers to see how fast node
+ * child access is on nodes with all different numbers of children.
  *
  * @author Aaron Weiss
- * @version 1.0.3
+ * @version 1.0.4
  * @since 6/21/13
  */
 public class AdvancedStringSearchTest {
