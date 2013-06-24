@@ -33,33 +33,21 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * An advanced benchmark for pkgnx that enables viewers to see how fast node
- * child access is on nodes with all different numbers of children.
+ * An advanced benchmark for pkgnx that enables viewers to see how fast node child access is on nodes with all different
+ * numbers of children.
  *
  * @author Aaron Weiss
- * @version 1.0.4
+ * @version 1.1.0
  * @since 6/21/13
  */
 public class AdvancedStringSearchTest {
-	public static final Logger logger = LoggerFactory.getLogger(AdvancedStringSearchTest.class);
-	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final boolean MATHEMATICA_OUTPUT = true;
-	public static final int SS_TRIALS = 64;
-	public static final Stopwatch timer = new Stopwatch();
+	private static final Logger logger = LoggerFactory.getLogger(AdvancedStringSearchTest.class);
+	private static final String FILE_PATH = "src/test/resources/Data-do.nx";
+	private static final boolean MATHEMATICA_OUTPUT = true;
+	private static final int SS_TRIALS = 64;
+	private static final Stopwatch timer = new Stopwatch();
 
-	/**
-	 * A benchmark result.
-	 *
-	 * @author Aaron Weiss
-	 * @version 1.0.1
-	 * @since 6/21/13
-	 */
-	public static class Result {
-		public double totalTime = 0;
-		public int totalRuns = 0;
-	}
-
-	public static Result[] results = new Result[1535];
+	private static Result[] results = new Result[1535];
 
 	/**
 	 * Runs the advanced String Search benchmark.
@@ -67,12 +55,12 @@ public class AdvancedStringSearchTest {
 	 * @param args ignored
 	 */
 	public static void main(String[] args) throws IOException {
-		NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+		NXFile file = new NXFile(FILE_PATH);
 		for (int i = 0; i < results.length; i++)
 			results[i] = new Result();
 		recurse(file.getRoot());
 		if (MATHEMATICA_OUTPUT)
-			System.out.print("set = {");
+			System.out.print("data = {");
 		for (int i = 0; i < results.length; i++) {
 			if (results[i].totalRuns > 0) {
 				if (i > 0)
@@ -86,9 +74,8 @@ public class AdvancedStringSearchTest {
 		}
 		if (MATHEMATICA_OUTPUT) {
 			System.out.println("}");
-			System.out.println("ListPlot[%]");
-			System.out.println("Fit[set, {1, x, x^2}, x]");
-			System.out.println("Show[ListPlot[set], Plot[%, {x, 0, 1535}]]");
+			System.out.println("Fit[%, {1, x, x^2}, x]");
+			System.out.println("Show[ListPlot[data], Plot[%, {x, 0, 1535}]]");
 		} else {
 			double total = 0;
 			int runs = 0;
@@ -120,8 +107,8 @@ public class AdvancedStringSearchTest {
 	/**
 	 * Runs retep998's SS benchmark on a specific node.
 	 * <p/>
-	 * SS: String search; time taken to iterate through the  children of a {@code trialNode},
-	 * access each child by name, and compare the indexed child to the iterated child.
+	 * SS: String search; time taken to iterate through the  children of a {@code trialNode}, access each child by name,
+	 * and compare the indexed child to the iterated child.
 	 *
 	 * @param trialNode the node to perform the SS trial on.
 	 * @return time for the trial
@@ -143,5 +130,17 @@ public class AdvancedStringSearchTest {
 		long time = timer.elapsed(TimeUnit.NANOSECONDS);
 		timer.reset();
 		return time;
+	}
+
+	/**
+	 * A benchmark result.
+	 *
+	 * @author Aaron Weiss
+	 * @version 1.0.1
+	 * @since 6/21/13
+	 */
+	public static class Result {
+		public double totalTime = 0;
+		public int totalRuns = 0;
 	}
 }

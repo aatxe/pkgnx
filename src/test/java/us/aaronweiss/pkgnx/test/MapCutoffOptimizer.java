@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package us.aaronweiss.pkgnx.test;
 
 import com.google.common.base.Stopwatch;
@@ -35,15 +34,21 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Aaron
- * @version 1.0
+ * A complex optimization test that enables developers to determine the optimal cutoff point for using maps to store
+ * node children. Specifically, this helps determine the most efficient balance between load time and search time for
+ * pkgnx. Nodes with the cutoff or more children will use a map internally whereas those below the cutoff will use an
+ * array and binary searching. The results, as of v1.2.0, say that 41 children is the optimal cutoff. Be careful with
+ * this benchmark, it can easily take a very long time.
+ *
+ * @author Aaron Weiss
+ * @version 1.1.0
  * @since 6/23/13
  */
 public class MapCutoffOptimizer {
-	public static final Logger logger = LoggerFactory.getLogger(SmartRecurseAndSearch.class);
-	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final Stopwatch timer = new Stopwatch();
-	public static final int TRIALS = 0x20;
+	private static final Logger logger = LoggerFactory.getLogger(MapCutoffOptimizer.class);
+	private static final String FILE_PATH = "src/test/resources/Data-do.nx";
+	private static final Stopwatch timer = new Stopwatch();
+	private static final int TRIALS = 0x20;
 
 	/**
 	 * Runs the advanced Map Cutoff Optimizer.
@@ -60,7 +65,7 @@ public class MapCutoffOptimizer {
 			NXFile file = null;
 			for (int i = 0; i < TRIALS; i++) {
 				timer.start();
-				file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+				file = new NXFile(FILE_PATH);
 				timer.stop();
 				long time = timer.elapsed(TimeUnit.MICROSECONDS);
 				rs1.add(time);
@@ -100,8 +105,8 @@ public class MapCutoffOptimizer {
 	/**
 	 * Runs retep998's SS benchmark on a specific node.
 	 * <p/>
-	 * SS: String search; time taken to iterate through the  children of a {@code trialNode},
-	 * access each child by name, and compare the indexed child to the iterated child.
+	 * SS: String search; time taken to iterate through the  children of a {@code trialNode}, access each child by name,
+	 * and compare the indexed child to the iterated child.
 	 *
 	 * @param trialNode the node to perform the SS trial on.
 	 * @return time for the trial

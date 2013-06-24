@@ -39,23 +39,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An animation test for testing image loading.
- * Based on Cedric's NXAnimation.
+ * An animation test for testing image loading. Based on Cedric's NXAnimation.
  *
  * @author Aaron Weiss
- * @version 1.1.0
+ * @version 1.2.0
  * @since 5/27/13
  */
 public class AnimationTest extends JPanel implements ActionListener {
-	public static final Logger logger = LoggerFactory.getLogger(AnimationTest.class);
-	public static final String FILE_PATH = "src/test/resources/Data.nx";
+	private static final Logger logger = LoggerFactory.getLogger(AnimationTest.class);
+	private static final String FILE_PATH = "src/test/resources/Data.nx";
 
 	/**
 	 * Path to desired animation.
 	 * <p/>
-	 * Suggestions:
-	 * Zakum: "Mob/8800000.img/attack1"
-	 * Snail: "Mob/0100100.img/move"
+	 * Suggestions: Zakum: "Mob/8800000.img/attack1" Snail: "Mob/0100100.img/move"
 	 */
 	public static final String ANIMATION_PATH = "Mob/8800000.img/attack1";
 
@@ -122,7 +119,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+			NXFile file = new NXFile(FILE_PATH);
 			JFrame frame = new JFrame("NX Animation Test: " + ANIMATION_PATH);
 			JPanel panel = new JPanel();
 			panel.add(new AnimationTest(file, ANIMATION_PATH));
