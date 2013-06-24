@@ -34,12 +34,12 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.4
+ * @version 1.0.5
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
 	private static final EmptyNodeIterator EMPTY_NODE_ITERATOR = new EmptyNodeIterator();
-	private static final int MIN_COUNT_FOR_MAPS = 42;
+	private static final int MIN_COUNT_FOR_MAPS = 41;
 
 	protected final String name;
 	protected final NXFile file;
