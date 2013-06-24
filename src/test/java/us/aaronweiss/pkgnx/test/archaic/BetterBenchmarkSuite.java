@@ -21,8 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-package us.aaronweiss.pkgnx.test.suite;
+package us.aaronweiss.pkgnx.test.archaic;
 
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
@@ -35,14 +34,15 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A complete benchmark specific to pkgnx based on the official benchmark suite.
- * It is not compliant with the official benchmark suite and the results differ.
- * This benchmark aims to be more realistic using Astaelan's purposed strategy.
+ * A complete benchmark specific to pkgnx based on the official benchmark suite. It is not compliant with the official
+ * benchmark suite and the results differ. This benchmark aims to be more realistic using Astaelan's purposed strategy.
  *
  * @author Aaron Weiss
  * @version 1.0.0
  * @since 6/23/13
+ * @deprecated since 1.2.0, use {@code ModernBenchmarkSuite} instead.
  */
+@Deprecated
 public class BetterBenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(BetterBenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";

@@ -21,26 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.test;
+package us.aaronweiss.pkgnx.test.archaic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.test.suite.BenchmarkSuite;
 
 import java.io.IOException;
 
 /**
+ * A test that loads all of the modern game data and outputs some information.
+ *
  * @author Aaron
- * @version 1.0
+ * @version 1.1.0
  * @since 6/11/13
+ * @deprecated since 1.2.0, the information held within was deemed useless.
  */
+@Deprecated
 public class LatestGameTest {
-	public static final Logger logger = LoggerFactory.getLogger(BenchmarkSuite.class);
-	public static final String FILE_PATH = "src/test/resources/";
+	private static final Logger logger = LoggerFactory.getLogger(LatestGameTest.class);
+	private static final String FILE_PATH = "src/test/resources/";
 
 	/**
-	 * Runs the full benchmark suite.
+	 * Loads all of the modern game data.
 	 *
 	 * @param args ignored
 	 */
@@ -51,7 +54,7 @@ public class LatestGameTest {
 				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
 		try {
 			for (String file : files) {
-				NXFile nx = new NXFile(FILE_PATH + file, NXFile.LibraryMode.MAPPED_AND_PARSED);
+				NXFile nx = new NXFile(FILE_PATH + file);
 			}
 		} catch (IOException e) {
 			logger.error("[pkgnx] Failed to load a file.", e);

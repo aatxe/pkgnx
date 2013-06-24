@@ -21,8 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-package us.aaronweiss.pkgnx.test;
+package us.aaronweiss.pkgnx.test.archaic;
 
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
@@ -35,9 +34,12 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Aaron
- * @version 1.0
+ * A benchmark that recurses over a file completely performing a string search along the way.
+ *
+ * @author Aaron Weiss
+ * @version 1.0.0
  * @since 6/23/13
+ * @deprecated this is now a part of {@link us.aaronweiss.pkgnx.test.suite.ModernBenchmarkSuite}.
  */
 public class SmartRecurseAndSearch {
 	public static final Logger logger = LoggerFactory.getLogger(SmartRecurseAndSearch.class);
@@ -76,8 +78,8 @@ public class SmartRecurseAndSearch {
 	/**
 	 * Runs retep998's SS benchmark on a specific node.
 	 * <p/>
-	 * SS: String search; time taken to iterate through the  children of a {@code trialNode},
-	 * access each child by name, and compare the indexed child to the iterated child.
+	 * SS: String search; time taken to iterate through the  children of a {@code trialNode}, access each child by name,
+	 * and compare the indexed child to the iterated child.
 	 *
 	 * @param trialNode the node to perform the SS trial on.
 	 * @return time for the trial

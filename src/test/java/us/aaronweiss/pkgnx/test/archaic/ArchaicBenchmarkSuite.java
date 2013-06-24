@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.test.suite;
+package us.aaronweiss.pkgnx.test.archaic;
 
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
@@ -38,9 +38,11 @@ import java.util.concurrent.TimeUnit;
  * @author Aaron Weiss
  * @version 1.1.5
  * @since 5/27/13
+ * @deprecated since 1.2.0, use {@code ModernBenchmarkSuite} instead.
  */
-public class BenchmarkSuite {
-	public static final Logger logger = LoggerFactory.getLogger(BenchmarkSuite.class);
+@Deprecated
+public class ArchaicBenchmarkSuite {
+	public static final Logger logger = LoggerFactory.getLogger(ArchaicBenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	public static final int LD_TRIALS = 0x100;
 	public static final int SS_TRIALS = 0x10000;
