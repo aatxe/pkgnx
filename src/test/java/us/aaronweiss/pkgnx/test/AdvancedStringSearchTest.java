@@ -36,18 +36,18 @@ import java.util.concurrent.TimeUnit;
  * An advanced benchmark for pkgnx that enables viewers to see
  *
  * @author Aaron Weiss
- * @version 1.0.2
+ * @version 1.0.3
  * @since 6/21/13
  */
 public class AdvancedStringSearchTest {
 	public static final Logger logger = LoggerFactory.getLogger(AdvancedStringSearchTest.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	public static final boolean MATHEMATICA_OUTPUT = true;
-	public static final int SS_TRIALS = 16;
+	public static final int SS_TRIALS = 64;
 	public static final Stopwatch timer = new Stopwatch();
 
 	public static class Result {
-		public int totalTime = 0;
+		public double totalTime = 0;
 		public int totalRuns = 0;
 	}
 
@@ -60,16 +60,17 @@ public class AdvancedStringSearchTest {
 	 */
 	public static void main(String[] args) throws IOException {
 		NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
-		for (int i = 0; i < results.length; i++) {
+		for (int i = 0; i < results.length; i++)
 			results[i] = new Result();
-		}
 		recurse(file.getRoot());
 		if (MATHEMATICA_OUTPUT)
 			System.out.print("set = {");
 		for (int i = 0; i < results.length; i++) {
 			if (results[i].totalRuns > 0) {
+				if (i > 0)
+					results[i].totalTime /= i;
 				if (MATHEMATICA_OUTPUT) {
-					System.out.print("{" + i + ", " + ((results[i].totalTime / results[i].totalRuns)) + "},");
+					System.out.print("{" + i + ", " + ((results[i].totalTime / results[i].totalRuns)) + "}" + ((i != results.length - 1) ? ", " : ""));
 				} else {
 					logger.info("[pkgnx] " + i + ": avg " + (results[i].totalTime / results[i].totalRuns));
 				}
@@ -78,8 +79,17 @@ public class AdvancedStringSearchTest {
 		if (MATHEMATICA_OUTPUT) {
 			System.out.println("}");
 			System.out.println("ListPlot[%]");
-			System.out.println("Fit[set, {1, x}, x]");
+			System.out.println("Fit[set, {1, x, x^2}, x]");
 			System.out.println("Show[ListPlot[set], Plot[%, {x, 0, 1535}]]");
+		} else {
+			double total = 0;
+			int runs = 0;
+			for (int i = 0; i <= 10; i++) {
+				total += results[i].totalTime;
+				runs += results[i].totalRuns;
+			}
+			int n = results.length - 1;
+			logger.info("[pkgnx] ratio: " + (results[n].totalTime / results[n].totalRuns) / (total / runs));
 		}
 	}
 
@@ -122,7 +132,7 @@ public class AdvancedStringSearchTest {
 			return -1;
 		}
 		timer.stop();
-		long time = timer.elapsed(TimeUnit.MICROSECONDS);
+		long time = timer.elapsed(TimeUnit.NANOSECONDS);
 		timer.reset();
 		return time;
 	}
