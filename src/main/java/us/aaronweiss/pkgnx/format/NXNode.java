@@ -34,7 +34,7 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.5
+ * @version 1.0.6
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
@@ -98,8 +98,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	public abstract Object get();
 
 	/**
-	 * Gets a child node by {@code name}.
-	 * Returns null if child is not present.
+	 * Gets a child node by {@code name}. Returns null if child is not present.
 	 *
 	 * @param name the name of the child
 	 * @return the child {@code NXNode}
@@ -123,8 +122,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	}
 
 	/**
-	 * Searches for a specific child node by {@code name}.
-	 * Internally, this deals with how the children are stored.
+	 * Searches for a specific child node by {@code name}. Internally, this deals with how the children are stored.
 	 *
 	 * @param name the name of the child to find
 	 * @return the found child or null, if it doesn't exist
