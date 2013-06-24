@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * A complete benchmarking suite for pkgnx, compliant with the official benchmarks.
  *
  * @author Aaron Weiss
- * @version 1.1.4
+ * @version 1.1.5
  * @since 5/27/13
  */
 public class BenchmarkSuite {
@@ -144,7 +144,7 @@ public class BenchmarkSuite {
 	 * <p/>
 	 * PR: Parse and Recurse; time taken to cleanly parse a file and then recurse through every single node.
 	 *
-	 * @return the time it took for the benchmark
+	 * @return best time out of all trials
 	 */
 	public static long PR() {
 		logger.info("[PR] initiating PR benchmark for " + PR_TRIALS + " trials.");
@@ -188,7 +188,7 @@ public class BenchmarkSuite {
 	 * Re: Recurse; time taken to recurse through a file. The file used is the same file as Ld and SS so some nodes may
 	 * already have been parsed.
 	 *
-	 * @return the time it took for the benchmark
+	 * @return best time out of all trials
 	 */
 	public static long Re() {
 		logger.info("[Re] initiating Re benchmark for " + RE_TRIALS + " trials.");
