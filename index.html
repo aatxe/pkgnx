@@ -3,50 +3,35 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <title>pkgnx by aaronweiss74</title>
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/aaronweiss74/pkgnx">View on GitHub</a>
-    <div class="shell">
+    <div id="container">
+      <div class="inner">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>pkgnx</h1>
-            <h2>Blazing fast binary data format for video games – PKG4 for Java</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+        <header>
+          <h1>pkgnx</h1>
+          <h2>Blazing fast binary data format for video games.</h2>
+        </header>
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/aaronweiss74/pkgnx/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/aaronweiss74/pkgnx/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/aaronweiss74/pkgnx/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/aaronweiss74/pkgnx/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/aaronweiss74/pkgnx" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
+        <hr>
 
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h1>
+        <section id="main_content">
+          <h1>
 <a name="pkgnx" class="anchor" href="#pkgnx"><span class="octicon octicon-link"></span></a>pkgnx</h1>
 
 <p>pkgnx is a simple Java library for the NX file format. The format was designed by <a href="http://github.com/retep998">Peter Atashian</a> and <a href="https://github.com/angelsl">angelsl</a> and has a public specification available <a href="http://nxformat.github.io/">here</a>. The format intended on replacing the proprietary WZ data format designed by Wizet for the popular game, <a href="http://www.maplestory.com">MapleStory</a>.</p>
@@ -57,16 +42,17 @@
 <p>Using pkgnx is really quite simple! The first step, of course, is to include the library as a dependency either by adding it to your classpath or adding it as a maven dependency. Once that's done, you can start coding away. The code itself is quite simple.</p>
 
 <div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">);</span>
-    <span class="n">file</span><span class="o">.</span><span class="na">parse</span><span class="o">();</span>
     <span class="c1">// Do stuff, like...</span>
     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">getRoot</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
     <span class="c1">// Or...</span>
     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">file</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">"Mob/8800000.img"</span><span class="o">));</span>
 </pre></div>
 
-<p>You can also parse the file immediately through the constructor like so: </p>
+<p>You can also parse the file later like so:</p>
 
-<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">,</span> <span class="n">NXFile</span><span class="o">.</span><span class="na">LibraryMode</span><span class="o">.</span><span class="na">MAPPED_AND_PARSED</span><span class="o">);</span>
+<div class="highlight"><pre>    <span class="n">NXFile</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NXFile</span><span class="o">(</span><span class="s">"path/to/file"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="c1">// Do some other stuff and then later...</span>
+    <span class="n">file</span><span class="o">.</span><span class="na">parse</span><span class="o">();</span>
 </pre></div>
 
 <h2>
@@ -93,22 +79,15 @@
 <a name="licensing" class="anchor" href="#licensing"><span class="octicon octicon-link"></span></a>Licensing</h2>
 
 <p>pkgnx is licensed under the MIT License. The full license text can be found in LICENSE.md for your convenience.</p>
-      </section>
+        </section>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/aaronweiss74">aaronweiss74</a> can be found on <a href="https://github.com/aaronweiss74/pkgnx">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
+        <footer>
+          pkgnx is maintained by <a href="https://github.com/aaronweiss74">aaronweiss74</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
 
+        
+      </div>
     </div>
-
-    
   </body>
 </html>
