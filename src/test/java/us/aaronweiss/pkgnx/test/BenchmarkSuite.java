@@ -52,6 +52,7 @@ public class BenchmarkSuite {
 	 * Runs the full benchmark suite.
 	 *
 	 * @param args ignored
+	 * @throws IOException if System.in does not work
 	 */
 	public static void main(String[] args) throws IOException {
 		logger.info("[pkgnx] press enter to begin benchmarking.");
