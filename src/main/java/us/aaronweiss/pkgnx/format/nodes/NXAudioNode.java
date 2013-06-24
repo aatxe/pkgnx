@@ -67,6 +67,8 @@ public class NXAudioNode extends NXNode {
 	 * @return the node value
 	 */
 	public ByteBuf getAudioBuf() {
+		if (audioBufs.length == 0)
+			return null;
 		return audioBufs[(int) mp3Index].getAudioBuf(length);
 	}
 
