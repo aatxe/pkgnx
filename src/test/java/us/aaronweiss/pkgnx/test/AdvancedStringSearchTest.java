@@ -46,6 +46,13 @@ public class AdvancedStringSearchTest {
 	public static final int SS_TRIALS = 64;
 	public static final Stopwatch timer = new Stopwatch();
 
+	/**
+	 * A benchmark result.
+	 *
+	 * @author Aaron Weiss
+	 * @version 1.0.1
+	 * @since 6/21/13
+	 */
 	public static class Result {
 		public double totalTime = 0;
 		public int totalRuns = 0;
