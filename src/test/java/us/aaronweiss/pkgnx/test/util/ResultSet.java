@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package us.aaronweiss.pkgnx.test.util;
 
 import java.util.Arrays;
@@ -30,7 +29,7 @@ import java.util.Arrays;
  * A basic set of results from a benchmark that yields smart averages.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 1.1.0
  * @since 6/23/13
  */
 public class ResultSet {
@@ -39,15 +38,27 @@ public class ResultSet {
 	private final int drop;
 	private int writer = 0;
 
+	/**
+	 * Creates a result set of the specified {@code length}.
+	 * @param length the length of the results
+	 */
 	public ResultSet(int length) {
 		times = new long[length];
 		drop = (int) ((double) length / DROP_RATIO_PERCENT) / 2;
 	}
 
+	/**
+	 * Adds a new result to the set.
+	 * @param time the benchmark result to add
+	 */
 	public void add(long time) {
 		times[writer++] = time;
 	}
 
+	/**
+	 * Gets the 50% mean of the result set.
+	 * @return the average of the median 50% of data entries
+	 */
 	public long getAverage() {
 		Arrays.sort(times);
 		long total = 0;
@@ -55,5 +66,23 @@ public class ResultSet {
 			total += times[i];
 		}
 		return total / (times.length - drop * 2);
+	}
+
+	/**
+	 * Gets the best result from the result set.
+	 * @return the best result
+	 */
+	public long getBest() {
+		Arrays.sort(times);
+		return times[0];
+	}
+
+	/**
+	 * Gets the "worst case-scenario" 75th percentile result from the set.
+	 * @return the 75th percentile result
+	 */
+	public long get75Percentile() {
+		Arrays.sort(times);
+		return times[times.length * 3 / 4];
 	}
 }
