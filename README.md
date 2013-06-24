@@ -6,16 +6,17 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
 
 ```java
     NXFile file = new NXFile("path/to/file");
-    file.parse();
     // Do stuff, like...
     System.out.println(file.getRoot().getName());
     // Or...
     System.out.println(file.resolve("Mob/8800000.img"));
 ```
     
-You can also parse the file immediately through the constructor like so: 
+You can also parse the file later like so:
 ```java
-    NXFile file = new NXFile("path/to/file", NXFile.LibraryMode.MAPPED_AND_PARSED);
+    NXFile file = new NXFile("path/to/file", false);
+    // Do some other stuff and then later...
+    file.parse();
 ```
 
 ## Versioning ##
