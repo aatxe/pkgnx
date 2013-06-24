@@ -35,21 +35,20 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * An object for reading PKG4 NX files, defaults to being memory-mapped.
+ * An memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
- * @version 1.1.1
+ * @version 1.2.0
  * @since 5/26/13
  */
 public class NXFile {
 	public static final Logger logger = LoggerFactory.getLogger(NXFile.class);
 	private final SeekableLittleEndianAccessor slea;
-	private boolean parsed = false;
+	private boolean parsed;
 
 	private NXHeader header;
 	private NXNode[] nodes;
@@ -71,7 +70,7 @@ public class NXFile {
 	 * @throws IOException if something goes wrong in reading the file
 	 */
 	public NXFile(Path path) throws IOException {
-		this(path, LibraryMode.MEMORY_MAPPED);
+		this(path, true);
 	}
 
 	/**
@@ -80,9 +79,7 @@ public class NXFile {
 	 * @param path              the absolute or relative path to the file
 	 * @param parsedImmediately whether or not to parse all nodes immediately
 	 * @throws IOException if something goes wrong in reading the file
-	 * @deprecated As of 1.1.0, users should use {@link #NXFile(String, LibraryMode)} instead.
 	 */
-	@Deprecated
 	public NXFile(String path, boolean parsedImmediately) throws IOException {
 		this(Paths.get(path), parsedImmediately);
 	}
@@ -93,11 +90,12 @@ public class NXFile {
 	 * @param path              the absolute or relative path to the file
 	 * @param parsedImmediately whether or not to parse the file immediately
 	 * @throws IOException if something goes wrong in reading the file
-	 * @deprecated As of 1.1.0, users should use {@link #NXFile(java.nio.file.Path, LibraryMode)} instead.
 	 */
-	@Deprecated
 	public NXFile(Path path, boolean parsedImmediately) throws IOException {
-		this(path, (parsedImmediately) ? LibraryMode.MAPPED_AND_PARSED : LibraryMode.MEMORY_MAPPED);
+		FileChannel channel = FileChannel.open(path);
+		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
+		if (parsedImmediately)
+			parse();
 	}
 
 	/**
@@ -106,7 +104,9 @@ public class NXFile {
 	 * @param path the absolute or relative path to the file
 	 * @param mode the {@code LibraryMode} for handling this file
 	 * @throws IOException if something goes wrong in reading the file
+	 * @deprecated as of 1.2.0, users should use {@link #NXFile(String)} or {@link #NXFile(String, boolean)}
 	 */
+	@Deprecated
 	public NXFile(String path, LibraryMode mode) throws IOException {
 		this(Paths.get(path), mode);
 	}
@@ -117,17 +117,12 @@ public class NXFile {
 	 * @param path the absolute or relative path to the file
 	 * @param mode the {@code LibraryMode} for handling this file
 	 * @throws IOException if something goes wrong in reading the file
+	 * @deprecated as of 1.2.0, users should use {@link #NXFile(java.nio.file.Path)} or {@link #NXFile(java.nio.file.Path,
+	 *             boolean)}
 	 */
+	@Deprecated
 	public NXFile(Path path, LibraryMode mode) throws IOException {
-		if (mode.isMemoryMapped()) {
-			FileChannel channel = FileChannel.open(path);
-			slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
-		} else {
-			slea = new SeekableLittleEndianAccessor(Files.readAllBytes(path));
-		}
-
-		if (mode.isParsedImmediately())
-			parse();
+		this(path, mode.isParsedImmediately());
 	}
 
 	/**
@@ -208,6 +203,8 @@ public class NXFile {
 	 * @return the desired node
 	 */
 	public NXNode resolve(String path) {
+		if (path.equals("/"))
+			return getRoot();
 		return resolve(path.split("/"));
 	}
 
@@ -233,7 +230,9 @@ public class NXFile {
 	 * @author Aaron Weiss
 	 * @version 1.0.0
 	 * @since 6/8/13
+	 * @deprecated as of 1.2.0, the constructors using {@code LibraryMode} have been deprecated.
 	 */
+	@Deprecated
 	public static enum LibraryMode {
 		/**
 		 * Fully loads file into memory and parses data on command.
