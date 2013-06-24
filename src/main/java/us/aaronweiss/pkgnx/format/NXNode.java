@@ -34,7 +34,7 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.3
+ * @version 1.0.4
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
@@ -136,25 +136,25 @@ public abstract class NXNode implements Iterable<NXNode> {
 			return childMap.get(name);
 		}
 		int min = 0, max = childCount - 1;
-		NXNode minVal = children[min], maxVal = children[max];
+		String minVal = children[min].getName(), maxVal = children[max].getName();
 		while (true) {
-			if (name.compareTo(minVal.getName()) <= 0) return (name.equals(minVal.getName())) ? minVal : null;
-			if (name.compareTo(maxVal.getName()) >= 0) return (name.equals(maxVal.getName())) ? maxVal : null;
+			if (name.compareTo(minVal) <= 0) return (name.equals(minVal)) ? children[min] : null;
+			if (name.compareTo(maxVal) >= 0) return (name.equals(maxVal)) ? children[max] : null;
 
 			int pivot = (min + max) >> 1;
-			NXNode pivotVal = children[pivot];
+			String pivotVal = children[pivot].getName();
 
-			if (name.compareTo(pivotVal.getName()) > 0) {
+			if (name.compareTo(pivotVal) > 0) {
 				min = pivot + 1;
 				max--;
-			} else if (name.equals(pivotVal.getName())) {
-				return pivotVal;
+			} else if (name.equals(pivotVal)) {
+				return children[pivot];
 			} else {
 				min++;
 				max = pivot - 1;
 			}
-			minVal = children[min];
-			maxVal = children[max];
+			minVal = children[min].getName();
+			maxVal = children[max].getName();
 		}
 	}
 
