@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package us.aaronweiss.pkgnx.test;
+package us.aaronweiss.pkgnx.test.util;
 
 import java.util.Arrays;
 

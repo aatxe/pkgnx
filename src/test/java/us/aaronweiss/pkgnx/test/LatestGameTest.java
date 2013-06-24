@@ -26,6 +26,7 @@ package us.aaronweiss.pkgnx.test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.test.suite.BenchmarkSuite;
 
 import java.io.IOException;
 
