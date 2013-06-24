@@ -46,8 +46,8 @@ public class LatestGameTest {
 	public static void main(String[] args) {
 		logger.info("[pkgnx] Loading latest game content.");
 		String[] files = {"Base.nx", "Character.nx", "Effect.nx", "Etc.nx", "Item.nx",
-						  "Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
-						  "Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
+				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
+				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
 		try {
 			for (String file : files) {
 				NXFile nx = new NXFile(FILE_PATH + file, NXFile.LibraryMode.MAPPED_AND_PARSED);

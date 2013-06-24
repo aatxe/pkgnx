@@ -23,8 +23,6 @@
  */
 package us.aaronweiss.pkgnx.util;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.jpountz.lz4.LZ4Decompressor;
 import net.jpountz.lz4.LZ4Factory;
 

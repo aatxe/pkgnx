@@ -23,14 +23,10 @@
  */
 package us.aaronweiss.pkgnx.util;
 
-import io.netty.buffer.ByteBuf;
 import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.format.nodes.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A basic utility to parse data into an {@code NXNode}.

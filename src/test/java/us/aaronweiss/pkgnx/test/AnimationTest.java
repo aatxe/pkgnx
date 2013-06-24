@@ -52,7 +52,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 
 	/**
 	 * Path to desired animation.
-	 *
+	 * <p/>
 	 * Suggestions:
 	 * Zakum: "Mob/8800000.img/attack1"
 	 * Snail: "Mob/0100100.img/move"
