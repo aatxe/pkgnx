@@ -34,10 +34,10 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 import java.awt.image.BufferedImage;
 
 /**
- * An {@code NXNode} representing an Audio {@code ByteBuf}.
+ * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
  *
  * @author Aaron Weiss
- * @version 1.1.1
+ * @version 1.1.2
  * @since 5/27/13
  */
 public class NXBitmapNode extends NXNode {
@@ -72,6 +72,8 @@ public class NXBitmapNode extends NXNode {
 	 * @return the node value
 	 */
 	public BufferedImage getImage() {
+		if (bitmaps.length == 0)
+			return null;
 		return bitmaps[(int) bitmapIndex].getImage(width, height);
 	}
 
@@ -82,8 +84,8 @@ public class NXBitmapNode extends NXNode {
 	 * @param slea   the {@code SeekableLittleEndianAccessor} to read from
 	 */
 	public static void populateBitmapsTable(NXHeader header, SeekableLittleEndianAccessor slea) {
-		slea.seek(header.getBitmapOffset());
 		bitmaps = new Bitmap[(int) header.getBitmapCount()];
+		slea.seek(header.getBitmapOffset());
 		for (int i = 0; i < bitmaps.length; i++)
 			bitmaps[i] = new Bitmap(slea);
 	}
