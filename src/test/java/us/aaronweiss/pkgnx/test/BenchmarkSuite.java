@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * A complete benchmarking suite for pkgnx, compliant with the official benchmarks.
  *
  * @author Aaron Weiss
- * @version 1.1.3
+ * @version 1.1.4
  * @since 5/27/13
  */
 public class BenchmarkSuite {
@@ -168,7 +168,7 @@ public class BenchmarkSuite {
 			logger.info("[PR] " + time);
 			timer.reset();
 		}
-		logger.info("[PR] " + total + " " + (total / PR_TRIALS) +  " " + best);
+		logger.info("[PR] " + total + " " + (total / PR_TRIALS) + " " + best);
 		return best;
 	}
 
@@ -194,24 +194,24 @@ public class BenchmarkSuite {
 		logger.info("[Re] initiating Re benchmark for " + RE_TRIALS + " trials.");
 		long total = 0;
 		long best = Long.MAX_VALUE;
-		for (int i = 0; i < RE_TRIALS; i++) {
-			try {
-				NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+		try {
+			NXFile file = new NXFile(FILE_PATH, NXFile.LibraryMode.MAPPED_AND_PARSED);
+			for (int i = 0; i < RE_TRIALS; i++) {
 				timer.start();
 				recurse(file.getRoot());
-			} catch (Exception e) {
-				logger.error("[Re] trial failed with an exception.", e);
-				return -1;
+				timer.stop();
+				long time = timer.elapsed(TimeUnit.MICROSECONDS);
+				total += time;
+				if (time < best)
+					best = time;
+				logger.info("[Re] " + time);
+				timer.reset();
 			}
-			timer.stop();
-			long time = timer.elapsed(TimeUnit.MICROSECONDS);
-			total += time;
-			if (time < best)
-				best = time;
-			logger.info("[Re] " + time);
-			timer.reset();
+			logger.info("[Re] " + total + " " + (total / RE_TRIALS) + " " + best);
+		} catch (Exception e) {
+			logger.error("[Re] trial failed with an exception.", e);
+			return -1;
 		}
-		logger.info("[Re] " + total + " " + (total / RE_TRIALS) +  " " + best);
 		return best;
 	}
 }
