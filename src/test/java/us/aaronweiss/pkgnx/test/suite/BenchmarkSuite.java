@@ -42,10 +42,10 @@ import java.util.concurrent.TimeUnit;
 public class BenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(BenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final int LD_TRIALS = 16;
-	public static final int SS_TRIALS = 100;
-	public static final int PR_TRIALS = 16;
-	public static final int RE_TRIALS = 32;
+	public static final int LD_TRIALS = 0x100;
+	public static final int SS_TRIALS = 0x10000;
+	public static final int PR_TRIALS = 0x100;
+	public static final int RE_TRIALS = 0x200;
 	public static final Stopwatch timer = new Stopwatch();
 
 	/**
