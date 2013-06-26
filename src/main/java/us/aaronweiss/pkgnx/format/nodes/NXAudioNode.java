@@ -34,11 +34,10 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 1.1.2
+ * @version 2.0.0
  * @since 5/27/13
  */
 public class NXAudioNode extends NXNode {
-	private static AudioBuf[] audioBufs;
 	private final long mp3Index, length;
 
 	/**
@@ -67,60 +66,11 @@ public class NXAudioNode extends NXNode {
 	 * @return the node value
 	 */
 	public ByteBuf getAudioBuf() {
-		if (audioBufs.length == 0)
+		if (file.getHeader().getSoundCount() == 0)
 			return null;
-		return audioBufs[(int) mp3Index].getAudioBuf(length);
+		return file.getTables().getAudioBuf(mp3Index, length);
 	}
 
-	/**
-	 * Populates the lazy-loaded table for Audio {@code ByteBuf}s.
-	 *
-	 * @param header the header corresponding to the file
-	 * @param slea   the {@code SeekableLittleEndianAccessor} to read from
-	 */
-	public static void populateAudioBufTable(NXHeader header, SeekableLittleEndianAccessor slea) {
-		slea.seek(header.getSoundOffset());
-		audioBufs = new AudioBuf[(int) header.getSoundCount()];
-		for (int i = 0; i < audioBufs.length; i++)
-			audioBufs[i] = new AudioBuf(slea);
-	}
-
-	/**
-	 * A lazy-loaded equivalent of {@code ByteBuf}.
-	 *
-	 * @author Aaron Weiss
-	 * @version 1.0
-	 * @since 5/27/13
-	 */
-	private static class AudioBuf {
-		private final SeekableLittleEndianAccessor slea;
-		private final long audioOffset;
-		private ByteBuf audioBuf;
-
-		/**
-		 * Creates a lazy-loaded {@code ByteBuf} for audio.
-		 *
-		 * @param slea
-		 */
-		public AudioBuf(SeekableLittleEndianAccessor slea) {
-			this.slea = slea;
-			audioOffset = slea.getLong();
-		}
-
-		/**
-		 * Loads a {@code ByteBuf} of the desired {@code length}.
-		 *
-		 * @param length the length of the audio
-		 * @return the audio buffer
-		 */
-		public ByteBuf getAudioBuf(long length) {
-			if (audioBuf == null) {
-				slea.seek(audioOffset);
-				audioBuf = Unpooled.wrappedBuffer(slea.getBytes((int) length));
-			}
-			return audioBuf;
-		}
-	}
 
 	@Override
 	public boolean equals(Object obj) {

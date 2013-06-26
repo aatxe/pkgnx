@@ -34,12 +34,11 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing a {@code String}.
  *
  * @author Aaron Weiss
- * @version 1.0.2
+ * @version 2.0.0
  * @since 5/27/13
  */
 public class NXStringNode extends NXNode {
 	public static final Logger logger = LoggerFactory.getLogger(NXStringNode.class);
-	private static String[] strings;
 	private final long stringIndex;
 
 	/**
@@ -68,35 +67,7 @@ public class NXStringNode extends NXNode {
 	 * @return the node value
 	 */
 	public String getString() {
-		return lookupString(stringIndex);
-	}
-
-	/**
-	 * Looks up the {@code String} at the specified {@code index} in the string table.
-	 *
-	 * @param index the index of the string
-	 * @return the desired string
-	 */
-	public static String lookupString(long index) {
-		return strings[(int) index];
-	}
-
-	/**
-	 * Populates the table for  {@code String}s.
-	 *
-	 * @param header the header corresponding to the file
-	 * @param slea   the {@code SeekableLittleEndianAccessor} to read from
-	 */
-	public static void populateStringTable(NXHeader header, SeekableLittleEndianAccessor slea) {
-		slea.seek(header.getStringOffset());
-		strings = new String[(int) header.getStringCount()];
-		for (int i = 0; i < strings.length; i++) {
-			long offset = slea.getLong();
-			slea.mark();
-			slea.seek(offset);
-			strings[i] = slea.getUTFString();
-			slea.reset();
-		}
+		return file.getTables().getString(stringIndex);
 	}
 
 	@Override

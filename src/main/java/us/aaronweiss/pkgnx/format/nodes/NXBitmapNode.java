@@ -37,11 +37,10 @@ import java.awt.image.BufferedImage;
  * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
  *
  * @author Aaron Weiss
- * @version 1.1.3
+ * @version 2.0.0
  * @since 5/27/13
  */
 public class NXBitmapNode extends NXNode {
-	private static Bitmap[] bitmaps;
 	private final long bitmapIndex;
 	private final int width, height;
 
@@ -72,67 +71,9 @@ public class NXBitmapNode extends NXNode {
 	 * @return the node value
 	 */
 	public BufferedImage getImage() {
-		if (bitmaps.length == 0)
+		if (file.getHeader().getBitmapCount() == 0)
 			return null;
-		return bitmaps[(int) bitmapIndex].getImage(width, height);
-	}
-
-	/**
-	 * Populates the lazy-loaded table for {@code Bitmap}s.
-	 *
-	 * @param header the header corresponding to the file
-	 * @param slea   the {@code SeekableLittleEndianAccessor} to read from
-	 */
-	public static void populateBitmapsTable(NXHeader header, SeekableLittleEndianAccessor slea) {
-		bitmaps = new Bitmap[(int) header.getBitmapCount()];
-		slea.seek(header.getBitmapOffset());
-		for (int i = 0; i < bitmaps.length; i++)
-			bitmaps[i] = new Bitmap(slea);
-	}
-
-	/**
-	 * A lazy-loaded equivalent of {@code BufferedImage}.
-	 *
-	 * @author Aaron Weiss
-	 * @version 1.0
-	 * @since 5/27/13
-	 */
-	private static class Bitmap {
-		private final SeekableLittleEndianAccessor slea;
-		private final long bitmapOffset;
-
-		/**
-		 * Creates a lazy-loaded {@code BufferedImage}.
-		 *
-		 * @param slea
-		 */
-		public Bitmap(SeekableLittleEndianAccessor slea) {
-			this.slea = slea;
-			bitmapOffset = slea.getLong();
-		}
-
-		/**
-		 * Loads a {@code BufferedImage} of the desired {@code width} and {@code height}.
-		 *
-		 * @param width  the width of the image
-		 * @param height the height of the image
-		 * @return the loaded image
-		 */
-		public BufferedImage getImage(int width, int height) {
-			slea.seek(bitmapOffset);
-			ByteBuf image = Unpooled.wrappedBuffer(Decompressor.decompress(slea.getBytes((int) slea.getUnsignedInt()), width * height * 4));
-			BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			for (int h = 0; h < height; h++) {
-				for (int w = 0; w < width; w++) {
-					int b = image.readUnsignedByte();
-					int g = image.readUnsignedByte();
-					int r = image.readUnsignedByte();
-					int a = image.readUnsignedByte();
-					ret.setRGB(w, h, (a << 24) | (r << 16) | (g << 8) | b);
-				}
-			}
-			return ret;
-		}
+		return file.getTables().getImage(bitmapIndex, width, height);
 	}
 
 	@Override
