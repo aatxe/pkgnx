@@ -28,9 +28,6 @@ import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.format.NXTables;
-import us.aaronweiss.pkgnx.format.nodes.NXAudioNode;
-import us.aaronweiss.pkgnx.format.nodes.NXBitmapNode;
-import us.aaronweiss.pkgnx.format.nodes.NXStringNode;
 import us.aaronweiss.pkgnx.util.NodeParser;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 

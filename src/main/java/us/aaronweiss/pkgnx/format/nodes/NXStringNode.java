@@ -26,7 +26,6 @@ package us.aaronweiss.pkgnx.format.nodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 

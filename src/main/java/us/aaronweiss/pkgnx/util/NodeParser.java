@@ -25,9 +25,7 @@ package us.aaronweiss.pkgnx.util;
 
 import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
-import us.aaronweiss.pkgnx.format.NXTables;
 import us.aaronweiss.pkgnx.format.nodes.*;
 
 /**

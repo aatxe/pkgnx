@@ -24,9 +24,7 @@
 package us.aaronweiss.pkgnx.format.nodes;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
