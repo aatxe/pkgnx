@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * trials for each benchmark has a limit described in the specification. See the specification for more details.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 1.0.1
  * @since 6/24/13
  */
 public class ModernBenchmarkSuite {
@@ -53,7 +53,7 @@ public class ModernBenchmarkSuite {
 	public static final int RE_TRIALS = 0x100;
 	public static final int LR_TRIALS = 0x100;
 	public static final int SA_TRIALS = 0x100;
-	public static final int DE_TRIALS = 0x100;
+	public static final int DE_TRIALS = 0x10;
 	private static NXFile file;
 
 	/**
