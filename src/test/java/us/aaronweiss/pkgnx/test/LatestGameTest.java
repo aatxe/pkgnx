@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.test.archaic;
+package us.aaronweiss.pkgnx.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +36,7 @@ import java.io.IOException;
  * @author Aaron
  * @version 1.1.0
  * @since 6/11/13
- * @deprecated since 1.2.0, the information held within was deemed useless.
  */
-@Deprecated
 public class LatestGameTest {
 	private static final Logger logger = LoggerFactory.getLogger(LatestGameTest.class);
 	private static final String FILE_PATH = "src/test/resources/137/";
