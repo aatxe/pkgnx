@@ -7,7 +7,7 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
 ```java
     NXFile file = new NXFile("path/to/file");
     // Do stuff, like...
-    System.out.println(file.getRoot().getName());
+    System.out.println(file.getRoot().getChild("Mob").getChild("8800000.img"));
     // Or...
     System.out.println(file.resolve("Mob/8800000.img"));
 ```
