@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.format.NXTables;
 import us.aaronweiss.pkgnx.format.nodes.NXAudioNode;
 import us.aaronweiss.pkgnx.format.nodes.NXBitmapNode;
 import us.aaronweiss.pkgnx.format.nodes.NXStringNode;
@@ -42,7 +43,7 @@ import java.nio.file.Paths;
  * An memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
- * @version 1.3.0
+ * @version 2.0.0
  * @since 5/26/13
  */
 public class NXFile {
@@ -52,6 +53,7 @@ public class NXFile {
 	private boolean parsed;
 
 	private NXHeader header;
+	private NXTables tables;
 	private NXNode[] nodes;
 
 	/**
@@ -101,33 +103,6 @@ public class NXFile {
 	}
 
 	/**
-	 * Creates a new {@code NXFile} from the specified {@code path} in the desired {@code mode}.
-	 *
-	 * @param path the absolute or relative path to the file
-	 * @param mode the {@code LibraryMode} for handling this file
-	 * @throws IOException if something goes wrong in reading the file
-	 * @deprecated as of 1.2.0, users should use {@link #NXFile(String)} or {@link #NXFile(String, boolean)}
-	 */
-	@Deprecated
-	public NXFile(String path, LibraryMode mode) throws IOException {
-		this(Paths.get(path), mode);
-	}
-
-	/**
-	 * Creates a new {@code NXFile} from the specified {@code path} in the desired {@code mode}.
-	 *
-	 * @param path the absolute or relative path to the file
-	 * @param mode the {@code LibraryMode} for handling this file
-	 * @throws IOException if something goes wrong in reading the file
-	 * @deprecated as of 1.2.0, users should use {@link #NXFile(java.nio.file.Path)} or {@link #NXFile(java.nio.file.Path,
-	 *             boolean)}
-	 */
-	@Deprecated
-	public NXFile(Path path, LibraryMode mode) throws IOException {
-		this(path, mode.isParsedImmediately());
-	}
-
-	/**
 	 * Parses the file completely.
 	 */
 	public void parse() {
@@ -135,9 +110,7 @@ public class NXFile {
 			return;
 		header = new NXHeader(this, slea);
 		nodes = new NXNode[(int) header.getNodeCount()];
-		NXStringNode.populateStringTable(header, slea);
-		NXBitmapNode.populateBitmapsTable(header, slea);
-		NXAudioNode.populateAudioBufTable(header, slea);
+		tables = new NXTables(header, slea);
 		populateNodesTable();
 		populateNodeChildren();
 		parsed = true;
@@ -149,7 +122,7 @@ public class NXFile {
 	private void populateNodesTable() {
 		slea.seek(header.getNodeOffset());
 		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = NodeParser.parseNode(header, slea);
+			nodes[i] = NodeParser.parseNode(header, tables, slea);
 		}
 	}
 
@@ -169,6 +142,15 @@ public class NXFile {
 	 */
 	public NXHeader getHeader() {
 		return header;
+	}
+
+	/**
+	 * Gets the {@code NXTables} from this file.
+	 *
+	 * @return this file's offset tables
+	 */
+	public NXTables getTables() {
+		return tables;
 	}
 
 	/**
@@ -233,66 +215,5 @@ public class NXFile {
 			cursor = cursor.getChild(path[i]);
 		}
 		return cursor;
-	}
-
-	/**
-	 * An enumeration of possible modes for using pkgnx.
-	 *
-	 * @author Aaron Weiss
-	 * @version 1.0.0
-	 * @since 6/8/13
-	 * @deprecated as of 1.2.0, the constructors using {@code LibraryMode} have been deprecated.
-	 */
-	@Deprecated
-	public static enum LibraryMode {
-		/**
-		 * Fully loads file into memory and parses data on command.
-		 */
-		FULL_LOAD_ON_DEMAND(false, false),
-
-		/**
-		 * Parses data on command using a memory-mapped file.
-		 */
-		MEMORY_MAPPED(false, true),
-
-		/**
-		 * Fully loads file into memory and parses data immediately.
-		 */
-		PARSED_IMMEDIATELY(true, false),
-
-		/**
-		 * Parses data immediately using a memory-mapped file.
-		 */
-		MAPPED_AND_PARSED(true, true);
-		private final boolean parsedImmediately, memoryMapped;
-
-		/**
-		 * Creates a new {@code LibraryMode} for pkgnx.
-		 *
-		 * @param parsedImmediately whether or not to parse on file construction
-		 * @param memoryMapped      whether or not to use memory-mapped files
-		 */
-		private LibraryMode(boolean parsedImmediately, boolean memoryMapped) {
-			this.parsedImmediately = parsedImmediately;
-			this.memoryMapped = memoryMapped;
-		}
-
-		/**
-		 * Gets whether or not this mode causes files to parse immediately.
-		 *
-		 * @return whether or not to parse on file construction
-		 */
-		public boolean isParsedImmediately() {
-			return parsedImmediately;
-		}
-
-		/**
-		 * Gets whether or not this mode uses memory mapped files.
-		 *
-		 * @return whether or not to use memory-mapped files
-		 */
-		public boolean isMemoryMapped() {
-			return memoryMapped;
-		}
 	}
 }
