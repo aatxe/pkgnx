@@ -49,7 +49,6 @@ public class LatestGameTest {
 	 * @param args ignored
 	 */
 	public static void main(String[] args) throws IOException {
-		System.in.read();
 		logger.info("[pkgnx] Loading latest game content.");
 		String[] files = {"Base.nx", "Character.nx", "Effect.nx", "Etc.nx", "Item.nx",
 				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
@@ -63,13 +62,11 @@ public class LatestGameTest {
 			logger.error("[pkgnx] Failed to load a file.", e);
 		}
 		logger.info("[pkgnx] Loading completed.");
-		System.in.read();
 		logger.info("[pkgnx] Initiating recursion.");
 		for (NXFile file : loaded)
 			if (file.getFilePath().contains("Character"))
 				recurse(file.getRoot());
 		logger.info("[pkgnx] Recursion complete.");
-		System.in.read();
 	}
 
 	/**
