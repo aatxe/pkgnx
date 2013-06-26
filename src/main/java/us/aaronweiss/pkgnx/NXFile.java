@@ -42,12 +42,13 @@ import java.nio.file.Paths;
  * An memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
- * @version 1.2.0
+ * @version 1.3.0
  * @since 5/26/13
  */
 public class NXFile {
 	public static final Logger logger = LoggerFactory.getLogger(NXFile.class);
 	private final SeekableLittleEndianAccessor slea;
+	private final String filePath;
 	private boolean parsed;
 
 	private NXHeader header;
@@ -94,6 +95,7 @@ public class NXFile {
 	public NXFile(Path path, boolean parsedImmediately) throws IOException {
 		FileChannel channel = FileChannel.open(path);
 		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
+		filePath = path.toString();
 		if (parsedImmediately)
 			parse();
 	}
@@ -176,6 +178,15 @@ public class NXFile {
 	 */
 	public boolean isParsed() {
 		return parsed;
+	}
+
+	/**
+	 * Gets the path to this {@code NXFile}.
+	 *
+	 * @return the path to this file
+	 */
+	public String getFilePath() {
+		return filePath;
 	}
 
 	/**
