@@ -26,6 +26,7 @@ package us.aaronweiss.pkgnx.test.archaic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.format.NXNode;
 
 import java.io.IOException;
 
@@ -40,26 +41,66 @@ import java.io.IOException;
 @Deprecated
 public class LatestGameTest {
 	private static final Logger logger = LoggerFactory.getLogger(LatestGameTest.class);
-	private static final String FILE_PATH = "src/test/resources/";
+	private static final String FILE_PATH = "src/test/resources/137/";
 
 	/**
 	 * Loads all of the modern game data.
 	 *
 	 * @param args ignored
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		System.in.read();
 		logger.info("[pkgnx] Loading latest game content.");
 		String[] files = {"Base.nx", "Character.nx", "Effect.nx", "Etc.nx", "Item.nx",
 				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
 				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
+		NXFile[] loaded = new NXFile[files.length];
 		try {
-			for (String file : files) {
-				NXFile nx = new NXFile(FILE_PATH + file);
+			for (int i = 0; i < loaded.length; i++) {
+				loaded[i] = new NXFile(FILE_PATH + files[i]);
 			}
 		} catch (IOException e) {
 			logger.error("[pkgnx] Failed to load a file.", e);
 		}
-		Runtime rt = Runtime.getRuntime();
-		logger.info("[pkgnx] Loading completed in " + "μs for " + ((rt.totalMemory() - rt.freeMemory()) / (1024 * 1024)) + " MB.");
+		logger.info("[pkgnx] Loading completed.");
+		System.in.read();
+		logger.info("[pkgnx] Initiating recursion.");
+		for (NXFile file : loaded)
+			recurse(file.getRoot());
+		logger.info("[pkgnx] Recursion complete.");
+		System.in.read();
+	}
+
+	/**
+	 * Recurses through all the nodes and records information about the SS benchmark on them.
+	 *
+	 * @param node the node to recurse on
+	 */
+	private static void recurse(NXNode node) {
+		SS(node);
+		for (NXNode child : node) {
+			recurse(child);
+		}
+	}
+
+	/**
+	 * Runs retep998's SS benchmark on a specific node.
+	 * <p/>
+	 * SS: String search; time taken to iterate through the  children of a {@code trialNode}, access each child by name,
+	 * and compare the indexed child to the iterated child.
+	 *
+	 * @param trialNode the node to perform the SS trial on.
+	 * @return time for the trial
+	 */
+	public static void SS(NXNode trialNode) {
+		try {
+			for (NXNode child : trialNode) {
+				if (!child.equals(trialNode.getChild(child.getName())))
+					throw new RuntimeException("pkgnx is failing to work completely.");
+			}
+		} catch (Exception e) {
+			logger.error("[SS] trial failed with an exception.", e);
+		}
+		return;
 	}
 }
