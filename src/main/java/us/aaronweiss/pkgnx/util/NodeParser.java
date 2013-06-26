@@ -24,6 +24,7 @@
 package us.aaronweiss.pkgnx.util;
 
 import us.aaronweiss.pkgnx.NXException;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.format.NXHeader;
 import us.aaronweiss.pkgnx.format.NXNode;
 import us.aaronweiss.pkgnx.format.NXTables;
@@ -33,37 +34,37 @@ import us.aaronweiss.pkgnx.format.nodes.*;
  * A basic utility to parse data into an {@code NXNode}.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 2.0.0
  * @since 5/27/13
  */
 public class NodeParser {
 	/**
 	 * Parses the next {@code NXNode} from the supplied data.
 	 *
-	 * @param header the header of the file
-	 * @param slea   the {@code SeekableLittleEndianAccessor} to read the node from
+	 * @param file the file to read nodes from
+	 * @param slea the {@code SeekableLittleEndianAccessor} to read the node from
 	 * @return the newly parsed node
 	 */
-	public static NXNode parseNode(NXHeader header, NXTables tables, SeekableLittleEndianAccessor slea) {
-		String name = tables.getString(slea.getUnsignedInt());
+	public static NXNode parseNode(NXFile file, SeekableLittleEndianAccessor slea) {
+		String name = file.getTables().getString(slea.getUnsignedInt());
 		long childIndex = slea.getUnsignedInt();
 		int childCount = slea.getUnsignedShort();
 		int type = slea.getUnsignedShort();
 		switch (type) {
 			case 0:
-				return new NXNullNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXNullNode(name, file, childIndex, childCount, slea);
 			case 1:
-				return new NXLongNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXLongNode(name, file, childIndex, childCount, slea);
 			case 2:
-				return new NXDoubleNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXDoubleNode(name, file, childIndex, childCount, slea);
 			case 3:
-				return new NXStringNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXStringNode(name, file, childIndex, childCount, slea);
 			case 4:
-				return new NXPointNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXPointNode(name, file, childIndex, childCount, slea);
 			case 5:
-				return new NXBitmapNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXBitmapNode(name, file, childIndex, childCount, slea);
 			case 6:
-				return new NXAudioNode(name, header.getFile(), childIndex, childCount, slea);
+				return new NXAudioNode(name, file, childIndex, childCount, slea);
 			default:
 				throw new NXException("Failed to parse nodes. Encountered invalid node type (" + type + ") in file.");
 		}

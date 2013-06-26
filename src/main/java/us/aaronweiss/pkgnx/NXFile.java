@@ -43,7 +43,7 @@ import java.nio.file.Paths;
  * An memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
- * @version 2.0.0
+ * @version 2.0.1
  * @since 5/26/13
  */
 public class NXFile {
@@ -122,7 +122,7 @@ public class NXFile {
 	private void populateNodesTable() {
 		slea.seek(header.getNodeOffset());
 		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = NodeParser.parseNode(header, tables, slea);
+			nodes[i] = NodeParser.parseNode(this, slea);
 		}
 	}
 
