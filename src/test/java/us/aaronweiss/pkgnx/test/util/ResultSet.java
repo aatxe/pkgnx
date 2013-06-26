@@ -40,6 +40,7 @@ public class ResultSet {
 
 	/**
 	 * Creates a result set of the specified {@code length}.
+	 *
 	 * @param length the length of the results
 	 */
 	public ResultSet(int length) {
@@ -49,6 +50,7 @@ public class ResultSet {
 
 	/**
 	 * Adds a new result to the set.
+	 *
 	 * @param time the benchmark result to add
 	 */
 	public void add(long time) {
@@ -57,6 +59,7 @@ public class ResultSet {
 
 	/**
 	 * Gets the 50% mean of the result set.
+	 *
 	 * @return the average of the median 50% of data entries
 	 */
 	public long getAverage() {
@@ -70,6 +73,7 @@ public class ResultSet {
 
 	/**
 	 * Gets the best result from the result set.
+	 *
 	 * @return the best result
 	 */
 	public long getBest() {
@@ -79,6 +83,7 @@ public class ResultSet {
 
 	/**
 	 * Gets the "worst case-scenario" 75th percentile result from the set.
+	 *
 	 * @return the 75th percentile result
 	 */
 	public long get75Percentile() {
