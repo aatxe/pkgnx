@@ -37,7 +37,7 @@ import java.awt.image.BufferedImage;
  * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
  *
  * @author Aaron Weiss
- * @version 1.1.2
+ * @version 1.1.3
  * @since 5/27/13
  */
 public class NXBitmapNode extends NXNode {
@@ -142,12 +142,12 @@ public class NXBitmapNode extends NXNode {
 		else if (!(obj instanceof NXBitmapNode))
 			return false;
 		else
-			return ((NXNode) obj).getName().equals(getName()) &&
+			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
 					((NXNode) obj).getChildCount() == getChildCount() &&
 					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
 					((NXBitmapNode) obj).bitmapIndex == bitmapIndex &&
 					((NXBitmapNode) obj).height == height &&
-					((NXBitmapNode) obj).width == width;
+					((NXBitmapNode) obj).width == width);
 	}
 
 }

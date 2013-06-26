@@ -34,7 +34,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing a {@code String}.
  *
  * @author Aaron Weiss
- * @version 1.0.1
+ * @version 1.0.2
  * @since 5/27/13
  */
 public class NXStringNode extends NXNode {
@@ -97,5 +97,18 @@ public class NXStringNode extends NXNode {
 			strings[i] = slea.getUTFString();
 			slea.reset();
 		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		else if (!(obj instanceof NXStringNode))
+			return false;
+		else
+			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
+					((NXNode) obj).getChildCount() == getChildCount() &&
+					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((NXStringNode) obj).stringIndex == stringIndex);
 	}
 }

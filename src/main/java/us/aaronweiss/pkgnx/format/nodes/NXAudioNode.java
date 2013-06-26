@@ -34,7 +34,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 1.1.1
+ * @version 1.1.2
  * @since 5/27/13
  */
 public class NXAudioNode extends NXNode {
@@ -129,10 +129,10 @@ public class NXAudioNode extends NXNode {
 		else if (!(obj instanceof NXAudioNode))
 			return false;
 		else
-			return ((NXNode) obj).getName().equals(getName()) &&
+			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
 					((NXNode) obj).getChildCount() == getChildCount() &&
 					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
 					((NXAudioNode) obj).mp3Index == mp3Index &&
-					((NXAudioNode) obj).length == length;
+					((NXAudioNode) obj).length == length);
 	}
 }
