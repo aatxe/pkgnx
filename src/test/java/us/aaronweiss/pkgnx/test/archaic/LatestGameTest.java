@@ -66,7 +66,8 @@ public class LatestGameTest {
 		System.in.read();
 		logger.info("[pkgnx] Initiating recursion.");
 		for (NXFile file : loaded)
-			recurse(file.getRoot());
+			if (file.getFilePath().contains("Character"))
+				recurse(file.getRoot());
 		logger.info("[pkgnx] Recursion complete.");
 		System.in.read();
 	}
@@ -99,7 +100,7 @@ public class LatestGameTest {
 					throw new RuntimeException("pkgnx is failing to work completely.");
 			}
 		} catch (Exception e) {
-			logger.error("[SS] trial failed with an exception.", e);
+			logger.error("[SS] trial failed in " + trialNode.getFile().getFilePath(), e);
 		}
 		return;
 	}
