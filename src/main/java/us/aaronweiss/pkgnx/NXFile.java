@@ -37,7 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * An memory-mapped file for reading specification-compliant NX files.
+ * A memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
  * @version 2.0.1
