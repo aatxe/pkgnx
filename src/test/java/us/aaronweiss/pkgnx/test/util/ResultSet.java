@@ -68,7 +68,7 @@ public class ResultSet {
 		for (int i = drop; i < times.length - drop; i++) {
 			total += times[i];
 		}
-		return total / (times.length - drop * 2);
+		return (times.length != 0) ? total / (times.length - drop * 2) : -1;
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class ResultSet {
 	 */
 	public long getBest() {
 		Arrays.sort(times);
-		return times[0];
+		return (times.length != 0) ? times[0] : -1;
 	}
 
 	/**
@@ -88,6 +88,6 @@ public class ResultSet {
 	 */
 	public long get75Percentile() {
 		Arrays.sort(times);
-		return times[times.length * 3 / 4];
+		return (times.length != 0) ? times[times.length * 3 / 4] : -1;
 	}
 }

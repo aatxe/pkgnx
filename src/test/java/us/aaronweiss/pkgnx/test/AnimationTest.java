@@ -80,10 +80,10 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 * @param animationPath the path to the node to load
 	 */
 	private void loadSprites(String animationPath) {
-		NXNode node = file.resolve(animationPath);
+		NXNode<?> node = file.resolve(animationPath);
 		if (node instanceof NXNullNode) {
 			List<BufferedImage> images = new ArrayList<BufferedImage>();
-			for (NXNode child : node) {
+			for (NXNode<?> child : node) {
 				if (child instanceof NXBitmapNode) {
 					NXBitmapNode bmp = (NXBitmapNode) child;
 					images.add((BufferedImage) bmp.get());

@@ -72,9 +72,9 @@ public class LatestGameTest {
 	 *
 	 * @param node the node to recurse on
 	 */
-	private static void recurse(NXNode node) {
+	private static void recurse(NXNode<?> node) {
 		SS(node);
-		for (NXNode child : node) {
+		for (NXNode<?> child : node) {
 			recurse(child);
 		}
 	}
@@ -88,9 +88,9 @@ public class LatestGameTest {
 	 * @param trialNode the node to perform the SS trial on.
 	 * @return time for the trial
 	 */
-	public static void SS(NXNode trialNode) {
+	public static void SS(NXNode<?> trialNode) {
 		try {
-			for (NXNode child : trialNode) {
+			for (NXNode<?> child : trialNode) {
 				if (!child.equals(trialNode.getChild(child.getName())))
 					throw new RuntimeException("pkgnx is failing to work completely.");
 			}
