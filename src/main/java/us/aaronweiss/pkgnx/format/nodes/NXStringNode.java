@@ -36,7 +36,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * @version 2.0.0
  * @since 5/27/13
  */
-public class NXStringNode extends NXNode<String> {
+public class NXStringNode extends NXNode {
 	public static final Logger logger = LoggerFactory.getLogger(NXStringNode.class);
 	private final long stringIndex;
 
@@ -56,7 +56,7 @@ public class NXStringNode extends NXNode<String> {
 	}
 
 	@Override
-	public String get() {
+	public Object get() {
 		return getString();
 	}
 

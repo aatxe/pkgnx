@@ -49,11 +49,11 @@ public class ModernBenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(ModernBenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data.nx";
 	public static final Stopwatch timer = new Stopwatch();
-	public static final int LD_TRIALS = 0x20;
-	public static final int RE_TRIALS = 0x40;
-	public static final int LR_TRIALS = 0x20;
+	public static final int LD_TRIALS = 0x100;
+	public static final int RE_TRIALS = 0x100;
+	public static final int LR_TRIALS = 0x100;
 	public static final int SA_TRIALS = 0x100;
-	public static final int DE_TRIALS = 0x0;
+	public static final int DE_TRIALS = 0x10;
 	private static NXFile file;
 
 	/**
@@ -126,13 +126,13 @@ public class ModernBenchmarkSuite {
 		DecompressHelper(file.getRoot());
 	}
 
-	public static void RecurseHelper(NXNode<?> n) {
-		for (NXNode<?> c : n)
+	public static void RecurseHelper(NXNode n) {
+		for (NXNode c : n)
 			RecurseHelper(c);
 	}
 
-	public static void StringRecurseHelper(NXNode<?> n) {
-		for (NXNode<?> c : n) {
+	public static void StringRecurseHelper(NXNode n) {
+		for (NXNode c : n) {
 			if (n.getChild(c.getName()) == c)
 				StringRecurseHelper(c);
 			else
@@ -140,10 +140,10 @@ public class ModernBenchmarkSuite {
 		}
 	}
 
-	public static void DecompressHelper(NXNode<?> n) {
+	public static void DecompressHelper(NXNode n) {
 		if (n instanceof NXBitmapNode)
 			((NXBitmapNode) n).getImage();
-		for (NXNode<?> c : n)
+		for (NXNode c : n)
 			DecompressHelper(c);
 	}
 }

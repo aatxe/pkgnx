@@ -36,7 +36,7 @@ import java.awt.image.BufferedImage;
  * @version 2.0.0
  * @since 5/27/13
  */
-public class NXBitmapNode extends NXNode<BufferedImage> {
+public class NXBitmapNode extends NXNode {
 	private final long bitmapIndex;
 	private final int width, height;
 
@@ -57,7 +57,7 @@ public class NXBitmapNode extends NXNode<BufferedImage> {
 	}
 
 	@Override
-	public BufferedImage get() {
+	public Object get() {
 		return getImage();
 	}
 

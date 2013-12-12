@@ -37,7 +37,7 @@ import java.util.Map;
  * @version 1.0.7
  * @since 5/26/13
  */
-public abstract class NXNode<T> implements Iterable<NXNode> {
+public abstract class NXNode implements Iterable<NXNode> {
 	private static final EmptyNodeIterator EMPTY_NODE_ITERATOR = new EmptyNodeIterator();
 	private static final int MIN_COUNT_FOR_MAPS = 41;
 
@@ -93,9 +93,9 @@ public abstract class NXNode<T> implements Iterable<NXNode> {
 	/**
 	 * Gets the value of this node universally.
 	 *
-	 * @return the value
+	 * @return the value as an {@code Object}
 	 */
-	public abstract T get();
+	public abstract Object get();
 
 	/**
 	 * Gets a child node by {@code name}. Returns null if child is not present.

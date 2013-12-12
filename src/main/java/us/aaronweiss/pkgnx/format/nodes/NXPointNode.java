@@ -36,7 +36,7 @@ import java.awt.*;
  * @version 1.0.0
  * @since 5/27/13
  */
-public class NXPointNode extends NXNode<Point> {
+public class NXPointNode extends NXNode {
 	private final Point point;
 
 	/**
@@ -54,7 +54,7 @@ public class NXPointNode extends NXNode<Point> {
 	}
 
 	@Override
-	public Point get() {
+	public Object get() {
 		return point;
 	}
 

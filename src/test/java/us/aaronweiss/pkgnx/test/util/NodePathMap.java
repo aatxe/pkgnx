@@ -16,10 +16,10 @@ public class NodePathMap extends HashMap<String, NXNode> {
 		recurseConstruct(root, "");
 	}
 
-	private void recurseConstruct(NXNode<?> node, String pathAccum) {
+	private void recurseConstruct(NXNode node, String pathAccum) {
 		pathAccum += "/" + node.getName();
 		put(pathAccum, node);
-		for (NXNode<?> c : node)
+		for (NXNode c : node)
 			recurseConstruct(c, pathAccum);
 	}
 }

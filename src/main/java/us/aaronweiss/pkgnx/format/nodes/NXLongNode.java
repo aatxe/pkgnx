@@ -34,7 +34,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * @version 1.0.0
  * @since 5/27/13
  */
-public class NXLongNode extends NXNode<Long> {
+public class NXLongNode extends NXNode {
 	private final long value;
 
 	/**
@@ -48,11 +48,11 @@ public class NXLongNode extends NXNode<Long> {
 	 */
 	public NXLongNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		value = slea.getLong();
+		this.value = slea.getLong();
 	}
 
 	@Override
-	public Long get() {
+	public Object get() {
 		return value;
 	}
 

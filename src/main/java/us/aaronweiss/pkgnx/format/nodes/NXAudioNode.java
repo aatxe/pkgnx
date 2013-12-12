@@ -35,7 +35,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * @version 2.0.0
  * @since 5/27/13
  */
-public class NXAudioNode extends NXNode<ByteBuf> {
+public class NXAudioNode extends NXNode {
 	private final long mp3Index, length;
 
 	/**
@@ -54,7 +54,7 @@ public class NXAudioNode extends NXNode<ByteBuf> {
 	}
 
 	@Override
-	public ByteBuf get() {
+	public Object get() {
 		return getAudioBuf();
 	}
 

@@ -93,13 +93,13 @@ public class AdvancedStringSearchTest {
 	 *
 	 * @param node the node to recurse on
 	 */
-	private static void recurse(NXNode<?> node) {
+	private static void recurse(NXNode node) {
 		int cc = node.getChildCount();
 		for (int i = 0; i < SS_TRIALS; i++) {
 			results[cc].totalTime += SS(node);
 			results[cc].totalRuns++;
 		}
-		for (NXNode<?> child : node) {
+		for (NXNode child : node) {
 			recurse(child);
 		}
 	}
@@ -113,10 +113,10 @@ public class AdvancedStringSearchTest {
 	 * @param trialNode the node to perform the SS trial on.
 	 * @return time for the trial
 	 */
-	public static long SS(NXNode<?> trialNode) {
+	public static long SS(NXNode trialNode) {
 		try {
 			timer.start();
-			for (NXNode<?> child : trialNode) {
+			for (NXNode child : trialNode) {
 				if (!child.equals(trialNode.getChild(child.getName())))
 					throw new RuntimeException("pkgnx is failing to work completely.");
 			}
