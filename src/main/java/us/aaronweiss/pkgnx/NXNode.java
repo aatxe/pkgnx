@@ -75,15 +75,14 @@ public abstract class NXNode implements Iterable<NXNode> {
 	void populateChildren() {
 		if (childCount == 0)
 			return;
-		NXNode[] nodes = file.getNodes();
 		if (childMap != null && childMap.isEmpty()) {
 			for (int i = (int) childIndex; i < childIndex + childCount; i++) {
-				childMap.put(nodes[i].getName(), nodes[i]);
+				childMap.put(file.getNode(i).getName(), file.getNode(i));
 			}
 		} else if (children[0] == null) {
 			int k = 0;
 			for (int i = (int) childIndex; i < childIndex + childCount; i++) {
-				children[k++] = nodes[i];
+				children[k++] = file.getNode(i);
 			}
 		}
 	}
@@ -128,9 +127,8 @@ public abstract class NXNode implements Iterable<NXNode> {
 	protected NXNode searchChild(String name) {
 		if (childCount == 0 || (children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
 			return null;
-		if (childMap != null) {
+		if (childMap != null)
 			return childMap.get(name);
-		}
 		int min = 0, max = childCount - 1;
 		String minVal = children[min].getName(), maxVal = children[max].getName();
 		while (true) {

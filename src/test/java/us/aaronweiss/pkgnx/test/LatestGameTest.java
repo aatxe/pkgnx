@@ -25,6 +25,7 @@ package us.aaronweiss.pkgnx.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 
@@ -51,7 +52,7 @@ public class LatestGameTest {
 		String[] files = {"Base.nx", "Character.nx", "Effect.nx", "Etc.nx", "Item.nx",
 				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
 				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
-		StrictNXFile[] loaded = new StrictNXFile[files.length];
+		NXFile[] loaded = new StrictNXFile[files.length];
 		try {
 			for (int i = 0; i < loaded.length; i++) {
 				loaded[i] = new StrictNXFile(FILE_PATH + files[i]);
@@ -61,7 +62,7 @@ public class LatestGameTest {
 		}
 		logger.info("[pkgnx] Loading completed.");
 		logger.info("[pkgnx] Initiating recursion.");
-		for (StrictNXFile file : loaded)
+		for (NXFile file : loaded)
 			if (file.getFilePath().contains("Character"))
 				recurse(file.getRoot());
 		logger.info("[pkgnx] Recursion complete.");

@@ -37,10 +37,10 @@ import java.nio.file.Paths;
  * An memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
- * @version 2.0.1
+ * @version 3.0.0
  * @since 5/26/13
  */
-public class StrictNXFile {
+public class StrictNXFile implements NXFile {
 	public static final Logger logger = LoggerFactory.getLogger(StrictNXFile.class);
 	private final SeekableLittleEndianAccessor slea;
 	private final String filePath;
@@ -130,46 +130,28 @@ public class StrictNXFile {
 	}
 
 	/**
-	 * Gets the {@code NXHeader} of this file.
-	 *
-	 * @return this file's header
+	 * {@inheritDoc}
 	 */
 	public NXHeader getHeader() {
 		return header;
 	}
 
 	/**
-	 * Gets the {@code NXTables} from this file.
-	 *
-	 * @return this file's offset tables
+	 * {@inheritDoc}
 	 */
 	public NXTables getTables() {
 		return tables;
 	}
 
 	/**
-	 * Gets the path to this {@code StrictNXFile}.
-	 *
-	 * @return the path to this file
+	 * {@inheritDoc}
 	 */
 	public String getFilePath() {
 		return filePath;
 	}
 
 	/**
-	 * Gets an array of all of the {@code NXNode}s in this file.
-	 *
-	 * @return an array of all the nodes in this file
-	 */
-	public NXNode[] getNodes() {
-		parse();
-		return nodes;
-	}
-
-	/**
-	 * Gets the root {@code NXNode} of the file.
-	 *
-	 * @return the file's root node
+	 * {@inheritDoc}
 	 */
 	public NXNode getRoot() {
 		parse();
@@ -177,10 +159,15 @@ public class StrictNXFile {
 	}
 
 	/**
-	 * Resolves the desired {@code path} to an {@code NXNode}.
-	 *
-	 * @param path the path to the node
-	 * @return the desired node
+	 * {@inheritDoc}
+	 */
+	public NXNode getNode(int index) {
+		parse();
+		return nodes[index];
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public NXNode resolve(String path) {
 		if (path.equals("/"))
@@ -189,10 +176,7 @@ public class StrictNXFile {
 	}
 
 	/**
-	 * Resolves the desired {@code path} to an {@code NXNode}.
-	 *
-	 * @param path the path to the node
-	 * @return the desired node
+	 * {@inheritDoc}
 	 */
 	public NXNode resolve(String[] path) {
 		NXNode cursor = getRoot();

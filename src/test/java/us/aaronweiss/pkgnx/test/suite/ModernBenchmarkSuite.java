@@ -27,6 +27,7 @@ import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXException;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
@@ -54,7 +55,7 @@ public class ModernBenchmarkSuite {
 	public static final int LR_TRIALS = 0x100;
 	public static final int SA_TRIALS = 0x100;
 	public static final int DE_TRIALS = 0x10;
-	private static StrictNXFile file;
+	private static NXFile file;
 
 	/**
 	 * Performs the complete modern benchmarking suite.
