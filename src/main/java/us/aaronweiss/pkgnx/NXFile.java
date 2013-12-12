@@ -148,15 +148,6 @@ public class NXFile {
 	}
 
 	/**
-	 * Gets whether or not this file has been parsed.
-	 *
-	 * @return whether or not this file has been parsed
-	 */
-	public boolean isParsed() {
-		return parsed;
-	}
-
-	/**
 	 * Gets the path to this {@code NXFile}.
 	 *
 	 * @return the path to this file
@@ -171,6 +162,7 @@ public class NXFile {
 	 * @return an array of all the nodes in this file
 	 */
 	public NXNode[] getNodes() {
+		parse();
 		return nodes;
 	}
 
@@ -180,6 +172,7 @@ public class NXFile {
 	 * @return the file's root node
 	 */
 	public NXNode getRoot() {
+		parse();
 		return nodes[0];
 	}
 
