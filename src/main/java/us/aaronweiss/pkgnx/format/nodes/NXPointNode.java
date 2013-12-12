@@ -54,7 +54,7 @@ public class NXPointNode extends NXNode {
 	}
 
 	@Override
-	public Object get() {
+	public Point get() {
 		return point;
 	}
 
