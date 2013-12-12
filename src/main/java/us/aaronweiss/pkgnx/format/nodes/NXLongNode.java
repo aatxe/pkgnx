@@ -48,11 +48,11 @@ public class NXLongNode extends NXNode {
 	 */
 	public NXLongNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		this.value = slea.getLong();
+		value = slea.getLong();
 	}
 
 	@Override
-	public Object get() {
+	public Long get() {
 		return value;
 	}
 
