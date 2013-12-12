@@ -26,9 +26,9 @@ package us.aaronweiss.pkgnx.test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
-import us.aaronweiss.pkgnx.format.nodes.NXBitmapNode;
-import us.aaronweiss.pkgnx.format.nodes.NXNullNode;
+import us.aaronweiss.pkgnx.NXNode;
+import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
+import us.aaronweiss.pkgnx.nodes.NXNullNode;
 
 import javax.swing.*;
 import java.awt.*;

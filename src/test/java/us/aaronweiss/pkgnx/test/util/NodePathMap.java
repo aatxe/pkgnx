@@ -1,6 +1,6 @@
 package us.aaronweiss.pkgnx.test.util;
 
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 
 import java.util.HashMap;
 

@@ -21,25 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
-import io.netty.buffer.ByteBuf;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
+import java.awt.image.BufferedImage;
+
 /**
- * An {@code NXNode} representing an Audio {@code ByteBuf}.
+ * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
  *
  * @author Aaron Weiss
  * @version 2.0.0
  * @since 5/27/13
  */
-public class NXAudioNode extends NXNode {
-	private final long mp3Index, length;
+public class NXBitmapNode extends NXNode {
+	private final long bitmapIndex;
+	private final int width, height;
 
 	/**
-	 * Creates a new {@code NXAudioNode}.
+	 * Creates a new {@code NXBitmapNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -47,40 +49,42 @@ public class NXAudioNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXAudioNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXBitmapNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		mp3Index = slea.getUnsignedInt();
-		length = slea.getUnsignedInt();
+		bitmapIndex = slea.getUnsignedInt();
+		width = slea.getUnsignedShort();
+		height = slea.getUnsignedShort();
 	}
 
 	@Override
-	public ByteBuf get() {
-		return getAudioBuf();
+	public BufferedImage get() {
+		return getImage();
 	}
 
 	/**
-	 * Gets the value of this node as a {@code ByteBuf}.
+	 * Gets the value of this node as a {@code BufferedImage}.
 	 *
 	 * @return the node value
 	 */
-	public ByteBuf getAudioBuf() {
-		if (file.getHeader().getSoundCount() == 0)
+	public BufferedImage getImage() {
+		if (file.getHeader().getBitmapCount() == 0)
 			return null;
-		return file.getTables().getAudioBuf(mp3Index, length);
+		return file.getTables().getImage(bitmapIndex, width, height);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		else if (!(obj instanceof NXAudioNode))
+		else if (!(obj instanceof NXBitmapNode))
 			return false;
 		else
 			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
 					((NXNode) obj).getChildCount() == getChildCount() &&
 					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
-					((NXAudioNode) obj).mp3Index == mp3Index &&
-					((NXAudioNode) obj).length == length);
+					((NXBitmapNode) obj).bitmapIndex == bitmapIndex &&
+					((NXBitmapNode) obj).height == height &&
+					((NXBitmapNode) obj).width == width);
 	}
+
 }

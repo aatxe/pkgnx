@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format;
+package us.aaronweiss.pkgnx;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.util.Decompressor;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 

@@ -21,27 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 /**
- * An {@code NXNode} representing a {@code String}.
+ * An empty {@code NXNode} commonly used to represent folders.
  *
  * @author Aaron Weiss
- * @version 2.0.0
+ * @version 1.0.0
  * @since 5/27/13
  */
-public class NXStringNode extends NXNode {
-	public static final Logger logger = LoggerFactory.getLogger(NXStringNode.class);
-	private final long stringIndex;
-
+public class NXNullNode extends NXNode {
 	/**
-	 * Creates a new {@code NXStringNode}.
+	 * Creates a new {@code NXNullNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -49,36 +44,13 @@ public class NXStringNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXStringNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXNullNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		stringIndex = slea.getUnsignedInt();
-		slea.skip(4);
+		slea.skip(8);
 	}
 
 	@Override
-	public String get() {
-		return getString();
-	}
-
-	/**
-	 * Gets the value of this node as a {@code String}.
-	 *
-	 * @return the node value
-	 */
-	public String getString() {
-		return file.getTables().getString(stringIndex);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-		else if (!(obj instanceof NXStringNode))
-			return false;
-		else
-			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
-					((NXNode) obj).getChildCount() == getChildCount() &&
-					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
-					((NXStringNode) obj).stringIndex == stringIndex);
+	public Object get() {
+		return null;
 	}
 }

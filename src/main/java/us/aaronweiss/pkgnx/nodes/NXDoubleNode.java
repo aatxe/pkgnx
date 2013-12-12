@@ -21,27 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
-import java.awt.image.BufferedImage;
-
 /**
- * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
+ * An {@code NXNode} representing a {@code Double}.
  *
  * @author Aaron Weiss
- * @version 2.0.0
+ * @version 1.0.0
  * @since 5/27/13
  */
-public class NXBitmapNode extends NXNode {
-	private final long bitmapIndex;
-	private final int width, height;
+public class NXDoubleNode extends NXNode {
+	private final double value;
 
 	/**
-	 * Creates a new {@code NXBitmapNode}.
+	 * Creates a new {@code NXDoubleNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -49,42 +46,22 @@ public class NXBitmapNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXBitmapNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXDoubleNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		bitmapIndex = slea.getUnsignedInt();
-		width = slea.getUnsignedShort();
-		height = slea.getUnsignedShort();
+		value = slea.getDouble();
 	}
 
 	@Override
-	public BufferedImage get() {
-		return getImage();
+	public Double get() {
+		return value;
 	}
 
 	/**
-	 * Gets the value of this node as a {@code BufferedImage}.
+	 * Gets the value of this node as a {@code double}.
 	 *
 	 * @return the node value
 	 */
-	public BufferedImage getImage() {
-		if (file.getHeader().getBitmapCount() == 0)
-			return null;
-		return file.getTables().getImage(bitmapIndex, width, height);
+	public double getDouble() {
+		return value;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-		else if (!(obj instanceof NXBitmapNode))
-			return false;
-		else
-			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
-					((NXNode) obj).getChildCount() == getChildCount() &&
-					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
-					((NXBitmapNode) obj).bitmapIndex == bitmapIndex &&
-					((NXBitmapNode) obj).height == height &&
-					((NXBitmapNode) obj).width == width);
-	}
-
 }

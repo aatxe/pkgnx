@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format;
-
-import us.aaronweiss.pkgnx.NXFile;
+package us.aaronweiss.pkgnx;
 
 import java.util.Arrays;
 import java.util.HashMap;

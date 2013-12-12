@@ -21,26 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
-import java.awt.*;
-
 /**
- * An {@code NXNode} representing a 2D vector as a {@code Point}.
+ * An {@code NXNode} representing a {@code String}.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 2.0.0
  * @since 5/27/13
  */
-public class NXPointNode extends NXNode {
-	private final Point point;
+public class NXStringNode extends NXNode {
+	public static final Logger logger = LoggerFactory.getLogger(NXStringNode.class);
+	private final long stringIndex;
 
 	/**
-	 * Creates a new {@code NXPointNode}.
+	 * Creates a new {@code NXStringNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -48,22 +49,36 @@ public class NXPointNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXPointNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXStringNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		point = new Point(slea.getInt(), slea.getInt());
+		stringIndex = slea.getUnsignedInt();
+		slea.skip(4);
 	}
 
 	@Override
-	public Point get() {
-		return point;
+	public String get() {
+		return getString();
 	}
 
 	/**
-	 * Gets the value of this node as a {@code Point}.
+	 * Gets the value of this node as a {@code String}.
 	 *
 	 * @return the node value
 	 */
-	public Point getPoint() {
-		return point;
+	public String getString() {
+		return file.getTables().getString(stringIndex);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		else if (!(obj instanceof NXStringNode))
+			return false;
+		else
+			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
+					((NXNode) obj).getChildCount() == getChildCount() &&
+					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((NXStringNode) obj).stringIndex == stringIndex);
 	}
 }

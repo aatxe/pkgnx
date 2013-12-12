@@ -21,24 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
+import java.awt.*;
+
 /**
- * An {@code NXNode} representing a {@code Double}.
+ * An {@code NXNode} representing a 2D vector as a {@code Point}.
  *
  * @author Aaron Weiss
  * @version 1.0.0
  * @since 5/27/13
  */
-public class NXDoubleNode extends NXNode {
-	private final double value;
+public class NXPointNode extends NXNode {
+	private final Point point;
 
 	/**
-	 * Creates a new {@code NXDoubleNode}.
+	 * Creates a new {@code NXPointNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -46,22 +48,22 @@ public class NXDoubleNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXDoubleNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXPointNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		value = slea.getDouble();
+		point = new Point(slea.getInt(), slea.getInt());
 	}
 
 	@Override
-	public Double get() {
-		return value;
+	public Point get() {
+		return point;
 	}
 
 	/**
-	 * Gets the value of this node as a {@code double}.
+	 * Gets the value of this node as a {@code Point}.
 	 *
 	 * @return the node value
 	 */
-	public double getDouble() {
-		return value;
+	public Point getPoint() {
+		return point;
 	}
 }

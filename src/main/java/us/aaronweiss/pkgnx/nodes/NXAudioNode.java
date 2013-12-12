@@ -21,24 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format.nodes;
+package us.aaronweiss.pkgnx.nodes;
 
+import io.netty.buffer.ByteBuf;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.format.NXNode;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 /**
- * An {@code NXNode} representing a {@code Long}.
+ * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 2.0.0
  * @since 5/27/13
  */
-public class NXLongNode extends NXNode {
-	private final long value;
+public class NXAudioNode extends NXNode {
+	private final long mp3Index, length;
 
 	/**
-	 * Creates a new {@code NXLongNode}.
+	 * Creates a new {@code NXAudioNode}.
 	 *
 	 * @param name       the name of the node
 	 * @param file       the file the node is from
@@ -46,22 +47,40 @@ public class NXLongNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXLongNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXAudioNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		value = slea.getLong();
+		mp3Index = slea.getUnsignedInt();
+		length = slea.getUnsignedInt();
 	}
 
 	@Override
-	public Long get() {
-		return value;
+	public ByteBuf get() {
+		return getAudioBuf();
 	}
 
 	/**
-	 * Gets the value of this node as a {@code long}.
+	 * Gets the value of this node as a {@code ByteBuf}.
 	 *
 	 * @return the node value
 	 */
-	public long getLong() {
-		return value;
+	public ByteBuf getAudioBuf() {
+		if (file.getHeader().getSoundCount() == 0)
+			return null;
+		return file.getTables().getAudioBuf(mp3Index, length);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		else if (!(obj instanceof NXAudioNode))
+			return false;
+		else
+			return obj == this || (((NXNode) obj).getName().equals(getName()) &&
+					((NXNode) obj).getChildCount() == getChildCount() &&
+					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
+					((NXAudioNode) obj).mp3Index == mp3Index &&
+					((NXAudioNode) obj).length == length);
 	}
 }

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx.format;
+package us.aaronweiss.pkgnx;
 
 import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.NXFile;
