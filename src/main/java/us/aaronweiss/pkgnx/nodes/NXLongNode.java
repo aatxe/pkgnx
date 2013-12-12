@@ -31,7 +31,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing a {@code Long}.
  *
  * @author Aaron Weiss
- * @version 1.0.0
+ * @version 2.0.0
  * @since 5/27/13
  */
 public class NXLongNode extends NXNode {

@@ -33,7 +33,7 @@ import java.awt.image.BufferedImage;
  * An {@code NXNode} representing a {@code Bitmap} as a {@code BufferedImage}.
  *
  * @author Aaron Weiss
- * @version 2.0.0
+ * @version 3.0.0
  * @since 5/27/13
  */
 public class NXBitmapNode extends NXNode {

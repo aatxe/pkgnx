@@ -32,7 +32,7 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
  * An {@code NXNode} representing an Audio {@code ByteBuf}.
  *
  * @author Aaron Weiss
- * @version 2.0.0
+ * @version 3.0.0
  * @since 5/27/13
  */
 public class NXAudioNode extends NXNode {
