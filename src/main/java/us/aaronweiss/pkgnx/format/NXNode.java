@@ -103,10 +103,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * @param name the name of the child
 	 * @return the child {@code NXNode}
 	 */
-	public NXNode getChild(String name) {
+	public <T extends NXNode> T getChild(String name) {
 		if (childCount == 0)
 			return null;
-		return searchChild(name);
+		return (T) searchChild(name);
 	}
 
 	/**
