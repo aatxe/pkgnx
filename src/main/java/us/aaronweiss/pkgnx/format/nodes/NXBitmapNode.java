@@ -57,7 +57,7 @@ public class NXBitmapNode extends NXNode {
 	}
 
 	@Override
-	public Object get() {
+	public BufferedImage get() {
 		return getImage();
 	}
 
