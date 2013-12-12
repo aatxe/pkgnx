@@ -48,11 +48,11 @@ public class NXDoubleNode extends NXNode {
 	 */
 	public NXDoubleNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
-		this.value = slea.getDouble();
+		value = slea.getDouble();
 	}
 
 	@Override
-	public Object get() {
+	public Double get() {
 		return value;
 	}
 
