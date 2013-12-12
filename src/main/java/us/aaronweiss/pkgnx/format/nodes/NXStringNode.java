@@ -56,7 +56,7 @@ public class NXStringNode extends NXNode {
 	}
 
 	@Override
-	public Object get() {
+	public String get() {
 		return getString();
 	}
 
