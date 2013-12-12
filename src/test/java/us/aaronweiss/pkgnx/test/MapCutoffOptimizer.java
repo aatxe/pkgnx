@@ -26,7 +26,7 @@ package us.aaronweiss.pkgnx.test;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
 
@@ -62,10 +62,10 @@ public class MapCutoffOptimizer {
 			// n.b. this is an optimization test, you must make MIN_COUNT_FOR_MAPS non-final and public first
 			// NXNode.MIN_COUNT_FOR_MAPS = k;
 			ResultSet rs1 = new ResultSet(TRIALS);
-			NXFile file = null;
+			StrictNXFile file = null;
 			for (int i = 0; i < TRIALS; i++) {
 				timer.start();
-				file = new NXFile(FILE_PATH);
+				file = new StrictNXFile(FILE_PATH);
 				timer.stop();
 				long time = timer.elapsed(TimeUnit.MICROSECONDS);
 				rs1.add(time);

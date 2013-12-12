@@ -27,7 +27,7 @@ import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXException;
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
@@ -54,7 +54,7 @@ public class ModernBenchmarkSuite {
 	public static final int LR_TRIALS = 0x100;
 	public static final int SA_TRIALS = 0x100;
 	public static final int DE_TRIALS = 0x10;
-	private static NXFile file;
+	private static StrictNXFile file;
 
 	/**
 	 * Performs the complete modern benchmarking suite.
@@ -106,7 +106,7 @@ public class ModernBenchmarkSuite {
 	}
 
 	public static void Ld() throws IOException {
-		file = new NXFile(FILE_PATH);
+		file = new StrictNXFile(FILE_PATH);
 	}
 
 	public static void Re() throws IOException {
@@ -114,7 +114,7 @@ public class ModernBenchmarkSuite {
 	}
 
 	public static void LR() throws IOException {
-		file = new NXFile(FILE_PATH);
+		file = new StrictNXFile(FILE_PATH);
 		RecurseHelper(file.getRoot());
 	}
 

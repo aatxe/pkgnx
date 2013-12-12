@@ -23,7 +23,7 @@
  */
 package us.aaronweiss.pkgnx.nodes;
 
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
@@ -46,7 +46,7 @@ public class NXDoubleNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXDoubleNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXDoubleNode(String name, StrictNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
 		value = slea.getDouble();
 	}

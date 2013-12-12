@@ -40,8 +40,8 @@ import java.nio.file.Paths;
  * @version 2.0.1
  * @since 5/26/13
  */
-public class NXFile {
-	public static final Logger logger = LoggerFactory.getLogger(NXFile.class);
+public class StrictNXFile {
+	public static final Logger logger = LoggerFactory.getLogger(StrictNXFile.class);
 	private final SeekableLittleEndianAccessor slea;
 	private final String filePath;
 	private boolean parsed;
@@ -51,44 +51,44 @@ public class NXFile {
 	private NXNode[] nodes;
 
 	/**
-	 * Creates a new {@code NXFile} from the specified {@code path}.
+	 * Creates a new {@code StrictNXFile} from the specified {@code path}.
 	 *
 	 * @param path the absolute or relative path to the file
 	 * @throws IOException if something goes wrong in reading the file
 	 */
-	public NXFile(String path) throws IOException {
+	public StrictNXFile(String path) throws IOException {
 		this(Paths.get(path));
 	}
 
 	/**
-	 * Creates a new {@code NXFile} from the specified {@code path}.
+	 * Creates a new {@code StrictNXFile} from the specified {@code path}.
 	 *
 	 * @param path the absolute or relative path to the file
 	 * @throws IOException if something goes wrong in reading the file
 	 */
-	public NXFile(Path path) throws IOException {
+	public StrictNXFile(Path path) throws IOException {
 		this(path, true);
 	}
 
 	/**
-	 * Creates a new {@code NXFile} from the specified {@code path} with the option to parse later.
+	 * Creates a new {@code StrictNXFile} from the specified {@code path} with the option to parse later.
 	 *
 	 * @param path              the absolute or relative path to the file
 	 * @param parsedImmediately whether or not to parse all nodes immediately
 	 * @throws IOException if something goes wrong in reading the file
 	 */
-	public NXFile(String path, boolean parsedImmediately) throws IOException {
+	public StrictNXFile(String path, boolean parsedImmediately) throws IOException {
 		this(Paths.get(path), parsedImmediately);
 	}
 
 	/**
-	 * Creates a new {@code NXFile} from the specified {@code path} with the option to parse later.
+	 * Creates a new {@code StrictNXFile} from the specified {@code path} with the option to parse later.
 	 *
 	 * @param path              the absolute or relative path to the file
 	 * @param parsedImmediately whether or not to parse the file immediately
 	 * @throws IOException if something goes wrong in reading the file
 	 */
-	public NXFile(Path path, boolean parsedImmediately) throws IOException {
+	public StrictNXFile(Path path, boolean parsedImmediately) throws IOException {
 		FileChannel channel = FileChannel.open(path);
 		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
 		filePath = path.toString();
@@ -148,7 +148,7 @@ public class NXFile {
 	}
 
 	/**
-	 * Gets the path to this {@code NXFile}.
+	 * Gets the path to this {@code StrictNXFile}.
 	 *
 	 * @return the path to this file
 	 */

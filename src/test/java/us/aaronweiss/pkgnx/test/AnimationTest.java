@@ -25,7 +25,7 @@ package us.aaronweiss.pkgnx.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
 import us.aaronweiss.pkgnx.nodes.NXNullNode;
@@ -56,7 +56,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 */
 	public static final String ANIMATION_PATH = "Mob/8800000.img/attack1";
 
-	private NXFile file;
+	private StrictNXFile file;
 	private BufferedImage[] sprites;
 	private Timer timer;
 	private int index;
@@ -67,7 +67,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 * @param file          the file to load from
 	 * @param animationPath the path to the node to load
 	 */
-	public AnimationTest(NXFile file, String animationPath) {
+	public AnimationTest(StrictNXFile file, String animationPath) {
 		this.file = file;
 		loadSprites(animationPath);
 		timer = new Timer(100, this);
@@ -119,7 +119,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			NXFile file = new NXFile(FILE_PATH);
+			StrictNXFile file = new StrictNXFile(FILE_PATH);
 			JFrame frame = new JFrame("NX Animation Test: " + ANIMATION_PATH);
 			JPanel panel = new JPanel();
 			panel.add(new AnimationTest(file, ANIMATION_PATH));

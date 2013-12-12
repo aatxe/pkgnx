@@ -26,7 +26,7 @@ package us.aaronweiss.pkgnx.test;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class AdvancedStringSearchTest {
 	 * @param args ignored
 	 */
 	public static void main(String[] args) throws IOException {
-		NXFile file = new NXFile(FILE_PATH);
+		StrictNXFile file = new StrictNXFile(FILE_PATH);
 		for (int i = 0; i < results.length; i++)
 			results[i] = new Result();
 		recurse(file.getRoot());

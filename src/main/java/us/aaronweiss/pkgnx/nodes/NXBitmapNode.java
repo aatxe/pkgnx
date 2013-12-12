@@ -23,7 +23,7 @@
  */
 package us.aaronweiss.pkgnx.nodes;
 
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
@@ -49,7 +49,7 @@ public class NXBitmapNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXBitmapNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXBitmapNode(String name, StrictNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
 		bitmapIndex = slea.getUnsignedInt();
 		width = slea.getUnsignedShort();

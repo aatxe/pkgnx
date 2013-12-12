@@ -3,7 +3,7 @@ package us.aaronweiss.pkgnx.test;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.test.util.NodePathMap;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
 
@@ -27,12 +27,12 @@ public class NodePathMapTest {
 	public static final int LOOKUP_TRIALS = 0x100;
 	public static final boolean WARM_UP = true;
 	public static final String lookup_path = "//String/Map.img/victoria/100000000/mapName";
-	public static NXFile file;
+	public static StrictNXFile file;
 	public static NodePathMap npm;
 
 	public static void main(String[] args) throws IOException {
 		logger.info("[pkgnx] initiating the node path map test.");
-		file = new NXFile(FILE_PATH);
+		file = new StrictNXFile(FILE_PATH);
 		System.out.println("Name\t75%\tM50%\tBest");
 		try {
 			benchmark(NodePathMapTest.class.getDeclaredMethod("construction"), CONSTRUCTION_TRIALS);
