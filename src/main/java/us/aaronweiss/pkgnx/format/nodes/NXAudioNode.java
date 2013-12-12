@@ -54,7 +54,7 @@ public class NXAudioNode extends NXNode {
 	}
 
 	@Override
-	public Object get() {
+	public ByteBuf get() {
 		return getAudioBuf();
 	}
 
