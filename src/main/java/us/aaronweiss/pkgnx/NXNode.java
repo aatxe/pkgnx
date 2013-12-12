@@ -32,7 +32,7 @@ import java.util.Map;
  * The basic information container for the NX file format.
  *
  * @author Aaron Weiss
- * @version 1.0.7
+ * @version 2.0.0
  * @since 5/26/13
  */
 public abstract class NXNode implements Iterable<NXNode> {
@@ -72,7 +72,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	/**
 	 * Populates the children {@code Map} for this node.
 	 */
-	public void populateChildren() {
+	void populateChildren() {
 		if (childCount == 0)
 			return;
 		NXNode[] nodes = file.getNodes();
