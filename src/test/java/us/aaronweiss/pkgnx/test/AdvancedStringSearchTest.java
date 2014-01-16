@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AdvancedStringSearchTest {
 	private static final Logger logger = LoggerFactory.getLogger(AdvancedStringSearchTest.class);
-	private static final String FILE_PATH = "src/test/resources/Data-do.nx";
+	private static final String FILE_PATH = "src/test/resources/Data.nx";
 	private static final boolean MATHEMATICA_OUTPUT = true;
 	private static final int SS_TRIALS = 64;
 	private static final Stopwatch timer = new Stopwatch();

@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MapCutoffOptimizer {
 	private static final Logger logger = LoggerFactory.getLogger(MapCutoffOptimizer.class);
-	private static final String FILE_PATH = "src/test/resources/Data-do.nx";
+	private static final String FILE_PATH = "src/test/resources/Data.nx";
 	private static final Stopwatch timer = new Stopwatch();
 	private static final int TRIALS = 0x20;
 
