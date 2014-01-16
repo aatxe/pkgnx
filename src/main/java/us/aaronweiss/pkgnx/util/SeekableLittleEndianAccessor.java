@@ -44,7 +44,12 @@ import java.nio.charset.CharsetDecoder;
  */
 public class SeekableLittleEndianAccessor {
 	private final static Logger logger = LoggerFactory.getLogger(SeekableLittleEndianAccessor.class);
-	private static final CharsetDecoder utfDecoder = Charset.forName("UTF-8").newDecoder();
+	private static final ThreadLocal<CharsetDecoder> utfDecoder = new ThreadLocal<CharsetDecoder>() {
+        @Override
+        protected CharsetDecoder initialValue() {
+            return Charset.forName("UTF-8").newDecoder();
+        }
+    };
 	private final ByteBuf primaryBuf;
     private final ThreadLocal<ByteBuf> buf;
 
@@ -281,7 +286,7 @@ public class SeekableLittleEndianAccessor {
 	public String getUTFString(int length) {
 		try {
 			byte[] data = getBytes(length);
-			return utfDecoder.decode(ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)).toString();
+			return utfDecoder.get().decode(ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)).toString();
 		} catch (CharacterCodingException e) {
 			logger.error("Failed to load UTF String in buffer.", e);
 		}
