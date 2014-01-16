@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class NodePathMapTest {
 	public static final Logger logger = LoggerFactory.getLogger(NodePathMapTest.class);
-	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
+	public static final String FILE_PATH = "src/test/resources/Data.nx";
 	public static final Stopwatch timer = new Stopwatch();
 	public static final int CONSTRUCTION_TRIALS = 0x1;
 	public static final int RESOLVE_TRIALS = 0x100;

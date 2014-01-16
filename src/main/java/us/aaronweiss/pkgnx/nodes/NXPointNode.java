@@ -27,7 +27,7 @@ import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * An {@code NXNode} representing a 2D vector as a {@code Point}.

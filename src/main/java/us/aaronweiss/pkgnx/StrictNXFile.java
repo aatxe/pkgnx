@@ -67,7 +67,7 @@ public class StrictNXFile implements NXFile {
 	 * @throws IOException if something goes wrong in reading the file
 	 */
 	public StrictNXFile(Path path) throws IOException {
-		this(path, true);
+		this(path, false);
 	}
 
 	/**
@@ -92,6 +92,11 @@ public class StrictNXFile implements NXFile {
 		FileChannel channel = FileChannel.open(path);
 		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
 		filePath = path.toString();
+
+        header = new NXHeader(this, slea);
+        nodes = new NXNode[(int) header.getNodeCount()];
+        tables = new NXTables(header, slea);
+
 		if (parsedImmediately)
 			parse();
 	}
@@ -102,9 +107,6 @@ public class StrictNXFile implements NXFile {
 	public void parse() {
 		if (parsed)
 			return;
-		header = new NXHeader(this, slea);
-		nodes = new NXNode[(int) header.getNodeCount()];
-		tables = new NXTables(header, slea);
 		populateNodesTable();
 		populateNodeChildren();
 		parsed = true;
@@ -154,16 +156,18 @@ public class StrictNXFile implements NXFile {
 	 * {@inheritDoc}
 	 */
 	public NXNode getRoot() {
-		parse();
-		return nodes[0];
+		return getNode(0);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public NXNode getNode(int index) {
-		parse();
-		return nodes[index];
+		NXNode ret =  nodes[index];
+        if (ret != null) return ret;
+
+        slea.seek(header.getNodeOffset() + index * NXNode.NODE_SIZE);
+        return (nodes[index] = NodeParser.parseNode(this, slea));
 	}
 
 	/**

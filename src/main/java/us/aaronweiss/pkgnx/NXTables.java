@@ -39,46 +39,60 @@ public class NXTables {
 	private final AudioBuf[] audioBufs;
 	private final Bitmap[] bitmaps;
 	private final String[] strings;
-
+    private final NXHeader header;
+    private final SeekableLittleEndianAccessor slea;
 
 	public NXTables(NXHeader header, SeekableLittleEndianAccessor slea) {
-		// Populates audio table.
-		slea.seek(header.getSoundOffset());
+        this.header = header;
+        this.slea = slea;
 		audioBufs = new AudioBuf[(int) header.getSoundCount()];
-		for (int i = 0; i < audioBufs.length; i++)
-			audioBufs[i] = new AudioBuf(slea);
-
-		// Populates bitmap table.
 		bitmaps = new Bitmap[(int) header.getBitmapCount()];
-		slea.seek(header.getBitmapOffset());
-		for (int i = 0; i < bitmaps.length; i++)
-			bitmaps[i] = new Bitmap(slea);
-
-		// Populates string table.
-		slea.seek(header.getStringOffset());
 		strings = new String[(int) header.getStringCount()];
-		for (int i = 0; i < strings.length; i++) {
-			long offset = slea.getLong();
-			slea.mark();
-			slea.seek(offset);
-			strings[i] = slea.getUTFString();
-			slea.reset();
-		}
 	}
 
 	public ByteBuf getAudioBuf(long index, long length) {
 		checkIndex(index);
-		return audioBufs[(int) index].getAudioBuf(length);
+
+        AudioBuf ret = audioBufs[(int) index];
+        if (ret != null) return ret.getAudioBuf(length);
+
+        try {
+            slea.mark();
+            slea.seek(header.getSoundOffset() + index * 8);
+            return (audioBufs[(int) index] = new AudioBuf(slea)).getAudioBuf(length);
+        } finally {
+            slea.reset();
+        }
 	}
 
 	public BufferedImage getImage(long index, int width, int height) {
 		checkIndex(index);
-		return bitmaps[(int) index].getImage(width, height);
+
+        Bitmap ret = bitmaps[(int) index];
+        if(ret != null) return ret.getImage(width, height);
+
+        try {
+            slea.mark();
+            slea.seek(header.getBitmapOffset() + index * 8);
+		    return (bitmaps[(int) index] = new Bitmap(slea)).getImage(width, height);
+        } finally {
+            slea.reset();
+        }
 	}
 
 	public String getString(long index) {
 		checkIndex(index);
-		return strings[(int) index];
+
+        String ret = strings[(int) index];
+        if (ret != null) return ret;
+        try {
+            slea.mark();
+            slea.seek(header.getStringOffset() + index * 8);
+            slea.seek(slea.getLong());
+		    return (strings[(int) index] = slea.getUTFString());
+        } finally {
+            slea.reset();
+        }
 	}
 
 	private void checkIndex(long index) {
