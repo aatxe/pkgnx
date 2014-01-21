@@ -40,7 +40,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	private static final int MIN_COUNT_FOR_MAPS = 41;
 
 	protected final String name;
-	protected final EagerNXFile file;
+	protected final NXFile file;
 	protected final long childIndex;
 	protected final int childCount;
 	private NXNode[] children;
@@ -54,13 +54,13 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * @param childIndex the index of the first child of the node
 	 * @param childCount the number of children
 	 */
-	public NXNode(String name, EagerNXFile file, long childIndex, int childCount) {
+	public NXNode(String name, NXFile file, long childIndex, int childCount) {
 		this.name = name;
 		this.file = file;
 		this.childIndex = childIndex;
 		this.childCount = childCount;
 		if (childCount >= MIN_COUNT_FOR_MAPS) {
-			childMap = new HashMap<String, NXNode>();
+			childMap = new HashMap<>();
 			children = null;
 		} else if (childCount > 0) {
 			children = new NXNode[childCount];
@@ -166,7 +166,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 *
 	 * @return the file owning this node
 	 */
-	public EagerNXFile getFile() {
+	public NXFile getFile() {
 		return file;
 	}
 

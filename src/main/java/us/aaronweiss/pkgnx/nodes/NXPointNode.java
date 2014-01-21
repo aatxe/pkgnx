@@ -23,11 +23,11 @@
  */
 package us.aaronweiss.pkgnx.nodes;
 
-import us.aaronweiss.pkgnx.EagerNXFile;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * An {@code NXNode} representing a 2D vector as a {@code Point}.
@@ -48,7 +48,7 @@ public class NXPointNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXPointNode(String name, EagerNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXPointNode(String name, NXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
 		point = new Point(slea.getInt(), slea.getInt());
 	}
