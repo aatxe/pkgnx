@@ -102,8 +102,8 @@ public class EagerNXFile extends NXFile {
 		nodes = new NXNode[(int) header.getNodeCount()];
 		tables = new NXTables(header, slea);
 		populateNodesTable();
-		populateNodeChildren();
 		parsed = true;
+		populateNodeChildren();
 	}
 
 	/**
