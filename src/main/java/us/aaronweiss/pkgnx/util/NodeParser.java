@@ -23,8 +23,8 @@
  */
 package us.aaronweiss.pkgnx.util;
 
-import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.EagerNXFile;
+import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.*;
 
