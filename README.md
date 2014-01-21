@@ -5,7 +5,7 @@ pkgnx is a simple Java library for the NX file format. The format was designed b
 Using pkgnx is really quite simple! The first step, of course, is to include the library as a dependency either by adding it to your classpath or adding it as a maven dependency. Once that's done, you can start coding away. The code itself is quite simple.
 
 ```java
-    NXFile file = new StrictNXFile("path/to/file");
+    NXFile file = new EagerNXFile("path/to/file");
     // Do stuff, like...
     System.out.println(file.getRoot().getChild("Mob").getChild("8800000.img"));
     // Or...
@@ -14,7 +14,7 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
     
 You can also parse the file later like so:
 ```java
-    StrictNXFile file = new StrictNXFile("path/to/file", false);
+    StrictNXFile file = new EagerNXFile("path/to/file", false);
     // Do some other stuff and then later...
     file.parse();
 ```
