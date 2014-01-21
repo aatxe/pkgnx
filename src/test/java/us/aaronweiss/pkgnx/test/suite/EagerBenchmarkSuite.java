@@ -46,15 +46,15 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.1
  * @since 6/24/13
  */
-public class ModernBenchmarkSuite {
-	public static final Logger logger = LoggerFactory.getLogger(ModernBenchmarkSuite.class);
-	public static final String FILE_PATH = "src/test/resources/Data.nx";
+public class EagerBenchmarkSuite {
+	public static final Logger logger = LoggerFactory.getLogger(EagerBenchmarkSuite.class);
+	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	public static final Stopwatch timer = new Stopwatch();
-	public static final int LD_TRIALS = 0x100;
-	public static final int RE_TRIALS = 0x100;
-	public static final int LR_TRIALS = 0x100;
-	public static final int SA_TRIALS = 0x100;
-	public static final int DE_TRIALS = 0x10;
+	public static final int LD_TRIALS = 0x1;
+	public static final int RE_TRIALS = 0x1;
+	public static final int LR_TRIALS = 0x1;
+	public static final int SA_TRIALS = 0x1;
+	public static final int DE_TRIALS = 0x0;
 	private static NXFile file;
 
 	/**
@@ -69,11 +69,11 @@ public class ModernBenchmarkSuite {
 		logger.info("[pkgnx] initiating the full modern benchmarking suite.");
 		System.out.println("Name\t75%\tM50%\tBest");
 		try {
-			benchmark(ModernBenchmarkSuite.class.getDeclaredMethod("Ld"), LD_TRIALS);
-			benchmark(ModernBenchmarkSuite.class.getDeclaredMethod("Re"), RE_TRIALS);
-			benchmark(ModernBenchmarkSuite.class.getDeclaredMethod("LR"), LR_TRIALS);
-			benchmark(ModernBenchmarkSuite.class.getDeclaredMethod("SA"), SA_TRIALS);
-			benchmark(ModernBenchmarkSuite.class.getDeclaredMethod("De"), DE_TRIALS);
+			benchmark(EagerBenchmarkSuite.class.getDeclaredMethod("Ld"), LD_TRIALS);
+			benchmark(EagerBenchmarkSuite.class.getDeclaredMethod("Re"), RE_TRIALS);
+			benchmark(EagerBenchmarkSuite.class.getDeclaredMethod("LR"), LR_TRIALS);
+			benchmark(EagerBenchmarkSuite.class.getDeclaredMethod("SA"), SA_TRIALS);
+			benchmark(EagerBenchmarkSuite.class.getDeclaredMethod("De"), DE_TRIALS);
 		} catch (NoSuchMethodException e) {
 			logger.error("[pkgnx] a benchmark appears to be missing or incorrectly named.");
 		}
