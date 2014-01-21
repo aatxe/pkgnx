@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx;
+package us.aaronweiss.pkgnx.internal;
 
 import io.netty.buffer.ByteBuf;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;

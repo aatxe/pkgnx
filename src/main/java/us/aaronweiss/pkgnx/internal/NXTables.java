@@ -22,10 +22,11 @@
  * THE SOFTWARE.
  */
 
-package us.aaronweiss.pkgnx;
+package us.aaronweiss.pkgnx.internal;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import us.aaronweiss.pkgnx.NXException;
 import us.aaronweiss.pkgnx.util.Decompressor;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 

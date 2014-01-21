@@ -23,6 +23,9 @@
  */
 package us.aaronweiss.pkgnx;
 
+import us.aaronweiss.pkgnx.internal.NXHeader;
+import us.aaronweiss.pkgnx.internal.NXTables;
+
 /**
  * The basic specification for an NX file implementation.
  *

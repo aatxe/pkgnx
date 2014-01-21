@@ -21,8 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package us.aaronweiss.pkgnx;
+package us.aaronweiss.pkgnx.internal;
 
+import us.aaronweiss.pkgnx.NXException;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 /**
