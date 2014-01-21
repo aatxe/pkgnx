@@ -51,7 +51,6 @@ public class SeekableLittleEndianAccessor {
 		}
 	};
 	private final ByteBuf buf;
-	private final ThreadLocal<ByteBuf> localBuf;
 
 	/**
 	 * Creates an immutable {@code SeekableLittleEndianAccessor} from an array of bytes.
@@ -63,7 +62,7 @@ public class SeekableLittleEndianAccessor {
 	}
 
 	/**
-	 * Creates an immutable {@code SeekableLittleEndianAccessor} from a NIO {@code ByteBuffer}.
+	 * Creates an immutable {@code SeekableLittleEndianAccessor} from an NIO {@code ByteBuffer}.
 	 *
 	 * @param buf the buffer to use
 	 */
@@ -78,12 +77,6 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public SeekableLittleEndianAccessor(final ByteBuf buf) {
 		this.buf = buf.order(ByteOrder.LITTLE_ENDIAN);
-		localBuf = new ThreadLocal<ByteBuf>() {
-			@Override
-			protected ByteBuf initialValue() {
-				return buf.duplicate();
-			}
-		};
 	}
 
 	/**
@@ -92,7 +85,7 @@ public class SeekableLittleEndianAccessor {
 	 * @return the internal buffer
 	 */
 	public ByteBuf getBuf() {
-		return localBuf.get();
+		return buf;
 	}
 
 	/**
@@ -102,7 +95,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#skipBytes(int)
 	 */
 	public void skip(int length) {
-		localBuf.get().skipBytes(length);
+		buf.skipBytes(length);
 	}
 
 	/**
@@ -124,21 +117,21 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readerIndex(int)
 	 */
 	public void seek(int offset) {
-		localBuf.get().readerIndex(offset);
+		buf.readerIndex(offset);
 	}
 
 	/**
 	 * Marks the current index to be returned to later.
 	 */
 	public void mark() {
-		localBuf.get().markReaderIndex();
+		buf.markReaderIndex();
 	}
 
 	/**
 	 * Seeks back to the last marked index.
 	 */
 	public void reset() {
-		localBuf.get().resetReaderIndex();
+		buf.resetReaderIndex();
 	}
 
 	/**
@@ -149,7 +142,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readByte()
 	 */
 	public byte getByte() {
-		return localBuf.get().readByte();
+		return buf.readByte();
 	}
 
 	/**
@@ -160,7 +153,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedByte()
 	 */
 	public short getUnsignedByte() {
-		return localBuf.get().readUnsignedByte();
+		return buf.readUnsignedByte();
 	}
 
 	/**
@@ -171,7 +164,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readShort()
 	 */
 	public short getShort() {
-		return localBuf.get().readShort();
+		return buf.readShort();
 	}
 
 	/**
@@ -182,7 +175,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedShort()
 	 */
 	public int getUnsignedShort() {
-		return localBuf.get().readUnsignedShort();
+		return buf.readUnsignedShort();
 	}
 
 	/**
@@ -193,7 +186,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readInt()
 	 */
 	public int getInt() {
-		return localBuf.get().readInt();
+		return buf.readInt();
 	}
 
 	/**
@@ -204,7 +197,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedInt()
 	 */
 	public long getUnsignedInt() {
-		return localBuf.get().readUnsignedInt();
+		return buf.readUnsignedInt();
 	}
 
 	/**
@@ -215,7 +208,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readLong()
 	 */
 	public long getLong() {
-		return localBuf.get().readLong();
+		return buf.readLong();
 	}
 
 	/**
@@ -226,7 +219,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readFloat()
 	 */
 	public float getFloat() {
-		return localBuf.get().readFloat();
+		return buf.readFloat();
 	}
 
 	/**
@@ -237,7 +230,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readDouble()
 	 */
 	public double getDouble() {
-		return localBuf.get().readDouble();
+		return buf.readDouble();
 	}
 
 	/**
@@ -250,7 +243,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public byte[] getBytes(int length) {
 		byte[] ret = new byte[length];
-		localBuf.get().readBytes(ret);
+		buf.readBytes(ret);
 		return ret;
 	}
 
@@ -264,7 +257,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public ByteBuf getBuf(int length) {
 		ByteBuf ret = Unpooled.buffer(length);
-		localBuf.get().readBytes(ret);
+		buf.readBytes(ret);
 		return ret;
 	}
 
