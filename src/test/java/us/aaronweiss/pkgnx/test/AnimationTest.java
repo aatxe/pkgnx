@@ -25,8 +25,8 @@ package us.aaronweiss.pkgnx.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
 import us.aaronweiss.pkgnx.nodes.NXNullNode;
@@ -120,7 +120,7 @@ public class AnimationTest extends JPanel implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			NXFile file = new StrictNXFile(FILE_PATH);
+			NXFile file = new EagerNXFile(FILE_PATH);
 			JFrame frame = new JFrame("NX Animation Test: " + ANIMATION_PATH);
 			JPanel panel = new JPanel();
 			panel.add(new AnimationTest(file, ANIMATION_PATH));

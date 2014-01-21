@@ -27,7 +27,7 @@ import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.StrictNXFile;
+import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
 
@@ -66,7 +66,7 @@ public class MapCutoffOptimizer {
 			NXFile file = null;
 			for (int i = 0; i < TRIALS; i++) {
 				timer.start();
-				file = new StrictNXFile(FILE_PATH);
+				file = new EagerNXFile(FILE_PATH);
 				timer.stop();
 				long time = timer.elapsed(TimeUnit.MICROSECONDS);
 				rs1.add(time);

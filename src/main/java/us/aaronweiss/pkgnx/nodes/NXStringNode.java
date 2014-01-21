@@ -25,7 +25,7 @@ package us.aaronweiss.pkgnx.nodes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.StrictNXFile;
+import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
@@ -49,7 +49,7 @@ public class NXStringNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXStringNode(String name, StrictNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXStringNode(String name, EagerNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
 		stringIndex = slea.getUnsignedInt();
 		slea.skip(4);

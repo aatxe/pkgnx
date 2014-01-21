@@ -38,7 +38,7 @@ public class NXHeader {
 	 */
 	public static final String MAGIC = "PKG4";
 
-	private final StrictNXFile file;
+	private final EagerNXFile file;
 	private final String magic;
 	private final long nodeCount, nodeOffset;
 	private final long stringCount, stringOffset;
@@ -50,7 +50,7 @@ public class NXHeader {
 	 *
 	 * @param slea the accessor to read from
 	 */
-	public NXHeader(StrictNXFile file, SeekableLittleEndianAccessor slea) {
+	public NXHeader(EagerNXFile file, SeekableLittleEndianAccessor slea) {
 		this.file = file;
 		slea.seek(0);
 		magic = slea.getUTFString(4);
@@ -67,11 +67,11 @@ public class NXHeader {
 	}
 
 	/**
-	 * Gets the {@code StrictNXFile} that the header was read from.
+	 * Gets the {@code EagerNXFile} that the header was read from.
 	 *
 	 * @return the header's file
 	 */
-	public StrictNXFile getFile() {
+	public EagerNXFile getFile() {
 		return file;
 	}
 

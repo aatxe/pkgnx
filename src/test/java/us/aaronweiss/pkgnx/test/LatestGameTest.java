@@ -25,8 +25,8 @@ package us.aaronweiss.pkgnx.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXFile;
-import us.aaronweiss.pkgnx.StrictNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 
 import java.io.IOException;
@@ -52,10 +52,10 @@ public class LatestGameTest {
 		String[] files = {"Base.nx", "Character.nx", "Effect.nx", "Etc.nx", "Item.nx",
 				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
 				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
-		NXFile[] loaded = new StrictNXFile[files.length];
+		NXFile[] loaded = new EagerNXFile[files.length];
 		try {
 			for (int i = 0; i < loaded.length; i++) {
-				loaded[i] = new StrictNXFile(FILE_PATH + files[i]);
+				loaded[i] = new EagerNXFile(FILE_PATH + files[i]);
 			}
 		} catch (IOException e) {
 			logger.error("[pkgnx] Failed to load a file.", e);

@@ -24,7 +24,7 @@
 package us.aaronweiss.pkgnx.nodes;
 
 import io.netty.buffer.ByteBuf;
-import us.aaronweiss.pkgnx.StrictNXFile;
+import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
@@ -47,7 +47,7 @@ public class NXAudioNode extends NXNode {
 	 * @param childCount the number of children
 	 * @param slea       the {@code SeekableLittleEndianAccessor} to read from
 	 */
-	public NXAudioNode(String name, StrictNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
+	public NXAudioNode(String name, EagerNXFile file, long childIndex, int childCount, SeekableLittleEndianAccessor slea) {
 		super(name, file, childIndex, childCount);
 		mp3Index = slea.getUnsignedInt();
 		length = slea.getUnsignedInt();
