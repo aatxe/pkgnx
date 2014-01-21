@@ -40,15 +40,11 @@ import java.nio.file.Paths;
  * @version 3.0.0
  * @since 5/26/13
  */
-public class EagerNXFile implements NXFile {
+public class EagerNXFile extends NXFile {
 	public static final Logger logger = LoggerFactory.getLogger(EagerNXFile.class);
 	private final SeekableLittleEndianAccessor slea;
-	private final String filePath;
 	private boolean parsed;
 
-	private NXHeader header;
-	private NXTables tables;
-	private NXNode[] nodes;
 
 	/**
 	 * Creates a new {@code EagerNXFile} from the specified {@code path}.
@@ -89,9 +85,9 @@ public class EagerNXFile implements NXFile {
 	 * @throws IOException if something goes wrong in reading the file
 	 */
 	public EagerNXFile(Path path, boolean parsedImmediately) throws IOException {
+		super(path.toString());
 		FileChannel channel = FileChannel.open(path);
 		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
-		filePath = path.toString();
 		if (parsedImmediately)
 			parse();
 	}
@@ -132,59 +128,8 @@ public class EagerNXFile implements NXFile {
 	/**
 	 * {@inheritDoc}
 	 */
-	public NXHeader getHeader() {
-		return header;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public NXTables getTables() {
-		return tables;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getFilePath() {
-		return filePath;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public NXNode getRoot() {
-		parse();
-		return nodes[0];
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public NXNode getNode(int index) {
 		parse();
 		return nodes[index];
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public NXNode resolve(String path) {
-		if (path.equals("/"))
-			return getRoot();
-		return resolve(path.split("/"));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public NXNode resolve(String[] path) {
-		NXNode cursor = getRoot();
-		for (int i = 0; i < path.length; i++) {
-			if (cursor == null)
-				return null;
-			cursor = cursor.getChild(path[i]);
-		}
-		return cursor;
 	}
 }

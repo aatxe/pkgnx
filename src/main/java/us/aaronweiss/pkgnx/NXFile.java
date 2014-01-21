@@ -30,42 +30,64 @@ package us.aaronweiss.pkgnx;
  * @version 1.0.0
  * @since 12/12/13
  */
-public interface NXFile {
+public abstract class NXFile {
+	protected final String filePath;
+	protected NXHeader header;
+	protected NXTables tables;
+	protected NXNode[] nodes;
+
+	/**
+	 * Constructs an NXFile from its file path.
+	 * @param filePath
+	 */
+	protected NXFile(String filePath) {
+		this.filePath = filePath;
+	}
+
 	/**
 	 * Gets the path to this {@code NXFile}.
 	 *
 	 * @return the path to this file
 	 */
-	public String getFilePath();
+	public String getFilePath() {
+		return filePath;
+	}
 
 	/**
 	 * Gets the {@code NXHeader} of this file.
 	 *
 	 * @return this file's header
 	 */
-	public NXHeader getHeader();
+	public NXHeader getHeader() {
+		return header;
+	}
 
 	/**
 	 * Gets the {@code NXTables} from this file.
 	 *
 	 * @return this file's offset tables
 	 */
-	public NXTables getTables();
+	public NXTables getTables() {
+		return tables;
+	}
 
 	/**
 	 * Gets the root {@code NXNode} of the file.
 	 *
 	 * @return the file's root node
 	 */
-	public NXNode getRoot();
+	public NXNode getRoot() {
+		return getNode(0);
+	}
 
 	/**
 	 * Gets an {@code NXNode} by {@code index} from the internal node table of this file.
+	 * n.b. the node at index 0 must always be the root node.
 	 *
 	 * @param index the index of the node
 	 * @return the desired node
 	 */
-	public NXNode getNode(int index);
+	public abstract NXNode getNode(int index);
 
 	/**
 	 * Resolves the desired {@code path} to an {@code NXNode}.
@@ -73,7 +95,11 @@ public interface NXFile {
 	 * @param path the path to the node
 	 * @return the desired node
 	 */
-	public NXNode resolve(String path);
+	public NXNode resolve(String path) {
+		if (path.equals("/"))
+			return getRoot();
+		return resolve(path.split("/"));
+	}
 
 	/**
 	 * Resolves the desired {@code path} to an {@code NXNode}.
@@ -81,5 +107,13 @@ public interface NXFile {
 	 * @param path the path to the node
 	 * @return the desired node
 	 */
-	public NXNode resolve(String[] path);
+	public NXNode resolve(String[] path) {
+		NXNode cursor = getRoot();
+		for (int i = 0; i < path.length; i++) {
+			if (cursor == null)
+				return null;
+			cursor = cursor.getChild(path[i]);
+		}
+		return cursor;
+	}
 }
