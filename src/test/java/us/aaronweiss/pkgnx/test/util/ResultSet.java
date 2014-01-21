@@ -63,6 +63,8 @@ public class ResultSet {
 	 * @return the average of the median 50% of data entries
 	 */
 	public long getAverage() {
+		if (times.length == 0)
+			return -1;
 		Arrays.sort(times);
 		long total = 0;
 		for (int i = drop; i < times.length - drop; i++) {
@@ -77,6 +79,8 @@ public class ResultSet {
 	 * @return the best result
 	 */
 	public long getBest() {
+		if (times.length == 0)
+			return -1;
 		Arrays.sort(times);
 		return times[0];
 	}
@@ -87,6 +91,8 @@ public class ResultSet {
 	 * @return the 75th percentile result
 	 */
 	public long get75Percentile() {
+		if (times.length == 0)
+			return -1;
 		Arrays.sort(times);
 		return times[times.length * 3 / 4];
 	}
