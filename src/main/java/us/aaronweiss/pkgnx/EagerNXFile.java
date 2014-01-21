@@ -23,8 +23,6 @@
  */
 package us.aaronweiss.pkgnx;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.internal.EagerNXTables;
 import us.aaronweiss.pkgnx.internal.NXHeader;
 import us.aaronweiss.pkgnx.util.NodeParser;
@@ -36,17 +34,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * An memory-mapped file for reading specification-compliant NX files.
+ * An eager-loaded memory-mapped file for reading specification-compliant NX files.
  *
  * @author Aaron Weiss
  * @version 3.0.0
  * @since 5/26/13
  */
 public class EagerNXFile extends NXFile {
-	public static final Logger logger = LoggerFactory.getLogger(EagerNXFile.class);
 	private final SeekableLittleEndianAccessor slea;
 	private boolean parsed;
-
+	private NXNode[] nodes;
 
 	/**
 	 * Creates a new {@code EagerNXFile} from the specified {@code path}.

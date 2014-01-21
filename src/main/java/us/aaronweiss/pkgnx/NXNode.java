@@ -38,6 +38,7 @@ import java.util.Map;
 public abstract class NXNode implements Iterable<NXNode> {
 	private static final EmptyNodeIterator EMPTY_NODE_ITERATOR = new EmptyNodeIterator();
 	private static final int MIN_COUNT_FOR_MAPS = 41;
+	public static final int NODE_SIZE = 20;
 
 	protected final String name;
 	protected final NXFile file;

@@ -37,7 +37,6 @@ public abstract class NXFile {
 	protected final String filePath;
 	protected NXHeader header;
 	protected NXTables tables;
-	protected NXNode[] nodes;
 
 	/**
 	 * Constructs an NXFile from its file path.
