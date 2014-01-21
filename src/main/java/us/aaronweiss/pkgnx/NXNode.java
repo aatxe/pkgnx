@@ -125,8 +125,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * @return the found child or null, if it doesn't exist
 	 */
 	protected NXNode searchChild(String name) {
-		if (childCount == 0 || (children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
+		if (childCount == 0)
 			return null;
+		else if ((children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
+			populateChildren();
 		if (childMap != null)
 			return childMap.get(name);
 		int min = 0, max = childCount - 1;
@@ -208,7 +210,11 @@ public abstract class NXNode implements Iterable<NXNode> {
 
 	@Override
 	public Iterator<NXNode> iterator() {
-		return (childCount == 0) ? EMPTY_NODE_ITERATOR : (childMap != null) ? childMap.values().iterator() : Arrays.asList(children).iterator();
+		if (childCount == 0)
+			return EMPTY_NODE_ITERATOR;
+		else if ((children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
+			populateChildren();
+		return (childMap != null) ? childMap.values().iterator() : Arrays.asList(children).iterator();
 	}
 
 	/**
