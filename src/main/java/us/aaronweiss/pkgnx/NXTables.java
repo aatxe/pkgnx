@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2013 Aaron Weiss
+ * Copyright (C) 2014 Aaron Weiss
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package us.aaronweiss.pkgnx;
 
 import io.netty.buffer.ByteBuf;
@@ -31,57 +32,42 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 import java.awt.image.BufferedImage;
 
 /**
- * @author Aaron Weiss
- * @version 1.0
- * @since 6/26/13
+ * @author Aaron
+ * @version 1.0.0
+ * @since 1/21/14
  */
-public class NXTables {
-	private final AudioBuf[] audioBufs;
-	private final Bitmap[] bitmaps;
-	private final String[] strings;
+public abstract class NXTables {
 
+	/**
+	 * Looks up a sequence of audio data from the audio table.
+	 * @param index the starting index of the audio data
+	 * @param length the length of the audio data
+	 * @return the audio data as a {@code ByteBuf}
+	 */
+	public abstract ByteBuf getAudioBuf(long index, long length);
 
-	public NXTables(NXHeader header, SeekableLittleEndianAccessor slea) {
-		// Populates audio table.
-		slea.seek(header.getSoundOffset());
-		audioBufs = new AudioBuf[(int) header.getSoundCount()];
-		for (int i = 0; i < audioBufs.length; i++)
-			audioBufs[i] = new AudioBuf(slea);
+	/**
+	 * Looks up a bitmap image from the bitmap table.
+	 * @param index the index of the bitmap
+	 * @param width the width of the image
+	 * @param height the height of the image
+	 * @return the bitmap as a {@code BufferedImage}
+	 */
+	public abstract BufferedImage getImage(long index, int width, int height);
 
-		// Populates bitmap table.
-		bitmaps = new Bitmap[(int) header.getBitmapCount()];
-		slea.seek(header.getBitmapOffset());
-		for (int i = 0; i < bitmaps.length; i++)
-			bitmaps[i] = new Bitmap(slea);
+	/**
+	 * Looks up a string from the string table.
+	 * @param index the index of the string
+	 * @return the string
+	 */
+	public abstract String getString(long index);
 
-		// Populates string table.
-		slea.seek(header.getStringOffset());
-		strings = new String[(int) header.getStringCount()];
-		for (int i = 0; i < strings.length; i++) {
-			long offset = slea.getLong();
-			slea.mark();
-			slea.seek(offset);
-			strings[i] = slea.getUTFString();
-			slea.reset();
-		}
-	}
-
-	public ByteBuf getAudioBuf(long index, long length) {
-		checkIndex(index);
-		return audioBufs[(int) index].getAudioBuf(length);
-	}
-
-	public BufferedImage getImage(long index, int width, int height) {
-		checkIndex(index);
-		return bitmaps[(int) index].getImage(width, height);
-	}
-
-	public String getString(long index) {
-		checkIndex(index);
-		return strings[(int) index];
-	}
-
-	private void checkIndex(long index) {
+	/**
+	 * Checks if the offset index is legal.
+	 * @param index the index to check
+	 * @throws us.aaronweiss.pkgnx.NXException if the offset index is not legal
+	 */
+	protected void checkIndex(long index) {
 		if (index > Integer.MAX_VALUE)
 			throw new NXException("pkgnx cannot support offset indices over " + Integer.MAX_VALUE);
 	}
@@ -93,7 +79,7 @@ public class NXTables {
 	 * @version 1.0
 	 * @since 5/27/13
 	 */
-	private static class AudioBuf {
+	protected static class AudioBuf {
 		private final SeekableLittleEndianAccessor slea;
 		private final long audioOffset;
 		private ByteBuf audioBuf;
@@ -111,7 +97,7 @@ public class NXTables {
 		/**
 		 * Loads a {@code ByteBuf} of the desired {@code length}.
 		 *
-		 * @param length the length of the audio
+		 * @param length the length of the audio data
 		 * @return the audio buffer
 		 */
 		public ByteBuf getAudioBuf(long length) {
@@ -130,7 +116,7 @@ public class NXTables {
 	 * @version 1.0
 	 * @since 5/27/13
 	 */
-	private static class Bitmap {
+	protected static class Bitmap {
 		private final SeekableLittleEndianAccessor slea;
 		private final long bitmapOffset;
 
