@@ -25,7 +25,7 @@
 package us.aaronweiss.pkgnx.internal;
 
 import io.netty.buffer.ByteBuf;
-import us.aaronweiss.pkgnx.util.ThreadSafeSeekableLittleEndianAccessor;
+import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 import java.awt.image.BufferedImage;
 
@@ -41,9 +41,9 @@ public class LazyNXTables extends NXTables {
 	private final Bitmap[] bitmaps;
 	private final String[] strings;
 	private final NXHeader header;
-	private final ThreadSafeSeekableLittleEndianAccessor slea;
+	private final SeekableLittleEndianAccessor slea;
 
-	public LazyNXTables(NXHeader header, ThreadSafeSeekableLittleEndianAccessor slea) {
+	public LazyNXTables(NXHeader header, SeekableLittleEndianAccessor slea) {
 		this.header = header;
 		this.slea = slea;
 		audioBufs = new AudioBuf[(int) header.getSoundCount()];

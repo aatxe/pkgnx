@@ -51,6 +51,7 @@ public class SeekableLittleEndianAccessor {
 		}
 	};
 	private final ByteBuf buf;
+	private final ThreadLocal<ByteBuf> localBuf;
 
 	/**
 	 * Creates an immutable {@code SeekableLittleEndianAccessor} from an array of bytes.
@@ -76,7 +77,12 @@ public class SeekableLittleEndianAccessor {
 	 * @param buf the buffer to wrap
 	 */
 	public SeekableLittleEndianAccessor(final ByteBuf buf) {
-		this.buf = buf.order(ByteOrder.LITTLE_ENDIAN);
+		this.buf = buf.order(ByteOrder.LITTLE_ENDIAN);localBuf = new ThreadLocal<ByteBuf>() {
+			@Override
+			protected ByteBuf initialValue() {
+				return SeekableLittleEndianAccessor.this.buf.duplicate();
+			}
+		};
 	}
 
 	/**
@@ -85,7 +91,7 @@ public class SeekableLittleEndianAccessor {
 	 * @return the internal buffer
 	 */
 	public ByteBuf getBuf() {
-		return buf;
+		return localBuf.get();
 	}
 
 	/**
@@ -95,7 +101,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#skipBytes(int)
 	 */
 	public void skip(int length) {
-		buf.skipBytes(length);
+		localBuf.get().skipBytes(length);
 	}
 
 	/**
@@ -117,21 +123,21 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readerIndex(int)
 	 */
 	public void seek(int offset) {
-		buf.readerIndex(offset);
+		localBuf.get().readerIndex(offset);
 	}
 
 	/**
 	 * Marks the current index to be returned to later.
 	 */
 	public void mark() {
-		buf.markReaderIndex();
+		localBuf.get().markReaderIndex();
 	}
 
 	/**
 	 * Seeks back to the last marked index.
 	 */
 	public void reset() {
-		buf.resetReaderIndex();
+		localBuf.get().resetReaderIndex();
 	}
 
 	/**
@@ -142,7 +148,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readByte()
 	 */
 	public byte getByte() {
-		return buf.readByte();
+		return localBuf.get().readByte();
 	}
 
 	/**
@@ -153,7 +159,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedByte()
 	 */
 	public short getUnsignedByte() {
-		return buf.readUnsignedByte();
+		return localBuf.get().readUnsignedByte();
 	}
 
 	/**
@@ -164,7 +170,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readShort()
 	 */
 	public short getShort() {
-		return buf.readShort();
+		return localBuf.get().readShort();
 	}
 
 	/**
@@ -175,7 +181,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedShort()
 	 */
 	public int getUnsignedShort() {
-		return buf.readUnsignedShort();
+		return localBuf.get().readUnsignedShort();
 	}
 
 	/**
@@ -186,7 +192,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readInt()
 	 */
 	public int getInt() {
-		return buf.readInt();
+		return localBuf.get().readInt();
 	}
 
 	/**
@@ -197,7 +203,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readUnsignedInt()
 	 */
 	public long getUnsignedInt() {
-		return buf.readUnsignedInt();
+		return localBuf.get().readUnsignedInt();
 	}
 
 	/**
@@ -208,7 +214,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readLong()
 	 */
 	public long getLong() {
-		return buf.readLong();
+		return localBuf.get().readLong();
 	}
 
 	/**
@@ -219,7 +225,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readFloat()
 	 */
 	public float getFloat() {
-		return buf.readFloat();
+		return localBuf.get().readFloat();
 	}
 
 	/**
@@ -230,7 +236,7 @@ public class SeekableLittleEndianAccessor {
 	 * @see io.netty.buffer.ByteBuf#readDouble()
 	 */
 	public double getDouble() {
-		return buf.readDouble();
+		return localBuf.get().readDouble();
 	}
 
 	/**
@@ -243,7 +249,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public byte[] getBytes(int length) {
 		byte[] ret = new byte[length];
-		buf.readBytes(ret);
+		localBuf.get().readBytes(ret);
 		return ret;
 	}
 
@@ -257,7 +263,7 @@ public class SeekableLittleEndianAccessor {
 	 */
 	public ByteBuf getBuf(int length) {
 		ByteBuf ret = Unpooled.buffer(length);
-		buf.readBytes(ret);
+		localBuf.get().readBytes(ret);
 		return ret;
 	}
 

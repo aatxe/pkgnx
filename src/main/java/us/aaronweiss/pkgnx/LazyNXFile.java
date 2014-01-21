@@ -27,7 +27,7 @@ package us.aaronweiss.pkgnx;
 import us.aaronweiss.pkgnx.internal.LazyNXTables;
 import us.aaronweiss.pkgnx.internal.NXHeader;
 import us.aaronweiss.pkgnx.util.NodeParser;
-import us.aaronweiss.pkgnx.util.ThreadSafeSeekableLittleEndianAccessor;
+import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 import java.io.IOException;
 import java.nio.channels.FileChannel;
@@ -42,7 +42,7 @@ import java.nio.file.Paths;
  * @since 1/21/14
  */
 public class LazyNXFile extends NXFile {
-	private final ThreadSafeSeekableLittleEndianAccessor slea;
+	private final SeekableLittleEndianAccessor slea;
 	private NXNode[] nodes;
 
 	/**
@@ -64,7 +64,7 @@ public class LazyNXFile extends NXFile {
 	public LazyNXFile(Path path) throws IOException {
 		super(path.toString());
 		FileChannel channel = FileChannel.open(path);
-		slea = new ThreadSafeSeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
+		slea = new SeekableLittleEndianAccessor(channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size()));
 		header = new NXHeader(this, slea);
 		nodes = new NXNode[(int) header.getNodeCount()];
 		tables = new LazyNXTables(header, slea);
