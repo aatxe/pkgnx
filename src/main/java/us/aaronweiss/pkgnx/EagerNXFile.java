@@ -125,9 +125,7 @@ public class EagerNXFile extends NXFile {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public NXNode getNode(int index) {
 		parse();
 		return nodes[index];

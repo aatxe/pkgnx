@@ -24,13 +24,13 @@
 package us.aaronweiss.pkgnx;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import us.aaronweiss.pkgnx.util.Decompressor;
 import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 
 import java.awt.image.BufferedImage;
 
 /**
+ * An eager-loaded set of data tables bound to an {@code NXFile}.
+ *
  * @author Aaron Weiss
  * @version 2.0.0
  * @since 6/26/13
@@ -40,7 +40,11 @@ public class EagerNXTables extends NXTables {
 	private final Bitmap[] bitmaps;
 	private final String[] strings;
 
-
+	/**
+	 * Creates a set of {@code EagerNXTables}.
+	 * @param header the header of the {@code NXFile}.
+	 * @param slea the accessor to read from
+	 */
 	public EagerNXTables(NXHeader header, SeekableLittleEndianAccessor slea) {
 		slea.seek(header.getSoundOffset());
 		audioBufs = new AudioBuf[(int) header.getSoundCount()];
@@ -63,16 +67,19 @@ public class EagerNXTables extends NXTables {
 		}
 	}
 
+	@Override
 	public ByteBuf getAudioBuf(long index, long length) {
 		checkIndex(index);
 		return audioBufs[(int) index].getAudioBuf(length);
 	}
 
+	@Override
 	public BufferedImage getImage(long index, int width, int height) {
 		checkIndex(index);
 		return bitmaps[(int) index].getImage(width, height);
 	}
 
+	@Override
 	public String getString(long index) {
 		checkIndex(index);
 		return strings[(int) index];

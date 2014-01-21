@@ -32,12 +32,13 @@ import us.aaronweiss.pkgnx.util.SeekableLittleEndianAccessor;
 import java.awt.image.BufferedImage;
 
 /**
- * @author Aaron
+ * A set of data tables bound to an {@code NXFile}.
+ *
+ * @author Aaron Weiss
  * @version 1.0.0
  * @since 1/21/14
  */
 public abstract class NXTables {
-
 	/**
 	 * Looks up a sequence of audio data from the audio table.
 	 * @param index the starting index of the audio data
