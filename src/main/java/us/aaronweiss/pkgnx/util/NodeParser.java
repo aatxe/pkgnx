@@ -23,8 +23,8 @@
  */
 package us.aaronweiss.pkgnx.util;
 
-import us.aaronweiss.pkgnx.EagerNXFile;
 import us.aaronweiss.pkgnx.NXException;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.*;
 
@@ -43,7 +43,7 @@ public class NodeParser {
 	 * @param slea the {@code SeekableLittleEndianAccessor} to read the node from
 	 * @return the newly parsed node
 	 */
-	public static NXNode parseNode(EagerNXFile file, SeekableLittleEndianAccessor slea) {
+	public static NXNode parseNode(NXFile file, SeekableLittleEndianAccessor slea) {
 		String name = file.getTables().getString(slea.getUnsignedInt());
 		long childIndex = slea.getUnsignedInt();
 		int childCount = slea.getUnsignedShort();
