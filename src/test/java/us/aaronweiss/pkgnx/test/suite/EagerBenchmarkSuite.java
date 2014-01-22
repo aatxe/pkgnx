@@ -50,10 +50,10 @@ public class EagerBenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(EagerBenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	public static final Stopwatch timer = new Stopwatch();
-	public static final int LD_TRIALS = 0x1;
-	public static final int RE_TRIALS = 0x1;
-	public static final int LR_TRIALS = 0x1;
-	public static final int SA_TRIALS = 0x1;
+	public static final int LD_TRIALS = 0x20;
+	public static final int RE_TRIALS = 0x20;
+	public static final int LR_TRIALS = 0x20;
+	public static final int SA_TRIALS = 0x100;
 	public static final int DE_TRIALS = 0x0;
 	private static NXFile file;
 
