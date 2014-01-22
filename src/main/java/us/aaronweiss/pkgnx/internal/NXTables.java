@@ -42,7 +42,8 @@ import java.awt.image.BufferedImage;
 public abstract class NXTables {
 	/**
 	 * Looks up a sequence of audio data from the audio table.
-	 * @param index the starting index of the audio data
+	 *
+	 * @param index  the starting index of the audio data
 	 * @param length the length of the audio data
 	 * @return the audio data as a {@code ByteBuf}
 	 */
@@ -50,8 +51,9 @@ public abstract class NXTables {
 
 	/**
 	 * Looks up a bitmap image from the bitmap table.
-	 * @param index the index of the bitmap
-	 * @param width the width of the image
+	 *
+	 * @param index  the index of the bitmap
+	 * @param width  the width of the image
 	 * @param height the height of the image
 	 * @return the bitmap as a {@code BufferedImage}
 	 */
@@ -59,6 +61,7 @@ public abstract class NXTables {
 
 	/**
 	 * Looks up a string from the string table.
+	 *
 	 * @param index the index of the string
 	 * @return the string
 	 */
@@ -66,6 +69,7 @@ public abstract class NXTables {
 
 	/**
 	 * Checks if the offset index is legal.
+	 *
 	 * @param index the index to check
 	 * @throws us.aaronweiss.pkgnx.NXException if the offset index is not legal
 	 */

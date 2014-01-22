@@ -77,7 +77,8 @@ public class SeekableLittleEndianAccessor {
 	 * @param buf the buffer to wrap
 	 */
 	public SeekableLittleEndianAccessor(final ByteBuf buf) {
-		this.buf = buf.order(ByteOrder.LITTLE_ENDIAN);localBuf = new ThreadLocal<ByteBuf>() {
+		this.buf = buf.order(ByteOrder.LITTLE_ENDIAN);
+		localBuf = new ThreadLocal<ByteBuf>() {
 			@Override
 			protected ByteBuf initialValue() {
 				return SeekableLittleEndianAccessor.this.buf.duplicate();

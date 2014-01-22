@@ -42,8 +42,9 @@ public class EagerNXTables extends NXTables {
 
 	/**
 	 * Creates a set of {@code EagerNXTables}.
+	 *
 	 * @param header the header of the {@code NXFile}.
-	 * @param slea the accessor to read from
+	 * @param slea   the accessor to read from
 	 */
 	public EagerNXTables(NXHeader header, SeekableLittleEndianAccessor slea) {
 		slea.seek(header.getSoundOffset());

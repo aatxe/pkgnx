@@ -91,7 +91,7 @@ public class NodePathMapTest {
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			npm.get(lookup_path);
 		extra.stop();
-		logger.error("naive lookup average: " + (extra.elapsed(TimeUnit.NANOSECONDS)/ LOOKUP_TRIALS ));
+		logger.error("naive lookup average: " + (extra.elapsed(TimeUnit.NANOSECONDS) / LOOKUP_TRIALS));
 	}
 
 	public static void naive_resolve() {
@@ -100,6 +100,6 @@ public class NodePathMapTest {
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			file.resolve(lookup_path);
 		extra.stop();
-		logger.error("naive resolve average: " + (extra.elapsed(TimeUnit.NANOSECONDS)/ LOOKUP_TRIALS ));
+		logger.error("naive resolve average: " + (extra.elapsed(TimeUnit.NANOSECONDS) / LOOKUP_TRIALS));
 	}
 }

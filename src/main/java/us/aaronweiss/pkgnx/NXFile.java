@@ -40,6 +40,7 @@ public abstract class NXFile {
 
 	/**
 	 * Constructs an NXFile from its file path.
+	 *
 	 * @param filePath
 	 */
 	protected NXFile(String filePath) {
