@@ -4,6 +4,7 @@ pkgnx is a simple Java library for the NX file format. The format was designed b
 ## Using pkgnx ##
 Using pkgnx is really quite simple! The first step, of course, is to include the library as a dependency either by adding it to your classpath or adding it as a maven dependency. Once that's done, you can start coding away. The code itself is quite simple.
 
+You can use an eagerly-loaded NX File like so:
 ```java
     NXFile file = new EagerNXFile("path/to/file");
     // Do stuff, like...
@@ -11,8 +12,17 @@ Using pkgnx is really quite simple! The first step, of course, is to include the
     // Or...
     System.out.println(file.resolve("Mob/8800000.img"));
 ```
+
+You can use a lazy-loaded NX File like so:
+```java
+    NXFile file = new LazyNXFile("path/to/file");
+    // Do stuff, like...
+    System.out.println(file.getRoot().getChild("Mob").getChild("8800000.img"));
+    // Or...
+    System.out.println(file.resolve("Mob/8800000.img"));
+```
     
-You can also parse the file later like so:
+You can also delay the parsing of an eager NX file until later like so:
 ```java
     StrictNXFile file = new EagerNXFile("path/to/file", false);
     // Do some other stuff and then later...
@@ -28,7 +38,7 @@ To contribute a patch to pkgnx, simply fork it and run. When you've finished all
 ## Acknowledgements ##
 * [Peter Atashian](http://github.com/retep998) and [angelsl](https://github.com/angelsl) for designing the PKG specification.
 * [Cedric Van Goethem](https://github.com/Zepheus) for creating [javanx](https://github.com/Zepheus/javanx), the PKG3 Java NX library.
-* [angelsl](https://github.com/angelsl) for creating [libjinx](https://github.com/angelsl/ms-libjinx), the first Java NX library.
+* [angelsl](https://github.com/angelsl) for creating [libjinx](https://github.com/angelsl/ms-libjinx), the first Java NX library, and helping to implement lazy-loading in pkgnx 3.
 
 ## Licensing ##
 pkgnx is licensed under the MIT License. The full license text can be found in LICENSE.md for your convenience.
