@@ -46,7 +46,7 @@ public class AdvancedStringSearchTest {
 	private static final String FILE_PATH = "src/test/resources/Data-do.nx";
 	private static final boolean MATHEMATICA_OUTPUT = true;
 	private static final int SS_TRIALS = 64;
-	private static final Stopwatch timer = new Stopwatch();
+	private static final Stopwatch timer = Stopwatch.createUnstarted();
 
 	private static Result[] results = new Result[1535];
 
