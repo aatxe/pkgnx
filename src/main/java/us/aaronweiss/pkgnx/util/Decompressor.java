@@ -23,8 +23,8 @@
  */
 package us.aaronweiss.pkgnx.util;
 
-import net.jpountz.lz4.LZ4Decompressor;
 import net.jpountz.lz4.LZ4Factory;
+import net.jpountz.lz4.LZ4FastDecompressor;
 
 /**
  * A simple wrapper for handling LZ4 decompression of byte arrays.
@@ -34,7 +34,7 @@ import net.jpountz.lz4.LZ4Factory;
  * @since 5/27/13
  */
 public class Decompressor {
-	private static final LZ4Decompressor decompressor = LZ4Factory.fastestInstance().decompressor();
+	private static final LZ4FastDecompressor decompressor = LZ4Factory.fastestInstance().fastDecompressor();
 
 	/**
 	 * Decompresses the supplied {@code input} to the desired {@code length}.

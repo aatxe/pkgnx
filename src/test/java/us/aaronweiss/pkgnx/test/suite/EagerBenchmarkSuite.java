@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 public class EagerBenchmarkSuite {
 	public static final Logger logger = LoggerFactory.getLogger(EagerBenchmarkSuite.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final Stopwatch timer = new Stopwatch();
+	public static final Stopwatch timer = Stopwatch.createUnstarted();
 	public static final int LD_TRIALS = 0x20;
 	public static final int RE_TRIALS = 0x20;
 	public static final int LR_TRIALS = 0x20;

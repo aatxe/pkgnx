@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class NodePathMapTest {
 	public static final Logger logger = LoggerFactory.getLogger(NodePathMapTest.class);
 	public static final String FILE_PATH = "src/test/resources/Data-do.nx";
-	public static final Stopwatch timer = new Stopwatch();
+	public static final Stopwatch timer = Stopwatch.createUnstarted();
 	public static final int CONSTRUCTION_TRIALS = 0x1;
 	public static final int RESOLVE_TRIALS = 0x100;
 	public static final int LOOKUP_TRIALS = 0x100;
@@ -86,7 +86,7 @@ public class NodePathMapTest {
 	}
 
 	public static void naive_lookup() {
-		Stopwatch extra = new Stopwatch();
+		Stopwatch extra = Stopwatch.createUnstarted();
 		extra.start();
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			npm.get(lookup_path);
@@ -95,7 +95,7 @@ public class NodePathMapTest {
 	}
 
 	public static void naive_resolve() {
-		Stopwatch extra = new Stopwatch();
+		Stopwatch extra = Stopwatch.createUnstarted();
 		extra.start();
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			file.resolve(lookup_path);
