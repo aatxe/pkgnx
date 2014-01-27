@@ -26,8 +26,8 @@ package us.aaronweiss.pkgnx.test;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.EagerNXFile;
+import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
 

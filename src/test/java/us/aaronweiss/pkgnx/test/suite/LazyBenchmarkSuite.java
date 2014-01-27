@@ -26,7 +26,10 @@ package us.aaronweiss.pkgnx.test.suite;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.aaronweiss.pkgnx.*;
+import us.aaronweiss.pkgnx.LazyNXFile;
+import us.aaronweiss.pkgnx.NXException;
+import us.aaronweiss.pkgnx.NXFile;
+import us.aaronweiss.pkgnx.NXNode;
 import us.aaronweiss.pkgnx.nodes.NXBitmapNode;
 import us.aaronweiss.pkgnx.test.util.ResultSet;
 

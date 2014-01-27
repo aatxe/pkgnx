@@ -101,7 +101,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 * @param name the name of the child
 	 * @return the child {@code NXNode}
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
 		if (childCount == 0)
 			return null;
