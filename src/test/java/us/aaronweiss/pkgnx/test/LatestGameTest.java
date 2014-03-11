@@ -23,6 +23,7 @@
  */
 package us.aaronweiss.pkgnx.test;
 
+import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.aaronweiss.pkgnx.EagerNXFile;
@@ -31,6 +32,7 @@ import us.aaronweiss.pkgnx.NXFile;
 import us.aaronweiss.pkgnx.NXNode;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A test that loads all of the modern game data and outputs some information.
@@ -54,6 +56,7 @@ public class LatestGameTest {
 				"Map.nx", "Mob.nx", "Morph.nx", "Npc.nx", "Quest.nx", "Reactor.nx",
 				"Skill.nx", "Sound.nx", "String.nx", "TamingMob.nx", "UI.nx"};
 		NXFile[] loaded = new NXFile[files.length];
+		Stopwatch timer = Stopwatch.createStarted();
 		try {
 			for (int i = 0; i < loaded.length; i++) {
 				loaded[i] = new LazyNXFile(FILE_PATH + files[i]);
@@ -61,12 +64,18 @@ public class LatestGameTest {
 		} catch (IOException e) {
 			logger.error("[pkgnx] Failed to load a file.", e);
 		}
+		timer.stop();
 		logger.info("[pkgnx] Loading completed.");
+		logger.info("[pkgnx] Took " + timer.elapsed(TimeUnit.MILLISECONDS) + "ms.");
+		timer.reset();
 		logger.info("[pkgnx] Initiating recursion.");
+		timer.start();
 		for (NXFile file : loaded)
 			if (file.getFilePath().contains("Character"))
 				recurse(file.getRoot());
+		timer.stop();
 		logger.info("[pkgnx] Recursion complete.");
+		logger.info("[pkgnx] Took " + timer.elapsed(TimeUnit.MILLISECONDS) + "ms.");
 	}
 
 	/**
