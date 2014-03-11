@@ -86,8 +86,7 @@ public class NodePathMapTest {
 	}
 
 	public static void naive_lookup() {
-		Stopwatch extra = Stopwatch.createUnstarted();
-		extra.start();
+		Stopwatch extra = Stopwatch.createStarted();
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			npm.get(lookup_path);
 		extra.stop();
@@ -95,8 +94,7 @@ public class NodePathMapTest {
 	}
 
 	public static void naive_resolve() {
-		Stopwatch extra = Stopwatch.createUnstarted();
-		extra.start();
+		Stopwatch extra = Stopwatch.createStarted();
 		for (int i = 0; i < LOOKUP_TRIALS; i++)
 			file.resolve(lookup_path);
 		extra.stop();
