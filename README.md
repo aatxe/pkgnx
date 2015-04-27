@@ -24,7 +24,7 @@ You can use a lazy-loaded NX File like so:
     
 You can also delay the parsing of an eager NX file until later like so:
 ```java
-    StrictNXFile file = new EagerNXFile("path/to/file", false);
+    EagerNXFile file = new EagerNXFile("path/to/file", false);
     // Do some other stuff and then later...
     file.parse();
 ```
